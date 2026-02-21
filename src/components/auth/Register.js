@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { register } from '../../services/authService';
 import { toast } from 'react-toastify';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ImageUpload from '../common/ImageUpload';
 
 const Register = () => {
@@ -112,8 +113,15 @@ const Register = () => {
                 minHeight: '100vh',
                 justifyContent: 'center'
             }}>
-                <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
-                    <Typography component="h1" variant="h5" align="center" gutterBottom>
+                <Paper elevation={3} sx={{ p: 4, width: '100%', position: 'relative' }}>
+                    <Button 
+                        startIcon={<ArrowBackIcon />} 
+                        onClick={() => navigate('/')}
+                        sx={{ position: 'absolute', top: 16, left: 16 }}
+                    >
+                        Back
+                    </Button>
+                    <Typography component="h1" variant="h5" align="center" gutterBottom sx={{ mt: 2 }}>
                         Create Account
                     </Typography>
                     <Typography variant="body2" align="center" sx={{ mb: 3 }}>
