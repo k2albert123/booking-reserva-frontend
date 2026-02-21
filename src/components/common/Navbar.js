@@ -25,6 +25,9 @@ const Navbar = () => {
 
                 {/* Navigation Links */}
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Button color="inherit" component={RouterLink} to="/about">
+                        About Us
+                    </Button>
                     <Button color="inherit" component={RouterLink} to="/appointments">
                         Appointments
                     </Button>
