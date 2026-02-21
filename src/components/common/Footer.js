@@ -14,7 +14,7 @@ const Footer = () => {
                             About Us
                         </Typography>
                         <Typography variant="body2">
-                            BookingMaster is your one-stop solution for business appointments and reservations.
+                            BookingReserva is your one-stop solution for business appointments and reservations.
                             Connect with local businesses and manage your appointments seamlessly.
                         </Typography>
                     </Grid>
@@ -54,7 +54,7 @@ const Footer = () => {
                 </Grid>
                 <Box sx={{ mt: 4, borderTop: 1, borderColor: 'divider', pt: 2 }}>
                     <Typography variant="body2" align="center">
-                        © {new Date().getFullYear()} BookingMaster. All rights reserved.
+                        © {new Date().getFullYear()} BookingReserva. All rights reserved.
                     </Typography>
                 </Box>
             </Container>

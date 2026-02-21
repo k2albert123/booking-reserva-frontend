@@ -19,7 +19,7 @@ const Navbar = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" component={RouterLink} to="/" sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}>
-                        BookingMaster
+                        BookingReserva
                     </Typography>
                 </Box>
 
