@@ -8,6 +8,7 @@ import {
     Grid, 
     Stack,
     Card,
+    CardContent,
     useTheme,
     useMediaQuery
 } from '@mui/material';
@@ -186,6 +187,87 @@ const LandingPage = () => {
                 </Grid>
             </Container>
 
+            {/* Featured Businesses Section */}
+            <Container maxWidth="lg" sx={{ py: 15, bgcolor: 'rgba(255,255,255,0.02)', borderRadius: '40px' }}>
+                <Box sx={{ textAlign: 'center', mb: 10 }}>
+                    <Typography variant="overline" sx={{ color: '#4dabf5', fontWeight: 'bold', letterSpacing: 4 }}>
+                        DISCOVER
+                    </Typography>
+                    <Typography variant="h2" sx={{ color: 'white', fontWeight: 800, mt: 1 }}>
+                        Featured Businesses
+                    </Typography>
+                </Box>
+
+                <Grid container spacing={4}>
+                    {[
+                        { 
+                            name: 'Elite Hair Salon', 
+                            type: 'Beauty & Styling', 
+                            img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800',
+                            desc: 'Experience premium hair care and modern styling in a luxury environment.' 
+                        },
+                        { 
+                            name: 'Zen Wellness Spa', 
+                            type: 'Health & Spa', 
+                            img: 'https://images.unsplash.com/photo-1544161515-436cefb657f8?auto=format&fit=crop&q=80&w=800',
+                            desc: 'Rejuvenate your body and mind with our professional massage and skin treatments.' 
+                        },
+                        { 
+                            name: 'Modern Dental Care', 
+                            type: 'Health & Medical', 
+                            img: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800',
+                            desc: 'State-of-the-art dental services for a brighter, healthier smile.' 
+                        }
+                    ].map((business, index) => (
+                        <Grid item xs={12} md={4} key={index}>
+                            <Card sx={{ 
+                                height: '100%', 
+                                borderRadius: '24px', 
+                                bgcolor: 'rgba(255,255,255,0.05)',
+                                color: 'white',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                overflow: 'hidden',
+                                transition: 'transform 0.3s ease',
+                                '&:hover': { transform: 'scale(1.02)' }
+                            }}>
+                                <Box sx={{ height: 240, overflow: 'hidden' }}>
+                                    <Box 
+                                        component="img" 
+                                        src={business.img} 
+                                        alt={business.name}
+                                        sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                </Box>
+                                <CardContent sx={{ p: 4 }}>
+                                    <Typography variant="overline" sx={{ color: '#4dabf5', fontWeight: 'bold' }}>
+                                        {business.type}
+                                    </Typography>
+                                    <Typography variant="h5" sx={{ fontWeight: 'bold', mt: 1, mb: 2 }}>
+                                        {business.name}
+                                    </Typography>
+                                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', mb: 3 }}>
+                                        {business.desc}
+                                    </Typography>
+                                    <Button 
+                                        variant="outlined" 
+                                        fullWidth 
+                                        sx={{ 
+                                            borderRadius: '50px', 
+                                            borderColor: 'rgba(255,255,255,0.2)',
+                                            color: 'white',
+                                            '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)' }
+                                        }}
+                                        onClick={() => navigate('/businesses')}
+                                    >
+                                        View Details
+                                    </Button>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Container>
+
             {/* Call to Action */}
             <Box sx={{ 
                 background: 'linear-gradient(135deg, #1a237e 0%, #000051 100%)', 
@@ -195,14 +277,15 @@ const LandingPage = () => {
                 mx: 4,
                 borderRadius: '40px',
                 mb: 10,
+                mt: 10,
                 boxShadow: '0 30px 60px rgba(0,0,0,0.5)'
             }}>
                 <Container maxWidth="md">
                     <Typography variant="h3" sx={{ color: 'white', fontWeight: 800, mb: 3 }}>
                         Ready to elevate your business?
                     </Typography>
-                    <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.7)', mb: 5, fontWeight: 300 }}>
-                        Join thousands of businesses that trust BookingMaster for their scheduling needs.
+                    <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.7)', mb: 4, fontWeight: 300 }}>
+                        Join thousands of businesses that trust BookingReserva for their scheduling needs.
                     </Typography>
                     <Button
                         variant="contained"
