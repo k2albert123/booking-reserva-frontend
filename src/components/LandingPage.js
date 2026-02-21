@@ -20,6 +20,8 @@ import SecurityIcon from '@mui/icons-material/Security';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import heroImg from '../assets/images/hero-background.png';
 import bookingImg from '../assets/images/Blog_1000x417_Online-Appointment-Booking-removebg-preview.png';
+import Navbar from './common/Navbar';
+import Footer from './common/Footer';
 
 const float = keyframes`
   0% { transform: translateY(0px); }
@@ -28,9 +30,9 @@ const float = keyframes`
 `;
 
 const HeroSection = styled(Box)(({ theme }) => ({
-    background: `linear-gradient(135deg, #4dabf5 0%, #1976d2 100%)`,
+    background: 'rgb(255, 255, 255,0.3)',
     color: 'white',
-    padding: theme.spacing(12, 0, 8),
+    padding: theme.spacing(0, 0, 8),
     position: 'relative',
     overflow: 'hidden',
     '&::before': {
@@ -38,13 +40,23 @@ const HeroSection = styled(Box)(({ theme }) => ({
         position: 'absolute',
         top: 0,
         left: 0,
+        width: '50%',
+        height: '100%',
+        background: `linear-gradient(135deg, rgb(55, 55, 255,0.3) 0%, rgb(55, 55, 25,0.3) 100%)`,
+        zIndex: 0,
+    },
+    '&::after': {
+        content: '""',
+        position: 'absolute',
+        top: 0,
         right: 0,
-        bottom: 0,
+        width: '50%',
+        height: '100%',
         background: `url(${heroImg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        opacity: 0.15,
-        mixBlendMode: 'overlay',
+        opacity: 0.1,
+        zIndex: 0,
     }
 }));
 
@@ -88,6 +100,7 @@ const LandingPage = () => {
 
     return (
         <Box sx={{ bgcolor: '#f5f7fa' }}>
+            <Navbar />
             {/* Hero Section */}
             <HeroSection>
                 <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
@@ -293,9 +306,10 @@ const LandingPage = () => {
                             <Card sx={{ 
                                 height: '100%', 
                                 borderRadius: '24px', 
-                                bgcolor: 'rgba(255,255,255,0.05)',
-                                color: 'white',
-                                border: '1px solid rgba(255,255,255,0.1)',
+                                bgcolor: 'white',
+                                color: '#333',
+                                boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+                                border: '1px solid rgba(0,0,0,0.05)',
                                 overflow: 'hidden',
                                 transition: 'transform 0.3s ease',
                                 '&:hover': { transform: 'scale(1.02)' }
@@ -315,7 +329,7 @@ const LandingPage = () => {
                                     <Typography variant="h5" sx={{ fontWeight: 'bold', mt: 1, mb: 2 }}>
                                         {business.name}
                                     </Typography>
-                                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)', mb: 3 }}>
+                                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
                                         {business.desc}
                                     </Typography>
                                     <Button 
@@ -323,9 +337,9 @@ const LandingPage = () => {
                                         fullWidth 
                                         sx={{ 
                                             borderRadius: '50px', 
-                                            borderColor: 'rgba(255,255,255,0.2)',
-                                            color: 'white',
-                                            '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)' }
+                                            borderColor: '#1976d2',
+                                            color: '#1976d2',
+                                            '&:hover': { borderColor: '#1565c0', bgcolor: 'rgba(25, 118, 210, 0.04)' }
                                         }}
                                         onClick={() => navigate('/businesses')}
                                     >
@@ -376,6 +390,8 @@ const LandingPage = () => {
                     </Button>
                 </Container>
             </Box>
+
+            <Footer />
         </Box>
     );
 };
