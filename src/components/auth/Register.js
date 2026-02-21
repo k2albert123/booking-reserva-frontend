@@ -18,6 +18,7 @@ import {
 } from '@mui/material';
 import { register } from '../../services/authService';
 import { toast } from 'react-toastify';
+import ImageUpload from '../common/ImageUpload';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -27,7 +28,8 @@ const Register = () => {
         password: '',
         confirmPassword: '',
         role: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        imageUrl: ''
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -77,7 +79,8 @@ const Register = () => {
                 email: formData.email.trim(),
                 password: formData.password,
                 role: formData.role.toUpperCase(),
-                phoneNumber: formData.phoneNumber?.trim() || ''
+                phoneNumber: formData.phoneNumber?.trim() || '',
+                imageUrl: formData.imageUrl
             };
 
             await register(registerRequest);
@@ -124,6 +127,11 @@ const Register = () => {
                     )}
 
                     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                        <ImageUpload 
+                            value={formData.imageUrl} 
+                            onChange={(url) => setFormData({...formData, imageUrl: url})} 
+                            label="Profile Picture"
+                        />
                         <Grid container spacing={1}>
                             <Grid item xs={6}>
                                 <TextField
