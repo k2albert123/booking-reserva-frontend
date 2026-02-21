@@ -30,7 +30,7 @@ const float = keyframes`
 `;
 
 const HeroSection = styled(Box)(({ theme }) => ({
-    background: 'rgb(255, 255, 255,0.3)',
+    background: '#0d47a1', // Solid dark blue primary base
     color: 'white',
     padding: theme.spacing(0, 0, 8),
     position: 'relative',
@@ -42,7 +42,7 @@ const HeroSection = styled(Box)(({ theme }) => ({
         left: 0,
         width: '50%',
         height: '100%',
-        background: `linear-gradient(135deg, rgb(55, 55, 255,0.3) 0%, rgb(55, 55, 25,0.3) 100%)`,
+        background: `linear-gradient(135deg, rgba(55, 55, 255, 0.9) 0%, rgba(25, 25, 112, 1) 100%)`,
         zIndex: 0,
     },
     '&::after': {
@@ -52,10 +52,10 @@ const HeroSection = styled(Box)(({ theme }) => ({
         right: 0,
         width: '50%',
         height: '100%',
-        background: `url(${heroImg})`,
+        background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${heroImg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        opacity: 0.1,
+        opacity: 1,
         zIndex: 0,
     }
 }));
