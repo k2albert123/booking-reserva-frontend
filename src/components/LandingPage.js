@@ -18,17 +18,19 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import SecurityIcon from '@mui/icons-material/Security';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import heroImg from '../assets/images/hero-background.png';
+import bookingImg from '../assets/images/Blog_1000x417_Online-Appointment-Booking-removebg-preview.png';
 
 const float = keyframes`
   0% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  50% { transform: translateY(-15px); }
   100% { transform: translateY(0px); }
 `;
 
 const HeroSection = styled(Box)(({ theme }) => ({
-    background: 'radial-gradient(circle at 50% 50%, #1a237e 0%, #000051 100%)',
+    background: `linear-gradient(135deg, #4dabf5 0%, #1976d2 100%)`,
     color: 'white',
-    padding: theme.spacing(15, 0),
+    padding: theme.spacing(12, 0, 8),
     position: 'relative',
     overflow: 'hidden',
     '&::before': {
@@ -38,37 +40,46 @@ const HeroSection = styled(Box)(({ theme }) => ({
         left: 0,
         right: 0,
         bottom: 0,
-        background: 'url("https://www.transparenttextures.com/patterns/cubes.png")',
-        opacity: 0.1,
+        background: `url(${heroImg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        opacity: 0.15,
+        mixBlendMode: 'overlay',
     }
+}));
+
+const FeatureStatus = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(2),
+    marginTop: theme.spacing(4),
+}));
+
+const StatusIcon = styled(Box)(({ color }) => ({
+    width: 48,
+    height: 48,
+    borderRadius: '50%',
+    backgroundColor: color,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'white',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
 }));
 
 const GlassCard = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(4),
-    background: 'rgba(255, 255, 255, 0.05)',
-    backdropFilter: 'blur(10px)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
+    background: 'rgba(255, 255, 255, 0.95)',
     borderRadius: '24px',
-    color: 'white',
+    color: '#333',
+    boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
     transition: 'all 0.3s ease-in-out',
     '&:hover': {
-        transform: 'translateY(-10px)',
-        background: 'rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+        transform: 'translateY(-5px)',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
     }
 }));
 
-const HeroVisual = styled(Box)(({ theme }) => ({
-    width: '100%',
-    height: '400px',
-    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%',
-    animation: `${float} 6s ease-in-out infinite`,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    boxShadow: '0 50px 100px rgba(0,0,0,0.5)',
-}));
 
 const LandingPage = () => {
     const navigate = useNavigate();
@@ -76,66 +87,125 @@ const LandingPage = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
-        <Box sx={{ bgcolor: '#050a30' }}>
+        <Box sx={{ bgcolor: '#f5f7fa' }}>
             {/* Hero Section */}
             <HeroSection>
-                <Container maxWidth="lg">
-                    <Grid container spacing={6} alignItems="center">
-                        <Grid item xs={12} md={7}>
+                <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+                    <Grid container spacing={8} alignItems="center">
+                        <Grid item xs={12} md={6}>
                             <Box sx={{ textAlign: isMobile ? 'center' : 'left' }}>
                                 <Typography 
                                     component="h1" 
                                     variant={isMobile ? "h3" : "h1"} 
-                                    gutterBottom 
-                                    sx={{ fontWeight: 900, mb: 2, background: 'linear-gradient(to right, #fff, #4dabf5)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
+                                    sx={{ 
+                                        fontWeight: 800, 
+                                        mb: 3, 
+                                        lineHeight: 1.1,
+                                        fontSize: isMobile ? '2.5rem' : '4rem',
+                                        color: 'white',
+                                        letterSpacing: -1
+                                    }}
                                 >
                                     The Future of Appointments
                                 </Typography>
-                                <Typography variant="h5" paragraph sx={{ color: 'rgba(255,255,255,0.7)', mb: 4, fontWeight: 300 }}>
+                                <Typography 
+                                    variant="h6" 
+                                    paragraph 
+                                    sx={{ 
+                                        color: 'rgba(255,255,255,0.9)', 
+                                        mb: 5, 
+                                        fontWeight: 400,
+                                        lineHeight: 1.6,
+                                        maxWidth: '500px'
+                                    }}
+                                >
                                     Experience the most seamless way to book services and manage your business. All in one place.
                                 </Typography>
-                                <Stack direction={isMobile ? "column" : "row"} spacing={2} justifyContent={isMobile ? "center" : "flex-start"}>
+                                
+                                <Stack direction={isMobile ? "column" : "row"} spacing={2} sx={{ mb: 6 }}>
                                     <Button
                                         variant="contained"
                                         size="large"
                                         onClick={() => navigate('/register')}
                                         sx={{ 
-                                            borderRadius: '50px', 
-                                            px: 4, 
+                                            borderRadius: '8px', 
+                                            px: 5, 
                                             py: 2, 
-                                            fontSize: '1.1rem',
+                                            fontSize: '1rem',
                                             textTransform: 'none',
-                                            boxShadow: '0 10px 20px rgba(25, 118, 210, 0.3)',
-                                            background: 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)'
+                                            fontWeight: 'bold',
+                                            bgcolor: '#0d47a1',
+                                            '&:hover': { bgcolor: '#0a3d8d' }
                                         }}
                                     >
-                                        Get Started Free
+                                        Get Started Today
                                     </Button>
                                     <Button
                                         variant="outlined"
                                         size="large"
                                         onClick={() => navigate('/login')}
                                         sx={{ 
-                                            borderRadius: '50px', 
-                                            px: 4, 
+                                            borderRadius: '8px', 
+                                            px: 5, 
                                             py: 2, 
-                                            fontSize: '1.1rem',
+                                            fontSize: '1rem',
                                             textTransform: 'none',
-                                            borderColor: 'white',
-                                            color: 'white',
-                                            '&:hover': { borderColor: '#4dabf5', color: '#4dabf5' }
+                                            fontWeight: 'bold',
+                                            borderColor: '#0d47a1',
+                                            color: '#0d47a1',
+                                            bgcolor: 'rgba(255,255,255,0.2)',
+                                            '&:hover': { borderColor: '#0d47a1', bgcolor: 'rgba(255,255,255,0.3)' }
                                         }}
                                     >
-                                        Sign In
+                                        Watch Demo
                                     </Button>
                                 </Stack>
+
+                                <Grid container spacing={4}>
+                                    <Grid item xs={12} sm={6}>
+                                        <FeatureStatus>
+                                            <StatusIcon color="#2196f3">
+                                                <TrendingUpIcon />
+                                            </StatusIcon>
+                                            <Box>
+                                                <Typography sx={{ fontWeight: 'bold', color: 'white' }}>Real-time Tracking</Typography>
+                                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>Monitor operations live</Typography>
+                                            </Box>
+                                        </FeatureStatus>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <FeatureStatus>
+                                            <StatusIcon color="#4caf50">
+                                                <SecurityIcon />
+                                            </StatusIcon>
+                                            <Box>
+                                                <Typography sx={{ fontWeight: 'bold', color: 'white' }}>Secure Platform</Typography>
+                                                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)' }}>Bank-grade protection</Typography>
+                                            </Box>
+                                        </FeatureStatus>
+                                    </Grid>
+                                </Grid>
                             </Box>
                         </Grid>
+                        
                         {!isMobile && (
-                            <Grid item md={5}>
-                                <HeroVisual>
-                                    <CalendarMonthIcon sx={{ fontSize: 180, color: 'white', opacity: 0.9 }} />
-                                </HeroVisual>
+                            <Grid item md={6}>
+                                <Box sx={{ 
+                                    position: 'relative',
+                                    animation: `${float} 6s ease-in-out infinite`,
+                                    textAlign: 'right'
+                                }}>
+                                    <Box 
+                                        component="img"
+                                        src={bookingImg}
+                                        alt="Landing Illustration"
+                                        sx={{ 
+                                            width: '100%',
+                                            maxWidth: '700px',
+                                            filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.2))'
+                                        }}
+                                    />
+                                </Box>
                             </Grid>
                         )}
                     </Grid>
@@ -145,10 +215,10 @@ const LandingPage = () => {
             {/* Features Section */}
             <Container maxWidth="lg" sx={{ py: 15 }}>
                 <Box sx={{ textAlign: 'center', mb: 10 }}>
-                    <Typography variant="overline" sx={{ color: '#4dabf5', fontWeight: 'bold', letterSpacing: 4 }}>
+                    <Typography variant="overline" sx={{ color: '#1976d2', fontWeight: 'bold', letterSpacing: 4 }}>
                         FEATURES
                     </Typography>
-                    <Typography variant="h2" sx={{ color: 'white', fontWeight: 800, mt: 1 }}>
+                    <Typography variant="h2" sx={{ color: '#333', fontWeight: 800, mt: 1 }}>
                         Built for Efficiency
                     </Typography>
                 </Box>
@@ -175,10 +245,10 @@ const LandingPage = () => {
                                 }}>
                                     {feature.icon}
                                 </Box>
-                                <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
+                                <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: '#333' }}>
                                     {feature.title}
                                 </Typography>
-                                <Typography sx={{ color: 'rgba(255,255,255,0.6)', fontWeight: 300 }}>
+                                <Typography sx={{ color: 'text.secondary', fontWeight: 400 }}>
                                     {feature.desc}
                                 </Typography>
                             </GlassCard>
@@ -190,10 +260,10 @@ const LandingPage = () => {
             {/* Featured Businesses Section */}
             <Container maxWidth="lg" sx={{ py: 15, bgcolor: 'rgba(255,255,255,0.02)', borderRadius: '40px' }}>
                 <Box sx={{ textAlign: 'center', mb: 10 }}>
-                    <Typography variant="overline" sx={{ color: '#4dabf5', fontWeight: 'bold', letterSpacing: 4 }}>
+                    <Typography variant="overline" sx={{ color: '#1976d2', fontWeight: 'bold', letterSpacing: 4 }}>
                         DISCOVER
                     </Typography>
-                    <Typography variant="h2" sx={{ color: 'white', fontWeight: 800, mt: 1 }}>
+                    <Typography variant="h2" sx={{ color: '#333', fontWeight: 800, mt: 1 }}>
                         Featured Businesses
                     </Typography>
                 </Box>
