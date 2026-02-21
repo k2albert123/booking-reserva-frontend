@@ -59,7 +59,7 @@ const Login = () => {
                         Welcome Back
                     </Typography>
                     <Typography variant="body2" align="center" sx={{ mb: 3 }}>
-                        Sign in to continue to BookingMaster
+                        Sign in to continue to BookingReserva
                     </Typography>
                     
                     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>

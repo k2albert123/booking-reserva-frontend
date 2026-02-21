@@ -117,7 +117,7 @@ const Register = () => {
                         Create Account
                     </Typography>
                     <Typography variant="body2" align="center" sx={{ mb: 3 }}>
-                        Join BookingMaster and start managing your appointments
+                        Join BookingReserva and start managing your appointments
                     </Typography>
                     
                     {error && (
@@ -132,40 +132,34 @@ const Register = () => {
                             onChange={(url) => setFormData({...formData, imageUrl: url})} 
                             label="Profile Picture"
                         />
-                        <Grid container spacing={1}>
-                            <Grid item xs={6}>
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="name"
-                                    label="Full Name"
-                                    name="name"
-                                    autoComplete="name"
-                                    autoFocus
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    error={!formData.name}
-                                    helperText={formData.name ? '' : 'Name is required'}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="email"
-                                    label="Email Address"
-                                    name="email"
-                                    type="email"
-                                    autoComplete="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    error={!formData.email}
-                                    helperText={formData.email ? '' : 'Email is required'}
-                                />
-                            </Grid>
-                        </Grid>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="name"
+                            label="Full Name"
+                            name="name"
+                            autoComplete="name"
+                            autoFocus
+                            value={formData.name}
+                            onChange={handleChange}
+                            error={!formData.name}
+                            helperText={formData.name ? '' : 'Name is required'}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            type="email"
+                            autoComplete="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            error={!formData.email}
+                            helperText={formData.email ? '' : 'Email is required'}
+                        />
                         <TextField
                             margin="normal"
                             required
