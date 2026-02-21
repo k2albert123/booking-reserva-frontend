@@ -11,7 +11,9 @@ import ClientDashboard from './components/dashboard/ClientDashboard';
 import BusinessOwnerDashboard from './components/dashboard/BusinessOwnerDashboard';
 import Layout from './components/common/Layout';
 import RoleGuard from './components/common/RoleGuard';
-
+import BusinessList from './components/business/BusinessList';
+import BusinessDetails from './components/business/BusinessDetails';
+import BookingForm from './components/appointments/BookingForm';
 
 const theme = createTheme({
     palette: {
@@ -53,7 +55,21 @@ function App() {
                     <Route path="/businesses" element={
                         <RoleGuard allowedRoles={['CLIENT']}>
                             <Layout>
-                                <div>Business Search Page</div>
+                                <BusinessList />
+                            </Layout>
+                        </RoleGuard>
+                    } />
+                    <Route path="/businesses/:id" element={
+                        <RoleGuard allowedRoles={['CLIENT']}>
+                            <Layout>
+                                <BusinessDetails />
+                            </Layout>
+                        </RoleGuard>
+                    } />
+                    <Route path="/book/:businessId/:serviceId" element={
+                        <RoleGuard allowedRoles={['CLIENT']}>
+                            <Layout>
+                                <BookingForm />
                             </Layout>
                         </RoleGuard>
                     } />
