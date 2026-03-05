@@ -119,7 +119,21 @@ const LandingPage = () => {
                                         letterSpacing: -1
                                     }}
                                 >
-                                    The Future of Appointments
+                                    The Future 
+                                </Typography>
+                                <Typography 
+                                    component="h1" 
+                                    variant={isMobile ? "h3" : "h1"} 
+                                    sx={{ 
+                                        fontWeight: 800, 
+                                        mb: 3, 
+                                        lineHeight: 1.1,
+                                        fontSize: isMobile ? '2.5rem' : '4rem',
+                                        color: 'white',
+                                        letterSpacing: -1
+                                    }}
+                                >
+                                    of Appointments
                                 </Typography>
                                 <Typography 
                                     variant="h6" 
@@ -166,8 +180,8 @@ const LandingPage = () => {
                                             fontWeight: 'bold',
                                             borderColor: '#0d47a1',
                                             color: '#0d47a1',
-                                            bgcolor: 'rgba(255,255,255,0.2)',
-                                            '&:hover': { borderColor: '#0d47a1', bgcolor: 'rgba(255,255,255,0.3)' }
+                                            bgcolor: 'rgba(255,255,255,0.7)',
+                                            '&:hover': { borderColor: '#0d47a1', bgcolor: 'rgba(255,255,255,0.9)' }
                                         }}
                                     >
                                         Watch Demo
@@ -215,7 +229,7 @@ const LandingPage = () => {
                                         sx={{ 
                                             width: '100%',
                                             maxWidth: '700px',
-                                            filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.2))'
+                                            filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.9))'
                                         }}
                                     />
                                 </Box>
