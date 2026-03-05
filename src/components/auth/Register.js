@@ -86,7 +86,7 @@ const Register = () => {
 
             await register(registerRequest);
             toast.success('Registration successful!');
-            navigate('/login');
+            navigate('/dashboard');
         } catch (error) {
             console.error('Registration error:', error);
             const errorMessage = error.response?.data?.message || 'Registration failed';

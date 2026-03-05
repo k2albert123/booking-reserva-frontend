@@ -11,6 +11,7 @@ export const register = async (userData) => {
         
         const response = await api.post('/auth/register', registerData);
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data));
         return response.data;
     } catch (error) {
         console.error('Registration error:', error);
@@ -21,6 +22,7 @@ export const register = async (userData) => {
 export const login = async (credentials) => {
     const response = await api.post('/auth/login', credentials);
     localStorage.setItem('token', response.data.token);
+    localStorage.setItem('user', JSON.stringify(response.data));
     return response.data;
 };
 
@@ -31,15 +33,16 @@ export const forgotPassword = async (email) => {
 
 export const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
 };
 
 export const getCurrentUser = () => {
-    const token = localStorage.getItem('token');
-    if (!token) return null;
-    return { token };
+    const userStr = localStorage.getItem('user');
+    if (!userStr) return null;
+    return JSON.parse(userStr);
 };
 
 export const getUserRole = () => {
     const user = getCurrentUser();
-    return user?.role || 'CLIENT';
+    return user?.role || null;
 };
