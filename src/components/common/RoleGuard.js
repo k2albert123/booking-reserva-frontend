@@ -14,10 +14,8 @@ const RoleGuard = ({ children, allowedRoles }) => {
     // Check if user's role is in the allowed roles
     if (!allowedRoles.includes(role)) {
         // Redirect based on user's role
-        if (role === 'CLIENT') {
-            navigate('/appointments', { replace: true });
-        } else if (role === 'BUSINESS_OWNER') {
-            navigate('/business-owner', { replace: true });
+        if (role === 'CLIENT' || role === 'BUSINESS_OWNER') {
+            navigate('/dashboard', { replace: true });
         } else {
             navigate('/', { replace: true });
         }
