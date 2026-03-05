@@ -4,11 +4,10 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ToastContainer } from 'react-toastify';
 import LandingPage from './components/LandingPage';
+import Dashboard from './components/Dashboard';
 import Login from './components/auth/Login';
 import ForgotPassword from './components/auth/ForgotPassword';
 import Register from './components/auth/Register';
-import ClientDashboard from './components/dashboard/ClientDashboard';
-import BusinessOwnerDashboard from './components/dashboard/BusinessOwnerDashboard';
 import Layout from './components/common/Layout';
 import RoleGuard from './components/common/RoleGuard';
 import BusinessList from './components/business/BusinessList';
@@ -39,14 +38,13 @@ function App() {
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/about" element={<AboutUs />} />
                     
-                    {/* Client Routes */}
                     <Route path="/dashboard" element={
-                        <RoleGuard allowedRoles={['CLIENT']}>
-                            <Layout>
-                                <ClientDashboard />
-                            </Layout>
+                        <RoleGuard allowedRoles={['CLIENT', 'BUSINESS_OWNER']}>
+                            <Dashboard />
                         </RoleGuard>
                     } />
+
+                    {/* Client Routes */}
                     <Route path="/appointments" element={
                         <RoleGuard allowedRoles={['CLIENT']}>
                             <Layout>
@@ -83,14 +81,6 @@ function App() {
                         </RoleGuard>
                     } />
 
-                    {/* Business Owner Routes */}
-                    <Route path="/business-owner" element={
-                        <RoleGuard allowedRoles={['BUSINESS_OWNER']}>
-                            <Layout>
-                                <BusinessOwnerDashboard />
-                            </Layout>
-                        </RoleGuard>
-                    } />
                     <Route path="/businesses/manage" element={
                         <RoleGuard allowedRoles={['BUSINESS_OWNER']}>
                             <Layout>
