@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
     Box, 
     Container, 
-    Typography, 
-    Grid, 
-    Card, 
-    CardContent, 
-    Button, 
+    Typography,
+    Grid,
+    Button,
     Paper,
     Stack,
     IconButton,
@@ -35,19 +33,19 @@ const BusinessOwnerDashboard = ({ view }) => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const businessId = searchParams.get('businessId');
-    const [loading, setLoading] = React.useState(false);
-    const [data, setData] = React.useState({
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState({
         businesses: [],
         appointments: [],
         services: []
     });
 
-    const [openBusinessDialog, setOpenBusinessDialog] = React.useState(false);
-    const [openServiceDialog, setOpenServiceDialog] = React.useState(false);
-    const [newBusiness, setNewBusiness] = React.useState({ name: '', description: '', address: '', phoneNumber: '', email: '' });
-    const [newService, setNewService] = React.useState({ name: '', description: '', price: '', durationMinutes: '' });
+    const [openBusinessDialog, setOpenBusinessDialog] = useState(false);
+    const [openServiceDialog, setOpenServiceDialog] = useState(false);
+    const [newBusiness, setNewBusiness] = useState({ name: '', description: '', address: '', phoneNumber: '', email: '' });
+    const [newService, setNewService] = useState({ name: '', description: '', price: '', durationMinutes: '' });
 
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         setLoading(true);
         try {
             if (view === 'businesses' || view === 'overview') {
@@ -72,11 +70,11 @@ const BusinessOwnerDashboard = ({ view }) => {
         } finally {
             setLoading(false);
         }
-    };
-
-    React.useEffect(() => {
-        fetchData();
     }, [view, businessId]);
+
+    useEffect(() => {
+        fetchData();
+    }, [view, businessId, fetchData]);
 
     const handleCreateBusiness = async () => {
         try {
