@@ -35,6 +35,8 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/about" element={<AboutUs />} />
+                    <Route path="/businesses" element={<Layout><BusinessList /></Layout>} />
+                    <Route path="/services" element={<Layout><Box sx={{ py: 8, textAlign: 'center' }}><Typography variant="h4">Find Services</Typography><Typography color="text.secondary">Search functionality coming soon. Browse businesses to see their individual services.</Typography></Box></Layout>} />
                     
                     <Route path="/dashboard" element={
                         <RoleGuard allowedRoles={['CLIENT', 'BUSINESS_OWNER']}>
