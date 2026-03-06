@@ -8,8 +8,6 @@ import {
     Button, 
     Avatar,
     Paper,
-    Stack,
-    ChevronRight as ChevronRightIcon,
     CircularProgress,
     List,
     ListItem,
@@ -17,6 +15,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
