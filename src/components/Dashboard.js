@@ -1,11 +1,12 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { getUserRole } from '../services/authService';
 import ClientDashboard from './dashboard/ClientDashboard';
 import BusinessOwnerDashboard from './dashboard/BusinessOwnerDashboard';
 import Layout from './common/Layout';
 
 const Dashboard = () => {
+    const [searchParams] = useSearchParams();
+    const view = searchParams.get('view') || 'overview';
     const role = getUserRole();
 
     if (!role) {
@@ -15,9 +16,9 @@ const Dashboard = () => {
     return (
         <Layout>
             {role === 'BUSINESS_OWNER' ? (
-                <BusinessOwnerDashboard />
+                <BusinessOwnerDashboard view={view} />
             ) : (
-                <ClientDashboard />
+                <ClientDashboard view={view} />
             )}
         </Layout>
     );
