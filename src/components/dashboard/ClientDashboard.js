@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
     Box, 
     Container, 
@@ -9,46 +8,71 @@ import {
     Button, 
     Avatar,
     Paper,
-    Divider,
-    Stack
+    Stack,
+    ChevronRight as ChevronRightIcon,
+    CircularProgress,
+    List,
+    ListItem,
+    ListItemText
 } from '@mui/material';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { getMyAppointments } from '../../services/appointmentService';
+import BusinessList from '../business/BusinessList';
 
-const ClientDashboard = () => {
+const ClientDashboard = ({ view }) => {
     const navigate = useNavigate();
-    const userName = "Client"; // In a real app, get this from auth context
+    const [loading, setLoading] = React.useState(false);
+    const [appointments, setAppointments] = React.useState([]);
+    const userName = JSON.parse(localStorage.getItem('user'))?.name || "Client";
 
-    const cards = [
-        { 
-            title: 'My Appointments', 
-            desc: 'View and manage your upcoming bookings.', 
-            icon: <CalendarMonthIcon sx={{ fontSize: 40 }} />, 
-            path: '/appointments',
-            color: '#4dabf5'
-        },
-        { 
-            title: 'Find Services', 
-            desc: 'Browse local businesses and book new services.', 
-            icon: <SearchIcon sx={{ fontSize: 40 }} />, 
-            path: '/businesses',
-            color: '#66bb6a'
-        },
-        { 
-            title: 'My Profile', 
-            desc: 'Update your personal details and preferences.', 
-            icon: <PersonIcon sx={{ fontSize: 40 }} />, 
-            path: '/profile',
-            color: '#ffa726'
-        }
-    ];
+    React.useEffect(() => {
+        const fetchAppointments = async () => {
+            if (view === 'appointments' || view === 'overview') {
+                setLoading(true);
+                try {
+                    const data = await getMyAppointments();
+                    setAppointments(data);
+                } catch (error) {
+                    console.error('Error fetching appointments:', error);
+                } finally {
+                    setLoading(false);
+                }
+            }
+        };
+        fetchAppointments();
+    }, [view]);
 
-    return (
-        <Box sx={{ bgcolor: '#f5f7fa', minHeight: '90vh', py: 6 }}>
-            <Container maxWidth="lg">
+    const renderOverview = () => {
+        const cards = [
+            { 
+                title: 'My Appointments', 
+                desc: 'View and manage your upcoming bookings.', 
+                icon: <CalendarMonthIcon sx={{ fontSize: 40 }} />, 
+                path: '/dashboard?view=appointments',
+                color: '#4dabf5'
+            },
+            { 
+                title: 'Find Services', 
+                desc: 'Browse local businesses and book new services.', 
+                icon: <SearchIcon sx={{ fontSize: 40 }} />, 
+                path: '/dashboard?view=businesses',
+                color: '#66bb6a'
+            },
+            { 
+                title: 'My Profile', 
+                desc: 'Update your personal details and preferences.', 
+                icon: <PersonIcon sx={{ fontSize: 40 }} />, 
+                path: '/dashboard?view=profile',
+                color: '#ffa726'
+            }
+        ];
+
+        return (
+            <>
                 <Box sx={{ mb: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Box>
                         <Typography variant="h3" sx={{ fontWeight: 800, color: '#1a237e' }}>
@@ -133,6 +157,62 @@ const ClientDashboard = () => {
                         </Grid>
                     </Grid>
                 </Paper>
+            </>
+        );
+    };
+
+    const renderContent = () => {
+        if (loading) return <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}><CircularProgress /></Box>;
+
+        switch (view) {
+            case 'appointments': return (
+                <Paper sx={{ p: 4, borderRadius: '20px' }}>
+                    <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 3 }}>My Appointments</Typography>
+                    {appointments.length === 0 ? (
+                        <Typography color="text.secondary">You have no upcoming appointments.</Typography>
+                    ) : (
+                        <List>
+                            {appointments.map((apt) => (
+                                <ListItem key={apt.id} divider>
+                                    <ListItemText 
+                                        primary={apt.service?.name} 
+                                        secondary={`${apt.business?.name} - ${new Date(apt.startTime).toLocaleString()}`} 
+                                    />
+                                    <Typography variant="body2" sx={{ 
+                                        color: apt.status === 'CONFIRMED' ? 'success.main' : 
+                                               apt.status === 'PENDING' ? 'warning.main' : 'error.main',
+                                        fontWeight: 'bold'
+                                    }}>
+                                        {apt.status}
+                                    </Typography>
+                                </ListItem>
+                            ))}
+                        </List>
+                    )}
+                    <Button variant="text" onClick={() => navigate('/dashboard')} sx={{ mt: 2 }}>Back to Overview</Button>
+                </Paper>
+            );
+            case 'businesses': return (
+                <Box>
+                    <Button variant="text" onClick={() => navigate('/dashboard')} sx={{ mb: 2 }}>Back to Overview</Button>
+                    <BusinessList />
+                </Box>
+            );
+            case 'profile': return (
+                <Paper sx={{ p: 4, borderRadius: '20px' }}>
+                    <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 3 }}>My Profile</Typography>
+                    <Typography>Profile settings coming soon.</Typography>
+                    <Button variant="text" onClick={() => navigate('/dashboard')} sx={{ mt: 2 }}>Back to Overview</Button>
+                </Paper>
+            );
+            default: return renderOverview();
+        }
+    };
+
+    return (
+        <Box sx={{ bgcolor: '#f5f7fa', minHeight: '90vh', py: 6 }}>
+            <Container maxWidth="lg">
+                {renderContent()}
             </Container>
         </Box>
     );
