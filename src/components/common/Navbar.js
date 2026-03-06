@@ -4,11 +4,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
-import { logout } from '../../services/authService';
+import { logout, getCurrentUser } from '../../services/authService';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const navigate = useNavigate();
+    const user = getCurrentUser();
 
     return (
         <AppBar position="static">
@@ -25,24 +26,43 @@ const Navbar = () => {
 
                 {/* Navigation Links */}
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Button color="inherit" component={RouterLink} to="/about">
-                        About Us
-                    </Button>
-                    <Button color="inherit" component={RouterLink} to="/appointments">
-                        Appointments
-                    </Button>
-                    <Button color="inherit" component={RouterLink} to="/businesses">
-                        Businesses
-                    </Button>
-                    <Button color="inherit" component={RouterLink} to="/services">
-                        Services
-                    </Button>
-                    <Button color="inherit" onClick={() => navigate('/profile')} startIcon={<PersonIcon />}>
-                        Profile
-                    </Button>
-                    <Button color="inherit" onClick={logout} startIcon={<LogoutIcon />}>
-                        Logout
-                    </Button>
+                    {!user ? (
+                        <>
+                            <Button color="inherit" component={RouterLink} to="/login">
+                                Login
+                            </Button>
+                            <Button color="inherit" component={RouterLink} to="/about">
+                                About Us
+                            </Button>
+                            <Button color="inherit" component={RouterLink} to="/businesses">
+                                Businesses
+                            </Button>
+                            <Button color="inherit" component={RouterLink} to="/services">
+                                Services
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Button color="inherit" component={RouterLink} to="/about">
+                                About Us
+                            </Button>
+                            <Button color="inherit" component={RouterLink} to="/dashboard?view=appointments">
+                                Appointments
+                            </Button>
+                            <Button color="inherit" component={RouterLink} to="/dashboard?view=businesses">
+                                Businesses
+                            </Button>
+                            <Button color="inherit" component={RouterLink} to="/dashboard?view=services">
+                                Services
+                            </Button>
+                            <Button color="inherit" component={RouterLink} to="/dashboard?view=profile" startIcon={<PersonIcon />}>
+                                Profile
+                            </Button>
+                            <Button color="inherit" onClick={() => { logout(); navigate('/login'); }} startIcon={<LogoutIcon />}>
+                                Logout
+                            </Button>
+                        </>
+                    )}
                 </Box>
             </Toolbar>
         </AppBar>
