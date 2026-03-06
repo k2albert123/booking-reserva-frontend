@@ -22,3 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .env
+build_error.txt
+frontend_log_2.txt
+frontend_log.txt
+build_output.txt
