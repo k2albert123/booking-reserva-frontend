@@ -28,6 +28,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { getMyBusinesses, createBusiness } from '../../services/businessService';
 import { getBusinessAppointments, updateAppointmentStatus } from '../../services/appointmentService';
 import { getServicesByBusiness, createService } from '../../services/serviceService';
+import { toast } from 'react-toastify';
+import ProfileView from './ProfileView';
 
 const BusinessOwnerDashboard = ({ view }) => {
     const navigate = useNavigate();
@@ -48,23 +50,20 @@ const BusinessOwnerDashboard = ({ view }) => {
     const fetchData = useCallback(async () => {
         setLoading(true);
         try {
-            if (view === 'businesses' || view === 'overview') {
-                const businesses = await getMyBusinesses();
-                setData(prev => ({ ...prev, businesses }));
-            }
-            if (view === 'appointments') {
-                if (businessId) {
-                    const appointments = await getBusinessAppointments(businessId);
-                    setData(prev => ({ ...prev, appointments }));
-                } else {
-                    const businesses = await getMyBusinesses();
-                    setData(prev => ({ ...prev, businesses }));
+            // Always fetch businesses for stats if in overview
+            const businesses = await getMyBusinesses();
+            let appointments = [];
+            let services = [];
+
+            if (businessId) {
+                if (view === 'appointments') {
+                    appointments = await getBusinessAppointments(businessId);
+                } else if (view === 'services') {
+                    services = await getServicesByBusiness(businessId);
                 }
             }
-            if (view === 'services' && businessId) {
-                const services = await getServicesByBusiness(businessId);
-                setData(prev => ({ ...prev, services }));
-            }
+            
+            setData({ businesses, appointments, services });
         } catch (error) {
             console.error('Error fetching dashboard data:', error);
         } finally {
@@ -82,8 +81,9 @@ const BusinessOwnerDashboard = ({ view }) => {
             setOpenBusinessDialog(false);
             setNewBusiness({ name: '', description: '', address: '', phoneNumber: '', email: '' });
             fetchData();
+            toast.success("Business created successfully");
         } catch (error) {
-            console.error('Error creating business:', error);
+            toast.error("Failed to create business");
         }
     };
 
@@ -93,8 +93,9 @@ const BusinessOwnerDashboard = ({ view }) => {
             setOpenServiceDialog(false);
             setNewService({ name: '', description: '', price: '', durationMinutes: '' });
             fetchData();
+            toast.success("Service created successfully");
         } catch (error) {
-            console.error('Error creating service:', error);
+            toast.error("Failed to create service");
         }
     };
 
@@ -102,89 +103,100 @@ const BusinessOwnerDashboard = ({ view }) => {
         try {
             await updateAppointmentStatus(id, status);
             fetchData();
+            toast.success(`Appointment ${status.toLowerCase()}ed`);
         } catch (error) {
-            console.error('Error updating appointment status:', error);
+            toast.error("Failed to update status");
         }
     };
 
     const renderOverview = () => {
+        const stats = [
+            { label: 'Total Businesses', value: data.businesses.length, color: '#2196f3' },
+            { label: 'Active Services', value: data.businesses.reduce((acc, b) => acc + (b.services?.length || 0), 0), color: '#4caf50' },
+            { label: 'Pending Bookings', value: '...', color: '#ff9800' } // Placeholder for cross-business pending count
+        ];
+
         const sections = [
             { 
                 title: 'Businesses', 
                 desc: 'Manage your enrolled businesses and locations.', 
-                icon: <StorefrontIcon sx={{ fontSize: 32 }} />, 
+                icon: <StorefrontIcon sx={{ fontSize: 28 }} />, 
                 path: '/dashboard?view=businesses',
                 color: '#2196f3'
             },
             { 
                 title: 'Appointments', 
                 desc: 'Track and update your customer bookings.', 
-                icon: <EventNoteIcon sx={{ fontSize: 32 }} />, 
+                icon: <EventNoteIcon sx={{ fontSize: 28 }} />, 
                 path: '/dashboard?view=appointments',
                 color: '#f44336'
             },
             { 
                 title: 'Services', 
                 desc: 'Create and edit the services you offer.', 
-                icon: <DesignServicesIcon sx={{ fontSize: 32 }} />, 
+                icon: <DesignServicesIcon sx={{ fontSize: 28 }} />, 
                 path: '/dashboard?view=services',
                 color: '#4caf50'
             }
         ];
 
         return (
-            <Grid container spacing={3}>
-                {sections.map((section, index) => (
-                    <Grid item xs={12} md={4} key={index}>
-                        <Paper 
-                            elevation={0} 
-                            sx={{ 
-                                p: 3, 
-                                borderRadius: '16px', 
-                                border: '1px solid #eee',
-                                transition: 'all 0.2s',
-                                '&:hover': { borderColor: section.color, transform: 'translateY(-4px)', boxShadow: '0 10px 20px rgba(0,0,0,0.05)' }
-                            }}
-                        >
-                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+            <Box>
+                <Grid container spacing={3} sx={{ mb: 4 }}>
+                    {stats.map((stat, i) => (
+                        <Grid item xs={12} sm={4} key={i}>
+                            <Paper elevation={0} sx={{ p: 3, borderRadius: '16px', border: '1px solid #edf2f7', bgcolor: '#fff' }}>
+                                <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'medium' }}>{stat.label}</Typography>
+                                <Typography variant="h4" sx={{ fontWeight: 'bold', mt: 1, color: stat.color }}>{stat.value}</Typography>
+                            </Paper>
+                        </Grid>
+                    ))}
+                </Grid>
+
+                <Grid container spacing={3}>
+                    {sections.map((section, index) => (
+                        <Grid item xs={12} md={4} key={index}>
+                            <Paper 
+                                elevation={0} 
+                                sx={{ 
+                                    p: 4, 
+                                    borderRadius: '24px', 
+                                    border: '1px solid #edf2f7',
+                                    height: '100%',
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    cursor: 'pointer',
+                                    '&:hover': { 
+                                        borderColor: section.color, 
+                                        transform: 'translateY(-6px)', 
+                                        boxShadow: '0 12px 20px rgba(0,0,0,0.04)' 
+                                    }
+                                }}
+                                onClick={() => navigate(section.path)}
+                            >
                                 <Box sx={{ 
-                                    width: 48, 
-                                    height: 48, 
-                                    borderRadius: '12px', 
-                                    bgcolor: `${section.color}15`, 
+                                    width: 56, 
+                                    height: 56, 
+                                    borderRadius: '16px', 
+                                    bgcolor: `${section.color}10`, 
                                     color: section.color,
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    mr: 2
+                                    mb: 3
                                 }}>
                                     {section.icon}
                                 </Box>
-                                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                                <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>
                                     {section.title}
                                 </Typography>
-                            </Box>
-                            <Typography variant="body2" color="text.secondary" paragraph>
-                                {section.desc}
-                            </Typography>
-                            <Button 
-                                variant="outlined" 
-                                fullWidth 
-                                onClick={() => navigate(section.path)}
-                                sx={{ 
-                                    mt: 1, 
-                                    color: section.color, 
-                                    borderColor: section.color,
-                                    borderRadius: '8px',
-                                    '&:hover': { borderColor: section.color, bgcolor: `${section.color}05` }
-                                }}
-                            >
-                                Manage
-                            </Button>
-                        </Paper>
-                    </Grid>
-                ))}
-            </Grid>
+                                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
+                                    {section.desc}
+                                </Typography>
+                            </Paper>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
         );
     };
 
@@ -302,7 +314,7 @@ const BusinessOwnerDashboard = ({ view }) => {
             case 'businesses': return renderBusinesses();
             case 'appointments': return renderAppointments();
             case 'services': return renderServices();
-            case 'profile': return <Typography>User Profile Management</Typography>;
+            case 'profile': return <ProfileView />;
             default: return renderOverview();
         }
     };
