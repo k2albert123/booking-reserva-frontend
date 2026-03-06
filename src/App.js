@@ -12,6 +12,8 @@ import Layout from './components/common/Layout';
 import RoleGuard from './components/common/RoleGuard';
 import BookingForm from './components/appointments/BookingForm';
 import AboutUs from './components/AboutUs';
+import BusinessList from './components/business/BusinessList';
+import { Box, Typography } from '@mui/material';
 
 const theme = createTheme({
     palette: {
