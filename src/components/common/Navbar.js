@@ -46,15 +46,32 @@ const Navbar = () => {
                             <Button color="inherit" component={RouterLink} to="/about">
                                 About Us
                             </Button>
-                            <Button color="inherit" component={RouterLink} to="/dashboard?view=appointments">
-                                Appointments
-                            </Button>
-                            <Button color="inherit" component={RouterLink} to="/dashboard?view=businesses">
-                                Businesses
-                            </Button>
-                            <Button color="inherit" component={RouterLink} to="/dashboard?view=services">
-                                Services
-                            </Button>
+                            
+                            {user.role === 'CLIENT' && (
+                                <>
+                                    <Button color="inherit" component={RouterLink} to="/dashboard?view=appointments">
+                                        My Appointments
+                                    </Button>
+                                    <Button color="inherit" component={RouterLink} to="/dashboard?view=businesses">
+                                        Find Businesses
+                                    </Button>
+                                </>
+                            )}
+
+                            {user.role === 'BUSINESS_OWNER' && (
+                                <>
+                                    <Button color="inherit" component={RouterLink} to="/dashboard?view=businesses">
+                                        My Businesses
+                                    </Button>
+                                    <Button color="inherit" component={RouterLink} to="/dashboard?view=services">
+                                        My Services
+                                    </Button>
+                                    <Button color="inherit" component={RouterLink} to="/dashboard?view=appointments">
+                                        Customer Bookings
+                                    </Button>
+                                </>
+                            )}
+
                             <Button color="inherit" component={RouterLink} to="/dashboard?view=profile" startIcon={<PersonIcon />}>
                                 Profile
                             </Button>
