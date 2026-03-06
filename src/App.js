@@ -10,8 +10,6 @@ import ForgotPassword from './components/auth/ForgotPassword';
 import Register from './components/auth/Register';
 import Layout from './components/common/Layout';
 import RoleGuard from './components/common/RoleGuard';
-import BusinessList from './components/business/BusinessList';
-import BusinessDetails from './components/business/BusinessDetails';
 import BookingForm from './components/appointments/BookingForm';
 import AboutUs from './components/AboutUs';
 
