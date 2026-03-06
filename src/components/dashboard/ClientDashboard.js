@@ -22,141 +22,150 @@ import PersonIcon from '@mui/icons-material/Person';
 import { getMyAppointments } from '../../services/appointmentService';
 import BusinessList from '../business/BusinessList';
 
+import ProfileView from './ProfileView';
+
 const ClientDashboard = ({ view }) => {
     const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
     const [appointments, setAppointments] = React.useState([]);
     const userName = JSON.parse(localStorage.getItem('user'))?.name || "Client";
 
+    const fetchAppointments = React.useCallback(async () => {
+        setLoading(true);
+        try {
+            const data = await getMyAppointments();
+            setAppointments(data);
+        } catch (error) {
+            console.error('Error fetching appointments:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
     React.useEffect(() => {
-        const fetchAppointments = async () => {
-            if (view === 'appointments' || view === 'overview') {
-                setLoading(true);
-                try {
-                    const data = await getMyAppointments();
-                    setAppointments(data);
-                } catch (error) {
-                    console.error('Error fetching appointments:', error);
-                } finally {
-                    setLoading(false);
-                }
-            }
-        };
         fetchAppointments();
-    }, [view]);
+    }, [fetchAppointments]);
 
     const renderOverview = () => {
+        const stats = [
+            { label: 'Total Bookings', value: appointments.length, color: '#2b6cb0' },
+            { label: 'Active', value: appointments.filter(a => a.status === 'CONFIRMED' || a.status === 'PENDING').length, color: '#2f855a' },
+            { label: 'Completed', value: appointments.filter(a => a.status === 'COMPLETED').length, color: '#4a5568' }
+        ];
+
         const cards = [
             { 
                 title: 'My Appointments', 
-                desc: 'View and manage your upcoming bookings.', 
-                icon: <CalendarMonthIcon sx={{ fontSize: 40 }} />, 
+                desc: 'View and manage your upcoming and past bookings.', 
+                icon: <CalendarMonthIcon sx={{ fontSize: 28 }} />, 
                 path: '/dashboard?view=appointments',
-                color: '#4dabf5'
+                color: '#2b6cb0'
             },
             { 
-                title: 'Find Services', 
-                desc: 'Browse local businesses and book new services.', 
-                icon: <SearchIcon sx={{ fontSize: 40 }} />, 
+                title: 'Book a Service', 
+                desc: 'Explore local businesses and reserve your spot.', 
+                icon: <SearchIcon sx={{ fontSize: 28 }} />, 
                 path: '/dashboard?view=businesses',
-                color: '#66bb6a'
+                color: '#2f855a'
             },
             { 
-                title: 'My Profile', 
-                desc: 'Update your personal details and preferences.', 
-                icon: <PersonIcon sx={{ fontSize: 40 }} />, 
+                title: 'Profile Settings', 
+                desc: 'Manage your contact info and account settings.', 
+                icon: <PersonIcon sx={{ fontSize: 28 }} />, 
                 path: '/dashboard?view=profile',
-                color: '#ffa726'
+                color: '#805ad5'
             }
         ];
 
         return (
-            <>
-                <Box sx={{ mb: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Box>
-                        <Typography variant="h3" sx={{ fontWeight: 800, color: '#1a237e' }}>
-                            Hello, {userName}!
-                        </Typography>
-                        <Typography variant="h6" sx={{ color: 'text.secondary', fontWeight: 300 }}>
-                            Welcome back to your dashboard. What would you like to do today?
-                        </Typography>
-                    </Box>
-                    <Avatar 
-                        sx={{ width: 80, height: 80, bgcolor: 'primary.main', fontSize: '2rem', boxShadow: 3 }}
-                    >
-                        {userName[0]}
-                    </Avatar>
+            <Box>
+                <Box sx={{ mb: 5 }}>
+                    <Typography variant="h4" sx={{ fontWeight: 800, color: '#1a202c', mb: 1 }}>
+                        Welcome back, {userName}!
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                        Heres a summary of your recent activity and bookings.
+                    </Typography>
                 </Box>
-                
-                <Grid container spacing={4}>
-                    {cards.map((card, index) => (
-                        <Grid item xs={12} md={4} key={index}>
-                            <Card sx={{ 
-                                height: '100%', 
-                                borderRadius: '20px', 
-                                transition: 'all 0.3s ease',
-                                '&:hover': { transform: 'translateY(-10px)', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }
-                            }}>
-                                <CardContent sx={{ p: 4, textAlign: 'center' }}>
-                                    <Box sx={{ 
-                                        width: 70, 
-                                        height: 70, 
-                                        borderRadius: '16px', 
-                                        bgcolor: `${card.color}15`, 
-                                        color: card.color,
-                                        display: 'flex', 
-                                        alignItems: 'center', 
-                                        justifyContent: 'center',
-                                        mx: 'auto',
-                                        mb: 3
-                                    }}>
-                                        {card.icon}
-                                    </Box>
-                                    <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
-                                        {card.title}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary" paragraph>
-                                        {card.desc}
-                                    </Typography>
-                                    <Button 
-                                        variant="contained" 
-                                        fullWidth 
-                                        endIcon={<ChevronRightIcon />}
-                                        onClick={() => navigate(card.path)}
-                                        sx={{ 
-                                            mt: 2, 
-                                            borderRadius: '50px', 
-                                            py: 1.5,
-                                            bgcolor: card.color,
-                                            '&:hover': { bgcolor: card.color, opacity: 0.9 }
-                                        }}
-                                    >
-                                        Browse
-                                    </Button>
-                                </CardContent>
-                            </Card>
+
+                <Grid container spacing={3} sx={{ mb: 6 }}>
+                    {stats.map((stat, i) => (
+                        <Grid item xs={12} sm={4} key={i}>
+                            <Paper elevation={0} sx={{ p: 3, borderRadius: '20px', border: '1px solid #edf2f7', bgcolor: '#fff' }}>
+                                <Typography variant="body2" color="text.secondary" sx={{ fontWeight: '600', mb: 1 }}>{stat.label}</Typography>
+                                <Typography variant="h4" sx={{ fontWeight: '800', color: stat.color }}>{stat.value}</Typography>
+                            </Paper>
                         </Grid>
                     ))}
                 </Grid>
 
-                <Paper sx={{ mt: 6, p: 4, borderRadius: '20px', background: 'linear-gradient(135deg, #1a237e 0%, #0d47a1 100%)', color: 'white' }}>
+                <Grid container spacing={3}>
+                    {cards.map((card, index) => (
+                        <Grid item xs={12} md={4} key={index}>
+                            <Paper 
+                                elevation={0} 
+                                sx={{ 
+                                    p: 4, 
+                                    borderRadius: '24px', 
+                                    border: '1px solid #edf2f7',
+                                    height: '100%',
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    '&:hover': { 
+                                        borderColor: card.color, 
+                                        transform: 'translateY(-8px)', 
+                                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' 
+                                    }
+                                }}
+                                onClick={() => navigate(card.path)}
+                            >
+                                <Box sx={{ 
+                                    width: 56, 
+                                    height: 56, 
+                                    borderRadius: '16px', 
+                                    bgcolor: `${card.color}10`, 
+                                    color: card.color,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    mb: 3
+                                }}>
+                                    {card.icon}
+                                </Box>
+                                <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1.5, color: '#2d3748' }}>
+                                    {card.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6, mb: 3 }}>
+                                    {card.desc}
+                                </Typography>
+                                <Box sx={{ mt: 'auto', display: 'flex', alignItems: 'center', color: card.color, fontWeight: '700', fontSize: '0.875rem' }}>
+                                    View details <ChevronRightIcon sx={{ ml: 0.5, fontSize: 18 }} />
+                                </Box>
+                            </Paper>
+                        </Grid>
+                    ))}
+                </Grid>
+
+                <Paper sx={{ mt: 6, p: 4, borderRadius: '24px', background: 'linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)', color: 'white' }}>
                     <Grid container spacing={3} alignItems="center">
                         <Grid item xs={12} md={8}>
                             <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
                                 Need immediate assistance?
                             </Typography>
-                            <Typography variant="body1" sx={{ opacity: 0.8 }}>
+                            <Typography variant="body1" sx={{ opacity: 0.9 }}>
                                 Our support team is here to help you with any booking issues or questions.
                             </Typography>
                         </Grid>
-                        <Grid item xs={12} md={4} sx={{ textAlign: 'right' }}>
-                            <Button variant="contained" sx={{ bgcolor: 'white', color: '#1a237e', borderRadius: '50px', px: 4, '&:hover': { bgcolor: '#f5f5f5' } }}>
+                        <Grid item xs={12} md={4} sx={{ textAlign: { xs: 'left', md: 'right' } }}>
+                            <Button variant="contained" sx={{ bgcolor: 'white', color: '#1a365d', borderRadius: '12px', px: 4, fontWeight: 'bold', '&:hover': { bgcolor: '#f7fafc' } }}>
                                 Contact Support
                             </Button>
                         </Grid>
                     </Grid>
                 </Paper>
-            </>
+            </Box>
         );
     };
 
@@ -165,45 +174,63 @@ const ClientDashboard = ({ view }) => {
 
         switch (view) {
             case 'appointments': return (
-                <Paper sx={{ p: 4, borderRadius: '20px' }}>
-                    <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 3 }}>My Appointments</Typography>
+                <Paper elevation={0} sx={{ p: 4, borderRadius: '24px', border: '1px solid #edf2f7' }}>
+                    <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>My Appointments</Typography>
+                        <Button variant="text" onClick={() => navigate('/dashboard')} sx={{ borderRadius: '12px' }}>Back to Overview</Button>
+                    </Box>
                     {appointments.length === 0 ? (
-                        <Typography color="text.secondary">You have no upcoming appointments.</Typography>
+                        <Box sx={{ textAlign: 'center', py: 6 }}>
+                            <Typography color="text.secondary" paragraph>You have no appointments yet.</Typography>
+                            <Button variant="contained" onClick={() => navigate('/dashboard?view=businesses')} sx={{ borderRadius: '12px', px: 4 }}>Book Now</Button>
+                        </Box>
                     ) : (
-                        <List>
+                        <List sx={{ p: 0 }}>
                             {appointments.map((apt) => (
-                                <ListItem key={apt.id} divider>
+                                <ListItem 
+                                    key={apt.id} 
+                                    sx={{ 
+                                        mb: 2, 
+                                        borderRadius: '16px', 
+                                        border: '1px solid #edf2f7',
+                                        '&:hover': { bgcolor: '#f7fafc' }
+                                    }}
+                                >
+                                    <Avatar sx={{ bgcolor: apt.status === 'CONFIRMED' ? '#ebf8ff' : '#fff5f5', color: apt.status === 'CONFIRMED' ? '#3182ce' : '#e53e3e', mr: 2 }}>
+                                        <CalendarMonthIcon />
+                                    </Avatar>
                                     <ListItemText 
-                                        primary={apt.service?.name} 
-                                        secondary={`${apt.business?.name} - ${new Date(apt.startTime).toLocaleString()}`} 
+                                        primary={apt.service?.name || "Service"} 
+                                        secondary={`${apt.business?.name} • ${new Date(apt.startTime).toLocaleString()}`}
+                                        primaryTypographyProps={{ fontWeight: '700' }}
                                     />
-                                    <Typography variant="body2" sx={{ 
-                                        color: apt.status === 'CONFIRMED' ? 'success.main' : 
-                                               apt.status === 'PENDING' ? 'warning.main' : 'error.main',
-                                        fontWeight: 'bold'
+                                    <Box sx={{ 
+                                        px: 2, 
+                                        py: 0.5, 
+                                        borderRadius: '12px', 
+                                        fontSize: '0.75rem', 
+                                        fontWeight: '800',
+                                        bgcolor: apt.status === 'CONFIRMED' ? '#c6f6d5' : apt.status === 'PENDING' ? '#feebc8' : '#fed7d7',
+                                        color: apt.status === 'CONFIRMED' ? '#22543d' : apt.status === 'PENDING' ? '#744210' : '#822727'
                                     }}>
                                         {apt.status}
-                                    </Typography>
+                                    </Box>
                                 </ListItem>
                             ))}
                         </List>
                     )}
-                    <Button variant="text" onClick={() => navigate('/dashboard')} sx={{ mt: 2 }}>Back to Overview</Button>
                 </Paper>
             );
             case 'businesses': return (
                 <Box>
-                    <Button variant="text" onClick={() => navigate('/dashboard')} sx={{ mb: 2 }}>Back to Overview</Button>
+                    <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="h5" sx={{ fontWeight: 'bold' }}>Find Businesses</Typography>
+                        <Button variant="text" onClick={() => navigate('/dashboard')} sx={{ borderRadius: '12px' }}>Back to Overview</Button>
+                    </Box>
                     <BusinessList />
                 </Box>
             );
-            case 'profile': return (
-                <Paper sx={{ p: 4, borderRadius: '20px' }}>
-                    <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 3 }}>My Profile</Typography>
-                    <Typography>Profile settings coming soon.</Typography>
-                    <Button variant="text" onClick={() => navigate('/dashboard')} sx={{ mt: 2 }}>Back to Overview</Button>
-                </Paper>
-            );
+            case 'profile': return <ProfileView />;
             default: return renderOverview();
         }
     };
