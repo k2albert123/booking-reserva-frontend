@@ -44,61 +44,10 @@ function App() {
                         </RoleGuard>
                     } />
 
-                    {/* Client Routes */}
-                    <Route path="/appointments" element={
-                        <RoleGuard allowedRoles={['CLIENT']}>
-                            <Layout>
-                                <div>Client Appointments Page</div>
-                            </Layout>
-                        </RoleGuard>
-                    } />
-                    <Route path="/businesses" element={
-                        <RoleGuard allowedRoles={['CLIENT']}>
-                            <Layout>
-                                <BusinessList />
-                            </Layout>
-                        </RoleGuard>
-                    } />
-                    <Route path="/businesses/:id" element={
-                        <RoleGuard allowedRoles={['CLIENT']}>
-                            <Layout>
-                                <BusinessDetails />
-                            </Layout>
-                        </RoleGuard>
-                    } />
                     <Route path="/book/:businessId/:serviceId" element={
                         <RoleGuard allowedRoles={['CLIENT']}>
                             <Layout>
                                 <BookingForm />
-                            </Layout>
-                        </RoleGuard>
-                    } />
-                    <Route path="/profile" element={
-                        <RoleGuard allowedRoles={['CLIENT']}>
-                            <Layout>
-                                <div>Client Profile Page</div>
-                            </Layout>
-                        </RoleGuard>
-                    } />
-
-                    <Route path="/businesses/manage" element={
-                        <RoleGuard allowedRoles={['BUSINESS_OWNER']}>
-                            <Layout>
-                                <div>Business Management Page</div>
-                            </Layout>
-                        </RoleGuard>
-                    } />
-                    <Route path="/services" element={
-                        <RoleGuard allowedRoles={['BUSINESS_OWNER']}>
-                            <Layout>
-                                <div>Services Management Page</div>
-                            </Layout>
-                        </RoleGuard>
-                    } />
-                    <Route path="/appointments/manage" element={
-                        <RoleGuard allowedRoles={['BUSINESS_OWNER']}>
-                            <Layout>
-                                <div>Appointment Management Page</div>
                             </Layout>
                         </RoleGuard>
                     } />
