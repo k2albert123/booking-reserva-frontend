@@ -70,12 +70,12 @@ const ProfileView = () => {
 
     return (
         <Box sx={{ maxWidth: '800px', margin: '0 auto' }}>
-            <Paper elevation={0} sx={{ p: 4, borderRadius: '24px', border: '1px solid #edf2f7' }}>
+            <Paper elevation={0} sx={{ p: 4, borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)', bgcolor: 'background.paper' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 4, position: 'relative' }}>
                     <Box sx={{ position: 'relative' }}>
                         <Avatar 
                             src={user?.imageUrl} 
-                            sx={{ width: 100, height: 100, border: '4px solid #fff', boxShadow: '0 4px 14px rgba(0,0,0,0.1)' }}
+                            sx={{ width: 100, height: 100, border: '4px solid rgba(255,255,255,0.1)', boxShadow: '0 4px 14px rgba(0,0,0,0.3)' }}
                         >
                             {user?.name?.charAt(0)}
                         </Avatar>
@@ -96,7 +96,7 @@ const ProfileView = () => {
                         </IconButton>
                     </Box>
                     <Box sx={{ ml: 3 }}>
-                        <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#1a202c' }}>
+                        <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
                             {user?.name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
