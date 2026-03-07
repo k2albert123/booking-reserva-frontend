@@ -145,7 +145,7 @@ const BusinessOwnerDashboard = ({ view }) => {
                 <Grid container spacing={3} sx={{ mb: 4 }}>
                     {stats.map((stat, i) => (
                         <Grid item xs={12} sm={4} key={i}>
-                            <Paper elevation={0} sx={{ p: 3, borderRadius: '16px', border: '1px solid #edf2f7', bgcolor: '#fff' }}>
+                            <Paper elevation={0} sx={{ p: 3, borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', bgcolor: 'background.paper' }}>
                                 <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 'medium' }}>{stat.label}</Typography>
                                 <Typography variant="h4" sx={{ fontWeight: 'bold', mt: 1, color: stat.color }}>{stat.value}</Typography>
                             </Paper>
@@ -161,14 +161,15 @@ const BusinessOwnerDashboard = ({ view }) => {
                                 sx={{ 
                                     p: 4, 
                                     borderRadius: '24px', 
-                                    border: '1px solid #edf2f7',
+                                    border: '1px solid rgba(255,255,255,0.05)',
+                                    bgcolor: 'background.paper',
                                     height: '100%',
                                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                     cursor: 'pointer',
                                     '&:hover': { 
                                         borderColor: section.color, 
                                         transform: 'translateY(-6px)', 
-                                        boxShadow: '0 12px 20px rgba(0,0,0,0.04)' 
+                                        boxShadow: '0 12px 20px rgba(0,0,0,0.2)' 
                                     }
                                 }}
                                 onClick={() => navigate(section.path)}
@@ -201,7 +202,7 @@ const BusinessOwnerDashboard = ({ view }) => {
     };
 
     const renderBusinesses = () => (
-        <Paper sx={{ p: 3, borderRadius: '16px' }}>
+        <Paper sx={{ p: 3, borderRadius: '16px', bgcolor: 'background.paper', border: '1px solid rgba(255,255,255,0.05)' }}>
             <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Your Businesses</Typography>
                 <Button variant="contained" startIcon={<AddIcon />} size="small" onClick={() => setOpenBusinessDialog(true)}>Add Business</Button>
@@ -234,7 +235,7 @@ const BusinessOwnerDashboard = ({ view }) => {
     );
 
     const renderAppointments = () => (
-        <Paper sx={{ p: 3, borderRadius: '16px' }}>
+        <Paper sx={{ p: 3, borderRadius: '16px', bgcolor: 'background.paper', border: '1px solid rgba(255,255,255,0.05)' }}>
             <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Appointments</Typography>
                 {!businessId && <Typography variant="body2" color="error">Select a business first</Typography>}
@@ -276,7 +277,7 @@ const BusinessOwnerDashboard = ({ view }) => {
     );
 
     const renderServices = () => (
-        <Paper sx={{ p: 3, borderRadius: '16px' }}>
+        <Paper sx={{ p: 3, borderRadius: '16px', bgcolor: 'background.paper', border: '1px solid rgba(255,255,255,0.05)' }}>
             <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Services</Typography>
                 {businessId ? (
@@ -320,7 +321,7 @@ const BusinessOwnerDashboard = ({ view }) => {
     };
 
     return (
-        <Box sx={{ bgcolor: '#fafafa', minHeight: '90vh', py: 4 }}>
+        <Box sx={{ bgcolor: 'background.default', minHeight: '90vh', py: 4 }}>
             <Container maxWidth="lg">
                 <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Box>
@@ -346,7 +347,7 @@ const BusinessOwnerDashboard = ({ view }) => {
                         <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
                             Recent Activity
                         </Typography>
-                        <Paper variant="outlined" sx={{ p: 4, textAlign: 'center', borderRadius: '16px', borderStyle: 'dashed' }}>
+                        <Paper variant="outlined" sx={{ p: 4, textAlign: 'center', borderRadius: '16px', borderStyle: 'dashed', borderColor: 'rgba(255,255,255,0.2)' }}>
                             <Typography color="text.secondary">
                                 No recent activity found. Start by managing your services or businesses.
                             </Typography>
