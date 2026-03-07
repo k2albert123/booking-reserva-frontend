@@ -30,34 +30,27 @@ const float = keyframes`
 `;
 
 const HeroSection = styled(Box)(({ theme }) => ({
-    background: '#0d47a1', // Solid dark blue primary base
-    color: 'white',
-    padding: theme.spacing(0, 0, 8),
-    position: 'relative',
-    overflow: 'hidden',
-    '&::before': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '50%',
-        height: '100%',
-        background: `linear-gradient(135deg, rgba(55, 55, 255, 0.9) 0%, rgba(25, 25, 112, 1) 100%)`,
-        zIndex: 0,
-    },
-    '&::after': {
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        width: '50%',
-        height: '100%',
-        background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${heroImg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        opacity: 1,
-        zIndex: 0,
-    }
+  color: "white",
+  padding: theme.spacing(0, 0, 8),
+  position: "relative",
+  overflow: "hidden",
+
+  background: `
+    linear-gradient(
+      to right,
+      rgba(13, 71, 161, 0.95) 0%,
+      rgba(13, 71, 161, 0.9) 35%,
+      rgba(13, 71, 161, 0.7) 50%,
+      rgba(13, 71, 161, 0.4) 65%,
+      rgba(13, 71, 161, 0.1) 75%,
+      rgba(13, 71, 161, 0) 85%
+    ),
+    url(${heroImg})
+  `,
+
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  backgroundRepeat: "no-repeat"
 }));
 
 const FeatureStatus = styled(Box)(({ theme }) => ({
