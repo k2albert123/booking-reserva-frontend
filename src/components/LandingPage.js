@@ -336,7 +336,7 @@ const LandingPage = () => {
                             desc: 'State-of-the-art dental services for a brighter, healthier smile.' 
                         }
                     ].map((business, index) => (
-                        <Grid item xs={12} md={4} key={index}>
+                        <Grid item xs={12} sm={6} md={3} key={index}>
                             <Card sx={{ 
                                 height: '100%', 
                                 borderRadius: '24px', 
@@ -359,14 +359,14 @@ const LandingPage = () => {
                                         sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     />
                                 </Box>
-                                <CardContent sx={{ p: 4 }}>
-                                    <Typography variant="overline" sx={{ color: '#60a5fa', fontWeight: 'bold' }}>
+                                <CardContent sx={{ p: 3 }}>
+                                    <Typography variant="overline" sx={{ color: '#60a5fa', fontWeight: 'bold', fontSize: '0.7rem' }}>
                                         {business.type}
                                     </Typography>
-                                    <Typography variant="h5" sx={{ fontWeight: 'bold', mt: 1, mb: 2 }}>
+                                    <Typography variant="h6" sx={{ fontWeight: 'bold', mt: 1, mb: 1, fontSize: '1.1rem' }}>
                                         {business.name}
                                     </Typography>
-                                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
+                                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3, fontSize: '0.85rem' }}>
                                         {business.desc}
                                     </Typography>
                                     <Button 
