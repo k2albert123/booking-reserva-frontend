@@ -78,7 +78,7 @@ const ClientDashboard = ({ view }) => {
         return (
             <Box>
                 <Box sx={{ mb: 5 }}>
-                    <Typography variant="h4" sx={{ fontWeight: 800, color: '#1a202c', mb: 1 }}>
+                    <Typography variant="h4" sx={{ fontWeight: 800, color: 'text.primary', mb: 1 }}>
                         Welcome back, {userName}!
                     </Typography>
                     <Typography variant="body1" color="text.secondary">
@@ -89,7 +89,7 @@ const ClientDashboard = ({ view }) => {
                 <Grid container spacing={3} sx={{ mb: 6 }}>
                     {stats.map((stat, i) => (
                         <Grid item xs={12} sm={4} key={i}>
-                            <Paper elevation={0} sx={{ p: 3, borderRadius: '20px', border: '1px solid #edf2f7', bgcolor: '#fff' }}>
+                            <Paper elevation={0} sx={{ p: 3, borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)', bgcolor: 'background.paper' }}>
                                 <Typography variant="body2" color="text.secondary" sx={{ fontWeight: '600', mb: 1 }}>{stat.label}</Typography>
                                 <Typography variant="h4" sx={{ fontWeight: '800', color: stat.color }}>{stat.value}</Typography>
                             </Paper>
@@ -105,7 +105,8 @@ const ClientDashboard = ({ view }) => {
                                 sx={{ 
                                     p: 4, 
                                     borderRadius: '24px', 
-                                    border: '1px solid #edf2f7',
+                                    border: '1px solid rgba(255,255,255,0.05)',
+                                    bgcolor: 'background.paper',
                                     height: '100%',
                                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                     cursor: 'pointer',
@@ -114,7 +115,7 @@ const ClientDashboard = ({ view }) => {
                                     '&:hover': { 
                                         borderColor: card.color, 
                                         transform: 'translateY(-8px)', 
-                                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' 
+                                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2)' 
                                     }
                                 }}
                                 onClick={() => navigate(card.path)}
@@ -132,7 +133,7 @@ const ClientDashboard = ({ view }) => {
                                 }}>
                                     {card.icon}
                                 </Box>
-                                <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1.5, color: '#2d3748' }}>
+                                <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1.5, color: 'text.primary' }}>
                                     {card.title}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6, mb: 3 }}>
@@ -146,7 +147,7 @@ const ClientDashboard = ({ view }) => {
                     ))}
                 </Grid>
 
-                <Paper sx={{ mt: 6, p: 4, borderRadius: '24px', background: 'linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%)', color: 'white' }}>
+                <Paper sx={{ mt: 6, p: 4, borderRadius: '24px', background: 'linear-gradient(135deg, rgba(37,99,235,0.2) 0%, rgba(11,15,25,1) 100%)', border: '1px solid rgba(37,99,235,0.2)', color: 'white' }}>
                     <Grid container spacing={3} alignItems="center">
                         <Grid item xs={12} md={8}>
                             <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 1 }}>
@@ -157,7 +158,7 @@ const ClientDashboard = ({ view }) => {
                             </Typography>
                         </Grid>
                         <Grid item xs={12} md={4} sx={{ textAlign: { xs: 'left', md: 'right' } }}>
-                            <Button variant="contained" sx={{ bgcolor: 'white', color: '#1a365d', borderRadius: '12px', px: 4, fontWeight: 'bold', '&:hover': { bgcolor: '#f7fafc' } }}>
+                            <Button variant="contained" sx={{ bgcolor: 'primary.main', color: 'white', borderRadius: '12px', px: 4, fontWeight: 'bold', '&:hover': { bgcolor: 'primary.dark' } }}>
                                 Contact Support
                             </Button>
                         </Grid>
@@ -172,7 +173,7 @@ const ClientDashboard = ({ view }) => {
 
         switch (view) {
             case 'appointments': return (
-                <Paper elevation={0} sx={{ p: 4, borderRadius: '24px', border: '1px solid #edf2f7' }}>
+                <Paper elevation={0} sx={{ p: 4, borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)', bgcolor: 'background.paper' }}>
                     <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography variant="h5" sx={{ fontWeight: 'bold' }}>My Appointments</Typography>
                         <Button variant="text" onClick={() => navigate('/dashboard')} sx={{ borderRadius: '12px' }}>Back to Overview</Button>
@@ -190,11 +191,11 @@ const ClientDashboard = ({ view }) => {
                                     sx={{ 
                                         mb: 2, 
                                         borderRadius: '16px', 
-                                        border: '1px solid #edf2f7',
-                                        '&:hover': { bgcolor: '#f7fafc' }
+                                        border: '1px solid rgba(255,255,255,0.05)',
+                                        '&:hover': { bgcolor: 'rgba(255,255,255,0.02)' }
                                     }}
                                 >
-                                    <Avatar sx={{ bgcolor: apt.status === 'CONFIRMED' ? '#ebf8ff' : '#fff5f5', color: apt.status === 'CONFIRMED' ? '#3182ce' : '#e53e3e', mr: 2 }}>
+                                    <Avatar sx={{ bgcolor: apt.status === 'CONFIRMED' ? 'rgba(49, 130, 206, 0.2)' : 'rgba(229, 62, 62, 0.2)', color: apt.status === 'CONFIRMED' ? '#63b3ed' : '#fc8181', mr: 2 }}>
                                         <CalendarMonthIcon />
                                     </Avatar>
                                     <ListItemText 
@@ -208,8 +209,8 @@ const ClientDashboard = ({ view }) => {
                                         borderRadius: '12px', 
                                         fontSize: '0.75rem', 
                                         fontWeight: '800',
-                                        bgcolor: apt.status === 'CONFIRMED' ? '#c6f6d5' : apt.status === 'PENDING' ? '#feebc8' : '#fed7d7',
-                                        color: apt.status === 'CONFIRMED' ? '#22543d' : apt.status === 'PENDING' ? '#744210' : '#822727'
+                                        bgcolor: apt.status === 'CONFIRMED' ? 'rgba(56, 161, 105, 0.2)' : apt.status === 'PENDING' ? 'rgba(221, 107, 32, 0.2)' : 'rgba(229, 62, 62, 0.2)',
+                                        color: apt.status === 'CONFIRMED' ? '#68d391' : apt.status === 'PENDING' ? '#f6ad55' : '#fc8181'
                                     }}>
                                         {apt.status}
                                     </Box>
@@ -234,7 +235,7 @@ const ClientDashboard = ({ view }) => {
     };
 
     return (
-        <Box sx={{ bgcolor: '#f5f7fa', minHeight: '90vh', py: 6 }}>
+        <Box sx={{ bgcolor: 'background.default', minHeight: '90vh', py: 6 }}>
             <Container maxWidth="lg">
                 {renderContent()}
             </Container>
