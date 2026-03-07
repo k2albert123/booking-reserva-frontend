@@ -12,7 +12,7 @@ const Navbar = () => {
     const user = getCurrentUser();
 
     return (
-        <AppBar position="static" elevation={0} sx={{ bgcolor: 'background.default', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <AppBar position="sticky" elevation={0} sx={{ top: 0, zIndex: 1100, bgcolor: 'background.default', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
             <Toolbar>
                 {/* Logo/Brand */}
                 <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center' }}>
