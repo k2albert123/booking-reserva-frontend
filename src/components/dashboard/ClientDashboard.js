@@ -9,7 +9,9 @@ import {
     CircularProgress,
     List,
     ListItem,
-    ListItemText
+    ListItemText,
+    ListItemIcon,
+    Drawer
 } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +19,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
+import HomeIcon from '@mui/icons-material/Home';
 import { getMyAppointments } from '../../services/appointmentService';
 import BusinessList from '../business/BusinessList';
 
@@ -234,11 +237,72 @@ const ClientDashboard = ({ view }) => {
         }
     };
 
+    const drawerWidth = 280;
+
+    const navItems = [
+        { title: 'Overview', path: '/dashboard', icon: <HomeIcon /> },
+        { title: 'Appointments', path: '/dashboard?view=appointments', icon: <CalendarMonthIcon /> },
+        { title: 'Browse Businesses', path: '/dashboard?view=businesses', icon: <SearchIcon /> },
+        { title: 'Profile', path: '/dashboard?view=profile', icon: <PersonIcon /> }
+    ];
+
+    const drawer = (
+        <Drawer
+            variant="permanent"
+            sx={{
+                width: drawerWidth,
+                flexShrink: 0,
+                [`& .MuiDrawer-paper`]: { 
+                    width: drawerWidth, 
+                    boxSizing: 'border-box',
+                    bgcolor: 'background.paper',
+                    borderRight: '1px solid rgba(255,255,255,0.05)',
+                    pt: 4
+                },
+            }}
+        >
+            <Box sx={{ px: 3, mb: 4 }}>
+                <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white' }}>Menu</Typography>
+            </Box>
+            <List sx={{ px: 2 }}>
+                {navItems.map((item) => {
+                    const isActive = (item.title === 'Overview' && !view) || 
+                                   (item.path.includes(`view=${view}`));
+                    return (
+                        <ListItem 
+                            button 
+                            key={item.title} 
+                            onClick={() => navigate(item.path)}
+                            sx={{
+                                borderRadius: '12px',
+                                mb: 1,
+                                bgcolor: isActive ? 'rgba(37,99,235,0.1)' : 'transparent',
+                                color: isActive ? '#60a5fa' : 'text.secondary',
+                                '&:hover': {
+                                    bgcolor: isActive ? 'rgba(37,99,235,0.2)' : 'rgba(255,255,255,0.05)',
+                                    color: isActive ? '#60a5fa' : 'white',
+                                }
+                            }}
+                        >
+                            <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
+                                {item.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={item.title} primaryTypographyProps={{ fontWeight: isActive ? 'bold' : 'medium' }} />
+                        </ListItem>
+                    );
+                })}
+            </List>
+        </Drawer>
+    );
+
     return (
-        <Box sx={{ bgcolor: 'background.default', minHeight: '90vh', py: 6 }}>
-            <Container maxWidth="lg">
-                {renderContent()}
-            </Container>
+        <Box sx={{ display: 'flex', bgcolor: 'background.default', minHeight: '90vh' }}>
+            {drawer}
+            <Box component="main" sx={{ flexGrow: 1, p: 6, width: `calc(100% - ${drawerWidth}px)` }}>
+                <Container maxWidth="lg">
+                    {renderContent()}
+                </Container>
+            </Box>
         </Box>
     );
 };

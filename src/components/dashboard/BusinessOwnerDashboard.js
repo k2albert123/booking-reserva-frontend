@@ -13,6 +13,8 @@ import {
     ListItem,
     ListItemText,
     ListItemSecondaryAction,
+    ListItemIcon,
+    Drawer,
     Dialog,
     DialogTitle,
     DialogContent,
@@ -25,6 +27,8 @@ import EventNoteIcon from '@mui/icons-material/EventNote';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AddIcon from '@mui/icons-material/Add';
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
 import { getMyBusinesses, createBusiness } from '../../services/businessService';
 import { getBusinessAppointments, updateAppointmentStatus } from '../../services/appointmentService';
 import { getServicesByBusiness, createService } from '../../services/serviceService';
@@ -320,8 +324,69 @@ const BusinessOwnerDashboard = ({ view }) => {
         }
     };
 
+    const drawerWidth = 280;
+
+    const navItems = [
+        { title: 'Overview', path: '/dashboard', icon: <HomeIcon /> },
+        { title: 'My Businesses', path: '/dashboard?view=businesses', icon: <StorefrontIcon /> },
+        { title: 'My Services', path: '/dashboard?view=services', icon: <DesignServicesIcon /> },
+        { title: 'Customer Bookings', path: '/dashboard?view=appointments', icon: <EventNoteIcon /> },
+        { title: 'Profile', path: '/dashboard?view=profile', icon: <PersonIcon /> }
+    ];
+
+    const drawer = (
+        <Drawer
+            variant="permanent"
+            sx={{
+                width: drawerWidth,
+                flexShrink: 0,
+                [`& .MuiDrawer-paper`]: { 
+                    width: drawerWidth, 
+                    boxSizing: 'border-box',
+                    bgcolor: 'background.paper',
+                    borderRight: '1px solid rgba(255,255,255,0.05)',
+                    pt: 4
+                },
+            }}
+        >
+            <Box sx={{ px: 3, mb: 4 }}>
+                <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'white' }}>Menu</Typography>
+            </Box>
+            <List sx={{ px: 2 }}>
+                {navItems.map((item) => {
+                    const isActive = (item.title === 'Overview' && !view) || 
+                                   (item.path.includes(`view=${view}`));
+                    return (
+                        <ListItem 
+                            button 
+                            key={item.title} 
+                            onClick={() => navigate(item.path)}
+                            sx={{
+                                borderRadius: '12px',
+                                mb: 1,
+                                bgcolor: isActive ? 'rgba(37,99,235,0.1)' : 'transparent',
+                                color: isActive ? '#60a5fa' : 'text.secondary',
+                                '&:hover': {
+                                    bgcolor: isActive ? 'rgba(37,99,235,0.2)' : 'rgba(255,255,255,0.05)',
+                                    color: isActive ? '#60a5fa' : 'white',
+                                }
+                            }}
+                        >
+                            <ListItemIcon sx={{ color: 'inherit', minWidth: 40 }}>
+                                {item.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={item.title} primaryTypographyProps={{ fontWeight: isActive ? 'bold' : 'medium' }} />
+                        </ListItem>
+                    );
+                })}
+            </List>
+        </Drawer>
+    );
+
     return (
-        <Box sx={{ bgcolor: 'background.default', minHeight: '90vh', py: 4 }}>
+        <Box sx={{ display: 'flex', bgcolor: 'background.default', minHeight: '90vh' }}>
+            {drawer}
+            <Box component="main" sx={{ flexGrow: 1, p: 6, width: `calc(100% - ${drawerWidth}px)` }}>
             <Container maxWidth="lg">
                 <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Box>
@@ -355,6 +420,7 @@ const BusinessOwnerDashboard = ({ view }) => {
                     </Box>
                 )}
             </Container>
+            </Box>
 
             {/* Dialogs */}
             <Dialog open={openBusinessDialog} onClose={() => setOpenBusinessDialog(false)}>
