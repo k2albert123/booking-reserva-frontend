@@ -31,7 +31,7 @@ const float = keyframes`
 
 const HeroSection = styled(Box)(({ theme }) => ({
   color: "white",
-  padding: theme.spacing(0, 0, 8),
+  padding: theme.spacing(6, 0, 4), // Reduced top/bottom padding
   position: "relative",
   overflow: "hidden",
 
@@ -101,7 +101,7 @@ const LandingPage = () => {
             {/* Hero Section */}
             <HeroSection>
                 <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
-                    <Grid container spacing={8} alignItems="center">
+                    <Grid container spacing={4} alignItems="center">
                         <Grid item xs={12} md={6}>
                             <Box sx={{ textAlign: isMobile ? 'center' : 'left' }}>
                                 <Typography 
