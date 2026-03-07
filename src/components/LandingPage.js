@@ -31,7 +31,7 @@ const float = keyframes`
 
 const HeroSection = styled(Box)(({ theme }) => ({
   color: "white",
-  padding: theme.spacing(6, 0, 4), // Reduced top/bottom padding
+  padding: theme.spacing(2, 0, 3), // Drastically reduced top/bottom padding
   position: "relative",
   overflow: "hidden",
 
@@ -109,9 +109,9 @@ const LandingPage = () => {
                                     variant={isMobile ? "h3" : "h1"} 
                                     sx={{ 
                                         fontWeight: 800, 
-                                        mb: 3, 
+                                        mb: 1, 
                                         lineHeight: 1.1,
-                                        fontSize: isMobile ? '2.5rem' : '4rem',
+                                        fontSize: isMobile ? '2rem' : '3rem',
                                         background: 'linear-gradient(to right, #93c5fd, #3b82f6)',
                                         WebkitBackgroundClip: 'text',
                                         WebkitTextFillColor: 'transparent',
@@ -125,9 +125,9 @@ const LandingPage = () => {
                                     variant={isMobile ? "h3" : "h1"} 
                                     sx={{ 
                                         fontWeight: 800, 
-                                        mb: 3, 
+                                        mb: 2, 
                                         lineHeight: 1.1,
-                                        fontSize: isMobile ? '2.5rem' : '4rem',
+                                        fontSize: isMobile ? '2rem' : '3rem',
                                         background: 'linear-gradient(to right, #60a5fa, #2563eb)',
                                         WebkitBackgroundClip: 'text',
                                         WebkitTextFillColor: 'transparent',
@@ -141,16 +141,17 @@ const LandingPage = () => {
                                     paragraph 
                                     sx={{ 
                                         color: 'rgba(255,255,255,0.9)', 
-                                        mb: 5, 
+                                        mb: 3, 
                                         fontWeight: 400,
                                         lineHeight: 1.6,
-                                        maxWidth: '500px'
+                                        maxWidth: '500px',
+                                        fontSize: '1rem'
                                     }}
                                 >
                                     Experience the most seamless way to book services and manage your business. All in one place.
                                 </Typography>
                                 
-                                <Stack direction={isMobile ? "column" : "row"} spacing={2} sx={{ mb: 6 }}>
+                                <Stack direction={isMobile ? "column" : "row"} spacing={2} sx={{ mb: 3 }}>
                                     <Button
                                         variant="contained"
                                         size="large"
@@ -229,7 +230,7 @@ const LandingPage = () => {
                                         alt="Landing Illustration"
                                         sx={{ 
                                             width: '100%',
-                                            maxWidth: '700px',
+                                            maxWidth: '650px', // Smaller image to fit viewport
                                             filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.9))'
                                         }}
                                     />
@@ -315,6 +316,12 @@ const LandingPage = () => {
                             type: 'Beauty & Styling', 
                             img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800',
                             desc: 'Experience premium hair care and modern styling in a luxury environment.' 
+                        },
+                        { 
+                            name: 'hair salon', 
+                            type: 'Beauty & Styling', 
+                            img: 'https://i.pinimg.com/736x/ac/59/c4/ac59c4e17db151656d70269e8daf0908.jpg',
+                            desc: 'Rejuvenate your body and mind with our professional massage and skin treatments.' 
                         },
                         { 
                             name: 'Zen Wellness Spa', 
