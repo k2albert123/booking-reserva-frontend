@@ -112,7 +112,9 @@ const LandingPage = () => {
                                         mb: 3, 
                                         lineHeight: 1.1,
                                         fontSize: isMobile ? '2.5rem' : '4rem',
-                                        color: 'white',
+                                        background: 'linear-gradient(to right, #93c5fd, #3b82f6)',
+                                        WebkitBackgroundClip: 'text',
+                                        WebkitTextFillColor: 'transparent',
                                         letterSpacing: -1
                                     }}
                                 >
@@ -126,7 +128,9 @@ const LandingPage = () => {
                                         mb: 3, 
                                         lineHeight: 1.1,
                                         fontSize: isMobile ? '2.5rem' : '4rem',
-                                        color: 'white',
+                                        background: 'linear-gradient(to right, #60a5fa, #2563eb)',
+                                        WebkitBackgroundClip: 'text',
+                                        WebkitTextFillColor: 'transparent',
                                         letterSpacing: -1
                                     }}
                                 >
@@ -242,7 +246,13 @@ const LandingPage = () => {
                     <Typography variant="overline" sx={{ color: '#2563eb', fontWeight: 'bold', letterSpacing: 4 }}>
                         FEATURES
                     </Typography>
-                    <Typography variant="h2" sx={{ color: 'white', fontWeight: 800, mt: 1 }}>
+                    <Typography variant="h2" sx={{ 
+                        background: 'linear-gradient(to right, #ffffff, #93c5fd)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent', 
+                        fontWeight: 800, 
+                        mt: 1 
+                    }}>
                         Built for Efficiency
                     </Typography>
                 </Box>
@@ -287,7 +297,13 @@ const LandingPage = () => {
                     <Typography variant="overline" sx={{ color: '#2563eb', fontWeight: 'bold', letterSpacing: 4 }}>
                         DISCOVER
                     </Typography>
-                    <Typography variant="h2" sx={{ color: 'white', fontWeight: 800, mt: 1 }}>
+                    <Typography variant="h2" sx={{ 
+                        background: 'linear-gradient(to right, #ffffff, #93c5fd)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent', 
+                        fontWeight: 800, 
+                        mt: 1 
+                    }}>
                         Featured Businesses
                     </Typography>
                 </Box>
@@ -380,7 +396,13 @@ const LandingPage = () => {
                 border: '1px solid rgba(37,99,235,0.2)'
             }}>
                 <Container maxWidth="md">
-                    <Typography variant="h3" sx={{ color: 'white', fontWeight: 800, mb: 3 }}>
+                    <Typography variant="h3" sx={{ 
+                        background: 'linear-gradient(to right, #ffffff, #60a5fa)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        fontWeight: 800, 
+                        mb: 3 
+                    }}>
                         Ready to elevate your business?
                     </Typography>
                     <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.7)', mb: 4, fontWeight: 300 }}>
