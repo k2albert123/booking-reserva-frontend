@@ -18,7 +18,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import SecurityIcon from '@mui/icons-material/Security';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import heroImg from '../assets/images/hero-background.png';
+//import heroImg from '../assets/images/hero-background.png';
 import bookingImg from '../assets/images/Blog_1000x417_Online-Appointment-Booking-removebg-preview.png';
 import Navbar from './common/Navbar';
 import Footer from './common/Footer';
@@ -45,7 +45,7 @@ const HeroSection = styled(Box)(({ theme }) => ({
       rgba(13, 71, 161, 0.1) 75%,
       rgba(13, 71, 161, 0) 85%
     ),
-    url(${heroImg})
+    url(https://i.pinimg.com/1200x/88/93/52/8893520406c78ff1ba0016316103ccb7.jpg)
   `,
 
   backgroundSize: "cover",
@@ -74,16 +74,20 @@ const StatusIcon = styled(Box)(({ color }) => ({
 
 const GlassCard = styled(Paper)(({ theme }) => ({
     padding: theme.spacing(4),
-    background: 'rgba(255, 255, 255, 0.95)',
+    background: 'rgba(30, 41, 59, 0.7)',
+    backdropFilter: 'blur(10px)',
     borderRadius: '24px',
-    color: '#333',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+    color: 'white',
+    boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
     transition: 'all 0.3s ease-in-out',
+    border: '1px solid rgba(255,255,255,0.05)',
     '&:hover': {
         transform: 'translateY(-5px)',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+        border: '1px solid rgba(37, 99, 235, 0.3)',
     }
 }));
+
 
 
 const LandingPage = () => {
@@ -92,7 +96,7 @@ const LandingPage = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
     return (
-        <Box sx={{ bgcolor: '#f5f7fa' }}>
+        <Box sx={{ bgcolor: 'background.default', minHeight: '100vh' }}>
             <Navbar />
             {/* Hero Section */}
             <HeroSection>
@@ -235,10 +239,10 @@ const LandingPage = () => {
             {/* Features Section */}
             <Container maxWidth="lg" sx={{ py: 15 }}>
                 <Box sx={{ textAlign: 'center', mb: 10 }}>
-                    <Typography variant="overline" sx={{ color: '#1976d2', fontWeight: 'bold', letterSpacing: 4 }}>
+                    <Typography variant="overline" sx={{ color: '#2563eb', fontWeight: 'bold', letterSpacing: 4 }}>
                         FEATURES
                     </Typography>
-                    <Typography variant="h2" sx={{ color: '#333', fontWeight: 800, mt: 1 }}>
+                    <Typography variant="h2" sx={{ color: 'white', fontWeight: 800, mt: 1 }}>
                         Built for Efficiency
                     </Typography>
                 </Box>
@@ -265,10 +269,10 @@ const LandingPage = () => {
                                 }}>
                                     {feature.icon}
                                 </Box>
-                                <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: '#333' }}>
+                                <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: 'white' }}>
                                     {feature.title}
                                 </Typography>
-                                <Typography sx={{ color: 'text.secondary', fontWeight: 400 }}>
+                                <Typography sx={{ color: 'rgba(255,255,255,0.7)', fontWeight: 400 }}>
                                     {feature.desc}
                                 </Typography>
                             </GlassCard>
@@ -278,12 +282,12 @@ const LandingPage = () => {
             </Container>
 
             {/* Featured Businesses Section */}
-            <Container maxWidth="lg" sx={{ py: 15, bgcolor: 'rgba(255,255,255,0.02)', borderRadius: '40px' }}>
+            <Container maxWidth="lg" sx={{ py: 15, bgcolor: 'background.paper', borderRadius: '40px', border: '1px solid rgba(255,255,255,0.05)' }}>
                 <Box sx={{ textAlign: 'center', mb: 10 }}>
-                    <Typography variant="overline" sx={{ color: '#1976d2', fontWeight: 'bold', letterSpacing: 4 }}>
+                    <Typography variant="overline" sx={{ color: '#2563eb', fontWeight: 'bold', letterSpacing: 4 }}>
                         DISCOVER
                     </Typography>
-                    <Typography variant="h2" sx={{ color: '#333', fontWeight: 800, mt: 1 }}>
+                    <Typography variant="h2" sx={{ color: 'white', fontWeight: 800, mt: 1 }}>
                         Featured Businesses
                     </Typography>
                 </Box>
@@ -299,7 +303,7 @@ const LandingPage = () => {
                         { 
                             name: 'Zen Wellness Spa', 
                             type: 'Health & Spa', 
-                            img: 'https://images.unsplash.com/photo-1544161515-436cefb657f8?auto=format&fit=crop&q=80&w=800',
+                            img: 'https://i.pinimg.com/1200x/ea/cb/d3/eacbd3ac6a3d097d54dd5a6d9c8f47b7.jpg',
                             desc: 'Rejuvenate your body and mind with our professional massage and skin treatments.' 
                         },
                         { 
@@ -313,13 +317,16 @@ const LandingPage = () => {
                             <Card sx={{ 
                                 height: '100%', 
                                 borderRadius: '24px', 
-                                bgcolor: 'white',
-                                color: '#333',
-                                boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
-                                border: '1px solid rgba(0,0,0,0.05)',
+                                bgcolor: 'rgba(255,255,255,0.03)',
+                                color: 'white',
+                                boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+                                border: '1px solid rgba(255,255,255,0.05)',
                                 overflow: 'hidden',
-                                transition: 'transform 0.3s ease',
-                                '&:hover': { transform: 'scale(1.02)' }
+                                transition: 'all 0.3s ease',
+                                '&:hover': { 
+                                    transform: 'scale(1.02)',
+                                    borderColor: '#2563eb'
+                                }
                             }}>
                                 <Box sx={{ height: 240, overflow: 'hidden' }}>
                                     <Box 
@@ -330,13 +337,13 @@ const LandingPage = () => {
                                     />
                                 </Box>
                                 <CardContent sx={{ p: 4 }}>
-                                    <Typography variant="overline" sx={{ color: '#4dabf5', fontWeight: 'bold' }}>
+                                    <Typography variant="overline" sx={{ color: '#60a5fa', fontWeight: 'bold' }}>
                                         {business.type}
                                     </Typography>
                                     <Typography variant="h5" sx={{ fontWeight: 'bold', mt: 1, mb: 2 }}>
                                         {business.name}
                                     </Typography>
-                                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
+                                    <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
                                         {business.desc}
                                     </Typography>
                                     <Button 
@@ -344,9 +351,9 @@ const LandingPage = () => {
                                         fullWidth 
                                         sx={{ 
                                             borderRadius: '50px', 
-                                            borderColor: '#1976d2',
-                                            color: '#1976d2',
-                                            '&:hover': { borderColor: '#1565c0', bgcolor: 'rgba(25, 118, 210, 0.04)' }
+                                            borderColor: '#2563eb',
+                                            color: '#60a5fa',
+                                            '&:hover': { borderColor: '#3b82f6', bgcolor: 'rgba(37, 99, 235, 0.1)' }
                                         }}
                                         onClick={() => navigate('/businesses')}
                                     >
@@ -361,7 +368,7 @@ const LandingPage = () => {
 
             {/* Call to Action */}
             <Box sx={{ 
-                background: 'linear-gradient(135deg, #1a237e 0%, #000051 100%)', 
+                background: 'linear-gradient(135deg, rgba(37,99,235,0.2) 0%, rgba(11,15,25,1) 100%)', 
                 py: 10,
                 textAlign: 'center',
                 position: 'relative',
@@ -369,7 +376,8 @@ const LandingPage = () => {
                 borderRadius: '40px',
                 mb: 10,
                 mt: 10,
-                boxShadow: '0 30px 60px rgba(0,0,0,0.5)'
+                boxShadow: '0 30px 60px rgba(0,0,0,0.5)',
+                border: '1px solid rgba(37,99,235,0.2)'
             }}>
                 <Container maxWidth="md">
                     <Typography variant="h3" sx={{ color: 'white', fontWeight: 800, mb: 3 }}>
@@ -386,11 +394,11 @@ const LandingPage = () => {
                             borderRadius: '50px', 
                             px: 10, 
                             py: 2, 
-                            background: '#fff', 
-                            color: '#000051',
+                            background: '#2563eb', 
+                            color: 'white',
                             fontWeight: 'bold',
                             fontSize: '1.2rem',
-                            '&:hover': { background: '#f5f5f5' }
+                            '&:hover': { background: '#1d4ed8' }
                         }}
                     >
                         Sign Up Now
