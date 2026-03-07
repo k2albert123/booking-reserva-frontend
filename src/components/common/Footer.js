@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Box, Typography, Grid, Link } from '@mui/material';
+import { Container, Box, Typography, Grid, Link, TextField, Button } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -9,7 +9,7 @@ const Footer = () => {
         <Box component="footer" sx={{ bgcolor: '#060a12', color: 'text.secondary', py: 8, borderTop: '1px solid rgba(255,255,255,0.05)' }}>
             <Container maxWidth="lg">
                 <Grid container spacing={4}>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={6} md={3}>
                         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', mb: 2 }}>
                             About Us
                         </Typography>
@@ -18,7 +18,7 @@ const Footer = () => {
                             Connect with local businesses and manage your appointments seamlessly.
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={6} md={3}>
                         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', mb: 2 }}>
                             Quick Links
                         </Typography>
@@ -35,7 +35,7 @@ const Footer = () => {
                             Privacy Policy
                         </Link>
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={6} md={3}>
                         <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', mb: 2 }}>
                             Connect With Us
                         </Typography>
@@ -49,6 +49,34 @@ const Footer = () => {
                             <Link href="#" sx={{ color: 'inherit', transition: 'color 0.2s', '&:hover': { color: '#3b82f6' } }}>
                                 <InstagramIcon />
                             </Link>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Typography variant="h6" sx={{ color: 'white', fontWeight: 'bold', mb: 2 }}>
+                            Newsletter
+                        </Typography>
+                        <Typography variant="body2" sx={{ mb: 2, lineHeight: 1.6 }}>
+                            Subscribe to get the latest updates and exclusive offers.
+                        </Typography>
+                        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                            <TextField 
+                                variant="outlined" 
+                                size="small" 
+                                placeholder="Your email address" 
+                                sx={{ 
+                                    backgroundColor: 'rgba(255,255,255,0.05)', 
+                                    borderRadius: 1,
+                                    input: { color: 'white' },
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': { borderColor: 'rgba(255,255,255,0.1)' },
+                                        '&:hover fieldset': { borderColor: 'rgba(255,255,255,0.3)' },
+                                        '&.Mui-focused fieldset': { borderColor: '#3b82f6' },
+                                    }
+                                }} 
+                            />
+                            <Button variant="contained" sx={{ bgcolor: '#2563eb', '&:hover': { bgcolor: '#1d4ed8' }, textTransform: 'none', fontWeight: 'bold' }}>
+                                Subscribe
+                            </Button>
                         </Box>
                     </Grid>
                 </Grid>
