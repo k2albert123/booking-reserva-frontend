@@ -17,13 +17,58 @@ import { Box, Typography } from '@mui/material';
 
 const theme = createTheme({
     palette: {
+        mode: 'dark',
         primary: {
-            main: '#1976d2',
+            main: '#2563eb', // Vibrant electric blue matching design
         },
         secondary: {
-            main: '#dc004e',
+            main: '#ec4899', // Pink accent
+        },
+        background: {
+            default: '#0b0f19', // Deep dark blue/black background
+            paper: '#1e293b',   // Slate gray for cards and interactive surfaces
         },
     },
+    typography: {
+        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        button: {
+            textTransform: 'none',
+            fontWeight: 600,
+        },
+        h1: { fontWeight: 800 },
+        h2: { fontWeight: 800 },
+        h3: { fontWeight: 700 },
+        h4: { fontWeight: 700 },
+        h5: { fontWeight: 600 },
+        h6: { fontWeight: 600 },
+    },
+    shape: {
+        borderRadius: 12,
+    },
+    components: {
+        MuiButton: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '8px',
+                },
+            },
+        },
+        MuiCard: {
+            styleOverrides: {
+                root: {
+                    borderRadius: '16px',
+                    backgroundImage: 'none', // Remove default generic overlay
+                }
+            }
+        },
+        MuiPaper: {
+            styleOverrides: {
+                root: {
+                    backgroundImage: 'none',
+                }
+            }
+        }
+    }
 });
 
 function App() {
