@@ -337,18 +337,32 @@ const LandingPage = () => {
                         }
                     ].map((business, index) => (
                         <Grid item xs={12} sm={6} md={3} key={index}>
-                            <Card sx={{ 
+                                <Card sx={{ 
                                 height: '100%', 
                                 borderRadius: '24px', 
-                                bgcolor: 'rgba(255,255,255,0.03)',
+                                bgcolor: 'background.paper',
                                 color: 'white',
-                                boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+                                boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
                                 border: '1px solid rgba(255,255,255,0.05)',
                                 overflow: 'hidden',
-                                transition: 'all 0.3s ease',
+                                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                position: 'relative',
+                                '&::before': {
+                                    content: '""',
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    height: '4px',
+                                    background: 'linear-gradient(to right, #3b82f6, #ec4899)',
+                                    opacity: 0,
+                                    transition: 'opacity 0.4s ease',
+                                },
                                 '&:hover': { 
-                                    transform: 'scale(1.02)',
-                                    borderColor: '#2563eb'
+                                    transform: 'translateY(-12px)',
+                                    boxShadow: '0 20px 50px rgba(37, 99, 235, 0.2)',
+                                    borderColor: 'rgba(37, 99, 235, 0.3)',
+                                    '&::before': { opacity: 1 }
                                 }
                             }}>
                                 <Box sx={{ height: 240, overflow: 'hidden' }}>
@@ -374,9 +388,19 @@ const LandingPage = () => {
                                         fullWidth 
                                         sx={{ 
                                             borderRadius: '50px', 
-                                            borderColor: '#2563eb',
+                                            border: 'none',
+                                            background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(37, 99, 235, 0.2) 100%)',
                                             color: '#60a5fa',
-                                            '&:hover': { borderColor: '#3b82f6', bgcolor: 'rgba(37, 99, 235, 0.1)' }
+                                            fontWeight: 'bold',
+                                            py: 1,
+                                            mt: 1,
+                                            transition: 'all 0.3s ease',
+                                            '&:hover': { 
+                                                background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+                                                color: 'white',
+                                                transform: 'translateY(-2px)',
+                                                boxShadow: '0 8px 20px rgba(37, 99, 235, 0.3)'
+                                            }
                                         }}
                                         onClick={() => navigate('/businesses')}
                                     >
