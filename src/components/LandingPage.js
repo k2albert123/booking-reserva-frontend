@@ -38,12 +38,12 @@ const HeroSection = styled(Box)(({ theme }) => ({
   background: `
     linear-gradient(
       to right,
-      rgba(13, 71, 161, 0.95) 0%,
-      rgba(13, 71, 161, 0.9) 35%,
-      rgba(13, 71, 161, 0.7) 50%,
-      rgba(13, 71, 161, 0.4) 65%,
-      rgba(13, 71, 161, 0.1) 75%,
-      rgba(13, 71, 161, 0) 85%
+      rgba(3, 22, 49, 0.95) 0%,
+      rgba(3, 22, 49, 0.9) 35%,
+      rgba(3, 22, 49, 0.7) 50%,
+      rgba(3, 22, 49, 0.4) 65%,
+      rgba(3, 22, 49, 0.1) 75%,
+      rgba(3, 22, 49, 0) 85%
     ),
     url(https://i.pinimg.com/1200x/88/93/52/8893520406c78ff1ba0016316103ccb7.jpg)
   `,
