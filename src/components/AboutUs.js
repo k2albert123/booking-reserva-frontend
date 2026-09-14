@@ -1,7 +1,8 @@
 import React from 'react';
-import { Box, Container, Typography, Grid, Paper, Avatar, Stack } from '@mui/material';
+import { Box, Container, Typography, Grid, Stack } from '@mui/material';
 import Navbar from './common/Navbar';
 import Footer from './common/Footer';
+import { ActionCard } from './common/ReusableCard';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
@@ -86,27 +87,19 @@ const AboutUs = () => {
                     </Grid>
 
                     <Grid item xs={12} md={6}>
-                        <Paper elevation={0} sx={{
-                            p: 4,
-                            borderRadius: '28px',
-                            background: 'linear-gradient(180deg, rgba(15,23,42,0.9), rgba(15,23,42,0.7))',
-                            border: '1px solid rgba(148,163,184,0.15)',
-                            boxShadow: '0 24px 50px rgba(15, 23, 42, 0.5)',
-                        }}>
-                            <Stack spacing={3}>
-                                {values.map((value) => (
-                                    <Box key={value.title} sx={{ display: 'flex', gap: 2.5, alignItems: 'flex-start' }}>
-                                        <Avatar sx={{ bgcolor: value.bg, color: value.color, width: 56, height: 56 }}>
-                                            {value.icon}
-                                        </Avatar>
-                                        <Box>
-                                            <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>{value.title}</Typography>
-                                            <Typography sx={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.7 }}>{value.text}</Typography>
-                                        </Box>
-                                    </Box>
-                                ))}
-                            </Stack>
-                        </Paper>
+                        <Grid container spacing={2}>
+                            {values.map((value) => (
+                                <Grid item xs={12} key={value.title} sx={{ display: 'flex' }}>
+                                    <ActionCard
+                                        icon={value.icon}
+                                        title={value.title}
+                                        description={value.text}
+                                        color={value.color}
+                                        sx={{ minHeight: 160 }}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
                     </Grid>
                 </Grid>
             </Container>

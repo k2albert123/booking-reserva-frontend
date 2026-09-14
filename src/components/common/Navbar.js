@@ -1,18 +1,28 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, useMediaQuery, useTheme } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import {
+    AppBar,
+    Toolbar,
+    Typography,
+    Button,
+    Box,
+    IconButton,
+    Drawer,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemText,
+    Divider
+} from '@mui/material';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 import { logout, getCurrentUser } from '../../services/authService';
-import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const navigate = useNavigate();
     const user = getCurrentUser();
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
     const [menuOpen, setMenuOpen] = React.useState(false);
 
     const navButtonStyle = {
@@ -39,10 +49,12 @@ const Navbar = () => {
         : [
             { label: 'About Us', to: '/about' },
             ...(user.role === 'CLIENT' ? [
+                { label: 'Dashboard', to: '/dashboard' },
                 { label: 'My Appointments', to: '/dashboard?view=appointments' },
                 { label: 'Find Businesses', to: '/dashboard?view=businesses' }
             ] : []),
             ...(user.role === 'BUSINESS_OWNER' ? [
+                { label: 'Dashboard', to: '/dashboard' },
                 { label: 'My Businesses', to: '/dashboard?view=businesses' },
                 { label: 'Staff', to: '/dashboard?view=staff' },
                 { label: 'My Services', to: '/dashboard?view=services' },
@@ -53,6 +65,10 @@ const Navbar = () => {
         ];
 
     const closeMenu = () => setMenuOpen(false);
+    const toggleMenu = (event) => {
+        event.stopPropagation();
+        setMenuOpen((open) => !open);
+    };
     const handleLogout = () => {
         logout();
         closeMenu();
@@ -60,91 +76,125 @@ const Navbar = () => {
     };
 
     return (
-        <AppBar
-            position="sticky"
-            elevation={0}
-            sx={{
-                top: 0,
-                zIndex: 1100,
-                bgcolor: 'rgba(10, 15, 25, 0.72)',
-                backdropFilter: 'blur(12px)',
-                borderBottom: '1px solid rgba(96,165,250,0.18)',
-                boxShadow: '0 8px 30px rgba(15,23,42,0.25)'
-            }}
-        >
-            <Toolbar sx={{ minHeight: '78px', px: { xs: 2, md: 3 } }}>
-                <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', gap: 1.5 }}>
+        <>
+            <AppBar
+                position="sticky"
+                elevation={0}
+                sx={{
+                    top: 0,
+                    zIndex: 1300,
+                    bgcolor: 'rgba(10, 15, 25, 0.92)',
+                    backdropFilter: 'blur(12px)',
+                    borderBottom: '1px solid rgba(96,165,250,0.18)',
+                    boxShadow: '0 8px 30px rgba(15,23,42,0.25)'
+                }}
+            >
+                <Toolbar sx={{ minHeight: { xs: '64px', md: '78px' }, px: { xs: 1.5, md: 3 }, gap: 1 }}>
                     <IconButton
                         edge="start"
                         aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-                        onClick={() => setMenuOpen(!menuOpen)}
-                        sx={{ color: '#dbeafe', bgcolor: 'rgba(96,165,250,0.08)', borderRadius: '12px', display: { xs: 'inline-flex', md: 'none' } }}
+                        onClick={toggleMenu}
+                        sx={{
+                            color: '#dbeafe',
+                            bgcolor: 'rgba(96,165,250,0.12)',
+                            borderRadius: '12px',
+                            display: { xs: 'inline-flex', md: 'none' },
+                            flexShrink: 0
+                        }}
                     >
                         {menuOpen ? <CloseIcon /> : <MenuIcon />}
                     </IconButton>
-                    <Box component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none', color: 'inherit', gap: 1 }}>
-                        <Box sx={{ width: 32, height: 32, borderRadius: '10px', background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: 'white', fontSize: '0.9rem' }}>
+
+                    <Box
+                        component={RouterLink}
+                        to="/"
+                        onClick={closeMenu}
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            textDecoration: 'none',
+                            color: 'inherit',
+                            gap: 1,
+                            minWidth: 0,
+                            flexGrow: 1
+                        }}
+                    >
+                        <Box sx={{ width: 32, height: 32, flexShrink: 0, borderRadius: '10px', background: 'linear-gradient(135deg, #60a5fa 0%, #2563eb 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: 'white', fontSize: '0.9rem' }}>
                             R
                         </Box>
-                        <Typography variant="h6" sx={{ fontWeight: 800, color: '#f8fbff', letterSpacing: '-0.04em' }}>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            sx={{
+                                fontWeight: 800,
+                                color: '#f8fbff',
+                                letterSpacing: '-0.04em',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis'
+                            }}
+                        >
                             BookingReserva
                         </Typography>
                     </Box>
-                </Box>
 
-                <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1.25, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-                    {!user ? (
-                        <>
-                            <Button sx={navButtonStyle} component={RouterLink} to="/login">Login</Button>
-                            <Button sx={navButtonStyle} component={RouterLink} to="/about">About Us</Button>
-                            <Button sx={navButtonStyle} component={RouterLink} to="/businesses">Businesses</Button>
-                            <Button sx={navButtonStyle} component={RouterLink} to="/services">Services</Button>
-                        </>
-                    ) : (
-                        <>
-                            <Button sx={navButtonStyle} component={RouterLink} to="/about">About Us</Button>
-
-                            {user.role === 'CLIENT' && (
-                                <>
-                                    <Button sx={navButtonStyle} component={RouterLink} to="/dashboard?view=appointments">My Appointments</Button>
-                                    <Button sx={navButtonStyle} component={RouterLink} to="/dashboard?view=businesses">Find Businesses</Button>
-                                </>
-                            )}
-
-                            {user.role === 'BUSINESS_OWNER' && (
-                                <>
-                                    <Button sx={navButtonStyle} component={RouterLink} to="/dashboard?view=businesses">My Businesses</Button>
-                                    <Button sx={navButtonStyle} component={RouterLink} to="/dashboard?view=staff">Staff</Button>
-                                    <Button sx={navButtonStyle} component={RouterLink} to="/dashboard?view=services">My Services</Button>
-                                    <Button sx={navButtonStyle} component={RouterLink} to="/dashboard?view=appointments">Customer Bookings</Button>
-                                </>
-                            )}
-
-                            {user.role === 'ADMIN' && (
-                                <Button sx={navButtonStyle} component={RouterLink} to="/dashboard">Admin Dashboard</Button>
-                            )}
-
-                            <Button sx={{ ...navButtonStyle, border: '1px solid rgba(96,165,250,0.2)' }} component={RouterLink} to="/dashboard?view=profile" startIcon={<PersonIcon />}>
-                                Profile
+                    <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', gap: 1, flexWrap: 'nowrap' }}>
+                        {links.filter((link) => link.label !== 'Profile').map((link) => (
+                            <Button key={`${link.to}-${link.label}`} sx={navButtonStyle} component={RouterLink} to={link.to}>
+                                {link.label}
                             </Button>
-                            <Button sx={{ ...navButtonStyle, color: '#fca5a5' }} onClick={handleLogout} startIcon={<LogoutIcon />}>
-                                Logout
-                            </Button>
-                        </>
-                    )}
-                </Box>
-            </Toolbar>
+                        ))}
+                        {user && (
+                            <>
+                                <Button sx={{ ...navButtonStyle, border: '1px solid rgba(96,165,250,0.2)' }} component={RouterLink} to="/dashboard?view=profile" startIcon={<PersonIcon />}>
+                                    Profile
+                                </Button>
+                                <Button sx={{ ...navButtonStyle, color: '#fca5a5' }} onClick={handleLogout} startIcon={<LogoutIcon />}>
+                                    Logout
+                                </Button>
+                            </>
+                        )}
+                    </Box>
+                </Toolbar>
+            </AppBar>
+
             <Drawer
-                anchor="top"
-                open={isMobile && menuOpen}
+                anchor="left"
+                open={menuOpen}
                 onClose={closeMenu}
-                PaperProps={{ sx: { mt: '78px', bgcolor: '#0f172a', borderBottom: '1px solid rgba(96,165,250,0.2)' } }}
+                ModalProps={{ keepMounted: true }}
+                sx={{ display: { xs: 'block', md: 'none' } }}
+                PaperProps={{
+                    sx: {
+                        width: 'min(320px, 86vw)',
+                        bgcolor: '#0f172a',
+                        borderRight: '1px solid rgba(96,165,250,0.2)',
+                        pt: 1
+                    }
+                }}
             >
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1.5 }}>
+                    <Typography sx={{ fontWeight: 800, color: '#f8fbff' }}>Menu</Typography>
+                    <IconButton onClick={closeMenu} sx={{ color: '#dbeafe' }} aria-label="Close menu">
+                        <CloseIcon />
+                    </IconButton>
+                </Box>
+                <Divider sx={{ borderColor: 'rgba(148,163,184,0.16)' }} />
                 <List sx={{ p: 1 }}>
                     {links.map((link) => (
-                        <ListItem key={link.to} disablePadding>
-                            <ListItemButton component={RouterLink} to={link.to} onClick={closeMenu} sx={{ borderRadius: 2 }}>
-                                <ListItemText primary={link.label} />
+                        <ListItem key={`${link.to}-${link.label}`} disablePadding>
+                            <ListItemButton
+                                component={RouterLink}
+                                to={link.to}
+                                onClick={closeMenu}
+                                sx={{ borderRadius: 2, minWidth: 0 }}
+                            >
+                                <ListItemText
+                                    primary={link.label}
+                                    primaryTypographyProps={{
+                                        noWrap: true,
+                                        sx: { overflow: 'hidden', textOverflow: 'ellipsis' }
+                                    }}
+                                />
                             </ListItemButton>
                         </ListItem>
                     ))}
@@ -157,7 +207,7 @@ const Navbar = () => {
                     )}
                 </List>
             </Drawer>
-        </AppBar>
+        </>
     );
 };
 
