@@ -15,7 +15,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import StarIcon from '@mui/icons-material/Star';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ReusableCard, { EllipsisText } from './common/ReusableCard';
+import ReusableCard, { EllipsisText, MediaCard } from './common/ReusableCard';
 
 // Animations
 const float = keyframes`
@@ -239,7 +239,7 @@ const LandingPage = () => {
                         <Grid item xs={12} sm={6} key={i} sx={{ display: 'flex' }}>
                             <PremiumCard sx={{ width: '100%' }}>
                                 <IconWrapper color={feature.color}>{feature.icon}</IconWrapper>
-                                <Typography sx={{ fontWeight: 800, mb: 1.5, fontSize: { xs: '1.15rem', md: '1.35rem' } }}>{feature.title}</Typography>
+                                <EllipsisText lines={1} component="h3" sx={{ fontWeight: 800, mb: 1.5, fontSize: { xs: '1.15rem', md: '1.35rem' } }}>{feature.title}</EllipsisText>
                                 <EllipsisText lines={4} sx={{ color: '#94a3b8', lineHeight: 1.7, flexGrow: 1, fontSize: { xs: '0.9rem', md: '0.97rem' } }}>{feature.desc}</EllipsisText>
                             </PremiumCard>
                         </Grid>
@@ -277,8 +277,8 @@ const LandingPage = () => {
                                         {item.step}
                                     </Box>
                                 </Box>
-                                <Typography sx={{ fontWeight: 800, mb: 1, fontSize: { xs: '1.05rem', md: '1.2rem' } }}>{item.title}</Typography>
-                                <Typography sx={{ color: '#94a3b8', fontSize: { xs: '0.88rem', md: '0.95rem' }, lineHeight: 1.6 }}>{item.desc}</Typography>
+                                <EllipsisText lines={1} component="h3" sx={{ fontWeight: 800, mb: 1, fontSize: { xs: '1.05rem', md: '1.2rem' } }}>{item.title}</EllipsisText>
+                                <EllipsisText lines={3} sx={{ color: '#94a3b8', fontSize: { xs: '0.88rem', md: '0.95rem' }, lineHeight: 1.6 }}>{item.desc}</EllipsisText>
                             </Grid>
                         ))}
                     </Grid>
@@ -304,21 +304,25 @@ const LandingPage = () => {
                 <Grid container spacing={3} alignItems="stretch">
                     {FEATURED_BUSINESSES.map((business, index) => (
                         <Grid item xs={12} sm={4} key={index} sx={{ display: 'flex' }}>
-                            <PremiumCard sx={{ p: 0, width: '100%', border: '1px solid rgba(255,255,255,0.07)' }}>
-                                <Box sx={{ height: 220, position: 'relative', overflow: 'hidden', flexShrink: 0 }}>
-                                    <Box component="img" src={business.img} alt={business.name} sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                    <Box sx={{ position: 'absolute', top: 12, left: 12, px: 1.5, py: 0.5, borderRadius: '6px', background: 'rgba(15,23,42,0.88)', backdropFilter: 'blur(4px)', color: '#93c5fd', fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', border: '1px solid rgba(255,255,255,0.1)' }}>
+                            <MediaCard
+                                image={business.img}
+                                imageAlt={business.name}
+                                imageHeight={200}
+                                title={business.name}
+                                description={business.desc}
+                                descriptionLines={3}
+                                badge={
+                                    <Box sx={{ px: 1.5, py: 0.5, borderRadius: '6px', background: 'rgba(15,23,42,0.88)', color: '#93c5fd', fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>
                                         {business.type}
                                     </Box>
-                                </Box>
-                                <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                                    <EllipsisText lines={1} sx={{ fontWeight: 800, mb: 1, fontSize: '1.1rem' }}>{business.name}</EllipsisText>
-                                    <EllipsisText lines={3} sx={{ color: '#94a3b8', mb: 3, flexGrow: 1, fontSize: '0.9rem', lineHeight: 1.6 }}>{business.desc}</EllipsisText>
+                                }
+                                sx={{ width: '100%' }}
+                                actions={
                                     <Button variant="outlined" fullWidth sx={{ borderRadius: '10px', py: 1.1, color: 'white', borderColor: 'rgba(255,255,255,0.18)', fontSize: '0.9rem', textTransform: 'none', '&:hover': { borderColor: '#60a5fa', bgcolor: 'rgba(96, 165, 250, 0.1)' } }} onClick={() => navigate('/businesses')}>
                                         Book Now
                                     </Button>
-                                </Box>
-                            </PremiumCard>
+                                }
+                            />
                         </Grid>
                     ))}
                 </Grid>
@@ -344,11 +348,11 @@ const LandingPage = () => {
                                     <EllipsisText lines={4} sx={{ color: '#e2e8f0', fontSize: { xs: '0.92rem', md: '0.98rem' }, fontStyle: 'italic', mb: 4, flexGrow: 1, lineHeight: 1.7 }}>
                                         "{testimonial.quote}"
                                     </EllipsisText>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                                        <Avatar sx={{ bgcolor: '#2563eb', fontWeight: 'bold', width: 38, height: 38, fontSize: '0.9rem' }}>{testimonial.name.charAt(0)}</Avatar>
-                                        <Box>
-                                            <Typography sx={{ fontWeight: 700, color: 'white', fontSize: '0.95rem' }}>{testimonial.name}</Typography>
-                                            <Typography variant="body2" sx={{ color: '#60a5fa', fontSize: '0.8rem' }}>{testimonial.role}</Typography>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, minWidth: 0 }}>
+                                        <Avatar sx={{ bgcolor: '#2563eb', fontWeight: 'bold', width: 38, height: 38, fontSize: '0.9rem', flexShrink: 0 }}>{testimonial.name.charAt(0)}</Avatar>
+                                        <Box sx={{ minWidth: 0 }}>
+                                            <EllipsisText lines={1} sx={{ fontWeight: 700, color: 'white', fontSize: '0.95rem' }}>{testimonial.name}</EllipsisText>
+                                            <EllipsisText lines={1} sx={{ color: '#60a5fa', fontSize: '0.8rem' }}>{testimonial.role}</EllipsisText>
                                         </Box>
                                     </Box>
                                 </PremiumCard>
