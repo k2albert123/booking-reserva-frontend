@@ -19,3 +19,13 @@ export const createBusiness = async (businessData) => {
     const response = await api.post('/businesses', businessData);
     return response.data;
 };
+
+export const getWorkingHours = async (businessId) => {
+    const response = await api.get(`/businesses/${businessId}/working-hours`);
+    return response.data;
+};
+
+export const setWorkingHours = async (businessId, hours) => {
+    const response = await api.put(`/businesses/${businessId}/working-hours`, { hours });
+    return response.data;
+};
