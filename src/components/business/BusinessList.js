@@ -109,9 +109,9 @@ const BusinessList = () => {
                 </Stack>
             </Box>
 
-            <Grid container spacing={3}>
+            <Grid container spacing={3} alignItems="stretch">
                 {filteredBusinesses.map((business) => (
-                    <Grid item key={business.id} xs={12} sm={6} md={4}>
+                    <Grid item key={business.id} xs={12} sm={6} md={4} sx={{ display: 'flex' }}>
                         <BusinessCard business={business} onView={() => navigate(`/businesses/${business.id}`)} />
                     </Grid>
                 ))}

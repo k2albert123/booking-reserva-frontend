@@ -24,7 +24,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import { getBusinessById, getWorkingHours } from '../../services/businessService';
 import { getServicesByBusiness } from '../../services/serviceService';
 import { getStaffByBusiness } from '../../services/staffService';
-import ReusableCard, { EllipsisText } from '../common/ReusableCard';
+import ReusableCard, { EllipsisText, MediaCard } from '../common/ReusableCard';
 
 const BusinessDetails = () => {
     const { id } = useParams();
@@ -82,12 +82,12 @@ const BusinessDetails = () => {
                         </Avatar>
                     </Grid>
                     <Grid item xs={12} md={8}>
-                        <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
-                            {business.name}
+                        <Typography variant="h3" sx={{ fontWeight: 'bold' }}>
+                            <EllipsisText lines={2} component="span" sx={{ fontSize: 'inherit', fontWeight: 'inherit' }}>{business.name}</EllipsisText>
                         </Typography>
-                        <Typography variant="h6" color="text.secondary" paragraph>
+                        <EllipsisText lines={4} sx={{ color: 'text.secondary', mb: 2, fontSize: '1.05rem' }}>
                             {business.description}
-                        </Typography>
+                        </EllipsisText>
                         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
                             {business.address && (
                                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -123,14 +123,14 @@ const BusinessDetails = () => {
             {tabValue === 0 && (
                 <Grid container spacing={3}>
                     {services.map((service) => (
-                        <Grid item key={service.id} xs={12} sm={6}>
+                        <Grid item key={service.id} xs={12} sm={6} sx={{ display: 'flex' }}>
                             <ReusableCard>
-                                <CardContent sx={{ flexGrow: 1 }}>
-                                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
-                                        <EllipsisText lines={1} variant="h6" sx={{ fontWeight: 'bold', minWidth: 0 }}>{service.name}</EllipsisText>
-                                        <Typography variant="h6" color="primary">${service.price}</Typography>
+                                <CardContent sx={{ flexGrow: 1, minWidth: 0 }}>
+                                    <Box display="flex" justifyContent="space-between" alignItems="center" mb={1} gap={1} minWidth={0}>
+                                        <EllipsisText lines={1} sx={{ fontWeight: 'bold', fontSize: '1.05rem', minWidth: 0 }}>{service.name}</EllipsisText>
+                                        <Typography variant="h6" color="primary" sx={{ flexShrink: 0 }}>${service.price}</Typography>
                                     </Box>
-                                    <EllipsisText lines={3} variant="body2" color="text.secondary" sx={{ mb: 2, minHeight: '4.5em' }}>
+                                    <EllipsisText lines={3} sx={{ color: 'text.secondary', mb: 2, minHeight: '4.5em' }}>
                                         {service.description}
                                     </EllipsisText>
                                     <Box display="flex" alignItems="center">
@@ -163,18 +163,16 @@ const BusinessDetails = () => {
             {tabValue === 1 && (
                 <Grid container spacing={2}>
                     {staff.map((member) => (
-                        <Grid item xs={12} sm={6} md={4} key={member.id}>
-                            <ReusableCard>
-                                <CardContent>
-                                    <EllipsisText lines={1} variant="h6">{member.name}</EllipsisText>
-                                    <EllipsisText lines={1} variant="body2" color="text.secondary">
-                                        {[member.title, member.specialty].filter(Boolean).join(' · ')}
-                                    </EllipsisText>
-                                    {member.bio && (
-                                        <EllipsisText lines={4} variant="body2" sx={{ mt: 1 }}>{member.bio}</EllipsisText>
-                                    )}
-                                </CardContent>
-                            </ReusableCard>
+                        <Grid item xs={12} sm={6} md={4} key={member.id} sx={{ display: 'flex' }}>
+                            <MediaCard
+                                image={member.imageUrl}
+                                imageAlt={member.name}
+                                imageHeight={180}
+                                title={member.name}
+                                subtitle={[member.title, member.specialty].filter(Boolean).join(' · ')}
+                                description={member.bio}
+                                descriptionLines={4}
+                            />
                         </Grid>
                     ))}
                     {staff.length === 0 && (
