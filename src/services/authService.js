@@ -1,22 +1,14 @@
 import api from '../utils/api';
 
 export const register = async (userData) => {
-    try {
-        // Convert role string to enum format
-        const role = userData.role.toUpperCase();
-        const registerData = {
-            ...userData,
-            role: role
-        };
-        
-        const response = await api.post('/auth/register', registerData);
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data));
-        return response.data;
-    } catch (error) {
-        console.error('Registration error:', error);
-        throw error;
-    }
+    const role = userData.role.toUpperCase();
+    const registerData = {
+        ...userData,
+        role: role
+    };
+
+    const response = await api.post('/auth/register', registerData);
+    return response.data;
 };
 
 export const login = async (credentials) => {
@@ -26,8 +18,25 @@ export const login = async (credentials) => {
     return response.data;
 };
 
+export const verifyOtp = async (email, code) => {
+    const response = await api.post('/auth/verify-otp', { email, code });
+    localStorage.setItem('token', response.data.token);
+    localStorage.setItem('user', JSON.stringify(response.data));
+    return response.data;
+};
+
+export const resendOtp = async (email) => {
+    const response = await api.post('/auth/resend-otp', { email });
+    return response.data;
+};
+
 export const forgotPassword = async (email) => {
     const response = await api.post('/auth/forgot-password', { email });
+    return response.data;
+};
+
+export const resetPassword = async (token, newPassword) => {
+    const response = await api.post('/auth/reset-password', { token, newPassword });
     return response.data;
 };
 
