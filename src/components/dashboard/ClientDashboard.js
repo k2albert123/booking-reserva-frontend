@@ -22,7 +22,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
 import { getMyAppointments } from '../../services/appointmentService';
 import BusinessList from '../business/BusinessList';
-
+import ReusableCard, { ActionCard, EllipsisText, MediaCard } from '../common/ReusableCard';
 import ProfileView from './ProfileView';
 
 const ClientDashboard = ({ view }) => {
@@ -92,62 +92,29 @@ const ClientDashboard = ({ view }) => {
                 <Grid container spacing={3} sx={{ mb: 6 }}>
                     {stats.map((stat, i) => (
                         <Grid item xs={12} sm={4} key={i}>
-                            <Paper elevation={0} sx={{ p: 3, borderRadius: '22px', border: '1px solid rgba(148,163,184,0.14)', bgcolor: 'rgba(15, 23, 42, 0.72)', boxShadow: '0 12px 30px rgba(15,23,42,0.18)' }}>
-                                <Typography variant="body2" color="text.secondary" sx={{ fontWeight: '600', mb: 1 }}>{stat.label}</Typography>
+                            <ReusableCard sx={{ p: 3 }}>
+                                <EllipsisText lines={1} sx={{ fontWeight: 600, color: 'text.secondary', mb: 1 }}>{stat.label}</EllipsisText>
                                 <Typography variant="h4" sx={{ fontWeight: '800', color: stat.color }}>{stat.value}</Typography>
-                            </Paper>
+                            </ReusableCard>
                         </Grid>
                     ))}
                 </Grid>
 
                 <Grid container spacing={3}>
                     {cards.map((card, index) => (
-                        <Grid item xs={12} md={4} key={index}>
-                            <Paper
-                                elevation={0}
-                                sx={{
-                                    p: 4,
-                                    borderRadius: '24px',
-                                    border: '1px solid rgba(148,163,184,0.14)',
-                                    bgcolor: 'rgba(15, 23, 42, 0.72)',
-                                    height: '100%',
-                                    minHeight: 260,
-                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    boxShadow: '0 12px 30px rgba(15,23,42,0.18)',
-                                    '&:hover': {
-                                        borderColor: `${card.color}99`,
-                                        transform: 'translateY(-8px)',
-                                        boxShadow: `0 20px 35px ${card.color}22`
-                                    }
-                                }}
+                        <Grid item xs={12} md={4} key={index} sx={{ display: 'flex' }}>
+                            <ActionCard
+                                icon={card.icon}
+                                title={card.title}
+                                description={card.desc}
+                                color={card.color}
                                 onClick={() => navigate(card.path)}
-                            >
-                                <Box sx={{
-                                    width: 56,
-                                    height: 56,
-                                    borderRadius: '16px',
-                                    bgcolor: `${card.color}18`,
-                                    color: card.color,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    mb: 3
-                                }}>
-                                    {card.icon}
-                                </Box>
-                                <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1.5, color: 'text.primary' }}>
-                                    {card.title}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6, mb: 3 }}>
-                                    {card.desc}
-                                </Typography>
-                                <Box sx={{ mt: 'auto', display: 'flex', alignItems: 'center', color: card.color, fontWeight: '700', fontSize: '0.875rem' }}>
-                                    View details <ChevronRightIcon sx={{ ml: 0.5, fontSize: 18 }} />
-                                </Box>
-                            </Paper>
+                                footer={
+                                    <Box sx={{ display: 'flex', alignItems: 'center', color: card.color, fontWeight: 700, fontSize: '0.875rem' }}>
+                                        View details <ChevronRightIcon sx={{ ml: 0.5, fontSize: 18 }} />
+                                    </Box>
+                                }
+                            />
                         </Grid>
                     ))}
                 </Grid>
@@ -189,39 +156,30 @@ const ClientDashboard = ({ view }) => {
                             <Button variant="contained" onClick={() => navigate('/dashboard?view=businesses')} sx={{ borderRadius: '12px', px: 4 }}>Book Now</Button>
                         </Box>
                     ) : (
-                        <List sx={{ p: 0 }}>
+                        <Grid container spacing={2}>
                             {appointments.map((apt) => (
-                                <ListItem 
-                                    key={apt.id} 
-                                    sx={{ 
-                                        mb: 2, 
-                                        borderRadius: '16px', 
-                                        border: '1px solid rgba(255,255,255,0.05)',
-                                        '&:hover': { bgcolor: 'rgba(255,255,255,0.02)' }
-                                    }}
-                                >
-                                    <Avatar sx={{ bgcolor: apt.status === 'CONFIRMED' ? 'rgba(49, 130, 206, 0.2)' : 'rgba(229, 62, 62, 0.2)', color: apt.status === 'CONFIRMED' ? '#63b3ed' : '#fc8181', mr: 2 }}>
-                                        <CalendarMonthIcon />
-                                    </Avatar>
-                                    <ListItemText 
-                                        primary={apt.service?.name || "Service"} 
-                                        secondary={`${apt.business?.name} • ${new Date(apt.startTime).toLocaleString()}`}
-                                        primaryTypographyProps={{ fontWeight: '700' }}
+                                <Grid item xs={12} md={6} key={apt.id} sx={{ display: 'flex' }}>
+                                    <MediaCard
+                                        image={apt.business?.imageUrl}
+                                        imageAlt={apt.business?.name}
+                                        imageHeight={120}
+                                        title={apt.service?.name || 'Service'}
+                                        subtitle={apt.business?.name}
+                                        description={`${new Date(apt.startTime).toLocaleString()} • ${apt.status}${apt.staff ? ` • ${apt.staff.name}` : ''}`}
+                                        descriptionLines={2}
+                                        actions={
+                                            <Box sx={{
+                                                px: 2, py: 0.5, borderRadius: '12px', fontSize: '0.75rem', fontWeight: 800,
+                                                bgcolor: apt.status === 'CONFIRMED' ? 'rgba(56, 161, 105, 0.2)' : apt.status === 'PENDING' ? 'rgba(221, 107, 32, 0.2)' : 'rgba(229, 62, 62, 0.2)',
+                                                color: apt.status === 'CONFIRMED' ? '#68d391' : apt.status === 'PENDING' ? '#f6ad55' : '#fc8181'
+                                            }}>
+                                                {apt.status}
+                                            </Box>
+                                        }
                                     />
-                                    <Box sx={{ 
-                                        px: 2, 
-                                        py: 0.5, 
-                                        borderRadius: '12px', 
-                                        fontSize: '0.75rem', 
-                                        fontWeight: '800',
-                                        bgcolor: apt.status === 'CONFIRMED' ? 'rgba(56, 161, 105, 0.2)' : apt.status === 'PENDING' ? 'rgba(221, 107, 32, 0.2)' : 'rgba(229, 62, 62, 0.2)',
-                                        color: apt.status === 'CONFIRMED' ? '#68d391' : apt.status === 'PENDING' ? '#f6ad55' : '#fc8181'
-                                    }}>
-                                        {apt.status}
-                                    </Box>
-                                </ListItem>
+                                </Grid>
                             ))}
-                        </List>
+                        </Grid>
                     )}
                 </Paper>
             );
@@ -252,6 +210,7 @@ const ClientDashboard = ({ view }) => {
         <Drawer
             variant="permanent"
             sx={{
+                display: { xs: 'none', md: 'block' },
                 width: drawerWidth,
                 flexShrink: 0,
                 [`& .MuiDrawer-paper`]: { 
@@ -300,7 +259,7 @@ const ClientDashboard = ({ view }) => {
     return (
         <Box sx={{ display: 'flex', bgcolor: 'background.default', minHeight: '90vh' }}>
             {drawer}
-            <Box component="main" sx={{ flexGrow: 1, p: 6, width: `calc(100% - ${drawerWidth}px)` }}>
+            <Box component="main" sx={{ flexGrow: 1, p: { xs: 2, md: 6 }, width: { xs: '100%', md: `calc(100% - ${drawerWidth}px)` }, minWidth: 0 }}>
                 <Container maxWidth="lg">
                     {renderContent()}
                 </Container>

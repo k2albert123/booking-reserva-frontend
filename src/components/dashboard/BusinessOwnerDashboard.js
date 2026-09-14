@@ -37,6 +37,7 @@ import { getStaffByBusiness, addStaff, deleteStaff } from '../../services/staffS
 import { toast } from 'react-toastify';
 import ProfileView from './ProfileView';
 import ImageUpload from '../common/ImageUpload';
+import ReusableCard, { ActionCard, EllipsisText, MediaCard } from '../common/ReusableCard';
 
 const BusinessOwnerDashboard = ({ view }) => {
     const navigate = useNavigate();
@@ -184,45 +185,22 @@ const BusinessOwnerDashboard = ({ view }) => {
             <Box>
                 <Grid container spacing={3} sx={{ mb: 4 }}>
                     <Grid item xs={12} sm={4}>
-                        <Paper elevation={0} sx={{ p: 3, borderRadius: '22px', border: '1px solid rgba(148,163,184,0.14)', bgcolor: 'rgba(15, 23, 42, 0.72)', boxShadow: '0 12px 30px rgba(15,23,42,0.18)' }}>
-                            <Typography variant="body2" color="text.secondary">Total Businesses</Typography>
+                        <ReusableCard sx={{ p: 3 }}>
+                            <EllipsisText lines={1} sx={{ color: 'text.secondary' }}>Total Businesses</EllipsisText>
                             <Typography variant="h4" sx={{ fontWeight: 'bold', mt: 1, color: '#60a5fa' }}>{data.businesses.length}</Typography>
-                        </Paper>
+                        </ReusableCard>
                     </Grid>
                 </Grid>
                 <Grid container spacing={3}>
                     {sections.map((section) => (
-                        <Grid item xs={12} md={6} key={section.title}>
-                            <Paper
-                                elevation={0}
-                                sx={{
-                                    p: 4,
-                                    borderRadius: '24px',
-                                    border: '1px solid rgba(148,163,184,0.14)',
-                                    bgcolor: 'rgba(15, 23, 42, 0.72)',
-                                    height: '100%',
-                                    minHeight: 220,
-                                    cursor: 'pointer',
-                                    boxShadow: '0 12px 30px rgba(15,23,42,0.18)',
-                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                    '&:hover': {
-                                        borderColor: `${section.color}99`,
-                                        transform: 'translateY(-6px)',
-                                        boxShadow: `0 20px 35px ${section.color}22`
-                                    }
-                                }}
+                        <Grid item xs={12} md={6} key={section.title} sx={{ display: 'flex' }}>
+                            <ActionCard
+                                icon={section.icon}
+                                title={section.title}
+                                description={section.desc}
+                                color={section.color}
                                 onClick={() => navigate(section.path)}
-                            >
-                                <Box sx={{
-                                    width: 56, height: 56, borderRadius: '16px',
-                                    bgcolor: `${section.color}18`, color: section.color,
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 3
-                                }}>
-                                    {section.icon}
-                                </Box>
-                                <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 1 }}>{section.title}</Typography>
-                                <Typography variant="body2" color="text.secondary">{section.desc}</Typography>
-                            </Paper>
+                            />
                         </Grid>
                     ))}
                 </Grid>
@@ -239,18 +217,28 @@ const BusinessOwnerDashboard = ({ view }) => {
             {data.businesses.length === 0 ? (
                 <Typography color="text.secondary" align="center" sx={{ py: 4 }}>No businesses found.</Typography>
             ) : (
-                <List>
+                <Grid container spacing={2}>
                     {data.businesses.map((biz) => (
-                        <ListItem key={biz.id} divider>
-                            <ListItemText primary={biz.name} secondary={biz.description} />
-                            <ListItemSecondaryAction>
-                                <Button size="small" onClick={() => navigate(`/dashboard?view=staff&businessId=${biz.id}`)} sx={{ mr: 1 }}>Staff</Button>
-                                <Button size="small" onClick={() => navigate(`/dashboard?view=services&businessId=${biz.id}`)} sx={{ mr: 1 }}>Services</Button>
-                                <Button size="small" onClick={() => navigate(`/dashboard?view=appointments&businessId=${biz.id}`)}>Appointments</Button>
-                            </ListItemSecondaryAction>
-                        </ListItem>
+                        <Grid item xs={12} sm={6} md={4} key={biz.id} sx={{ display: 'flex' }}>
+                            <MediaCard
+                                image={biz.imageUrl}
+                                imageAlt={biz.name}
+                                imageHeight={160}
+                                title={biz.name}
+                                subtitle={biz.address}
+                                description={biz.description}
+                                descriptionLines={2}
+                                actions={
+                                    <>
+                                        <Button size="small" onClick={() => navigate(`/dashboard?view=staff&businessId=${biz.id}`)}>Staff</Button>
+                                        <Button size="small" onClick={() => navigate(`/dashboard?view=services&businessId=${biz.id}`)}>Services</Button>
+                                        <Button size="small" onClick={() => navigate(`/dashboard?view=appointments&businessId=${biz.id}`)}>Bookings</Button>
+                                    </>
+                                }
+                            />
+                        </Grid>
                     ))}
-                </List>
+                </Grid>
             )}
         </Paper>
     );
@@ -275,19 +263,24 @@ const BusinessOwnerDashboard = ({ view }) => {
             ) : data.staff.length === 0 ? (
                 <Typography color="text.secondary" align="center" sx={{ py: 4 }}>No staff members yet. Add doctors or barbers for this business.</Typography>
             ) : (
-                <List>
+                <Grid container spacing={2}>
                     {data.staff.map((member) => (
-                        <ListItem key={member.id} divider>
-                            <ListItemText
-                                primary={member.name}
-                                secondary={[member.title, member.specialty].filter(Boolean).join(' · ') || member.bio}
+                        <Grid item xs={12} sm={6} md={4} key={member.id} sx={{ display: 'flex' }}>
+                            <MediaCard
+                                image={member.imageUrl}
+                                imageAlt={member.name}
+                                imageHeight={160}
+                                title={member.name}
+                                subtitle={[member.title, member.specialty].filter(Boolean).join(' · ')}
+                                description={member.bio}
+                                descriptionLines={3}
+                                actions={
+                                    <Button size="small" color="error" onClick={() => handleDeleteStaff(member.id)}>Remove</Button>
+                                }
                             />
-                            <ListItemSecondaryAction>
-                                <Button size="small" color="error" onClick={() => handleDeleteStaff(member.id)}>Remove</Button>
-                            </ListItemSecondaryAction>
-                        </ListItem>
+                        </Grid>
                     ))}
-                </List>
+                </Grid>
             )}
         </Paper>
     );
@@ -306,28 +299,28 @@ const BusinessOwnerDashboard = ({ view }) => {
             ) : data.appointments.length === 0 ? (
                 <Typography color="text.secondary" align="center" sx={{ py: 4 }}>No appointments found for this business.</Typography>
             ) : (
-                <List>
+                <Grid container spacing={2}>
                     {data.appointments.map((apt) => (
-                        <ListItem key={apt.id} divider>
-                            <ListItemText
-                                primary={`${apt.service?.name || 'Service'} - ${apt.client?.name || 'Client'}${apt.staff ? ` with ${apt.staff.name}` : ''}`}
-                                secondary={`${new Date(apt.startTime).toLocaleString()} - ${apt.status}`}
+                        <Grid item xs={12} md={6} key={apt.id} sx={{ display: 'flex' }}>
+                            <MediaCard
+                                title={apt.service?.name || 'Service'}
+                                subtitle={`${apt.client?.name || 'Client'}${apt.staff ? ` • ${apt.staff.name}` : ''}`}
+                                description={`${new Date(apt.startTime).toLocaleString()} • ${apt.status}`}
+                                descriptionLines={2}
+                                actions={
+                                    <>
+                                        {apt.status === 'PENDING' && (
+                                            <Button size="small" color="primary" onClick={() => handleUpdateAppointmentStatus(apt.id, 'CONFIRMED')}>Confirm</Button>
+                                        )}
+                                        {apt.status !== 'CANCELLED' && apt.status !== 'COMPLETED' && (
+                                            <Button size="small" color="error" onClick={() => handleUpdateAppointmentStatus(apt.id, 'CANCELLED')}>Cancel</Button>
+                                        )}
+                                    </>
+                                }
                             />
-                            <ListItemSecondaryAction>
-                                {apt.status === 'PENDING' && (
-                                    <Button size="small" color="primary" onClick={() => handleUpdateAppointmentStatus(apt.id, 'CONFIRMED')} sx={{ mr: 1 }}>
-                                        Confirm
-                                    </Button>
-                                )}
-                                {apt.status !== 'CANCELLED' && apt.status !== 'COMPLETED' && (
-                                    <Button size="small" color="error" onClick={() => handleUpdateAppointmentStatus(apt.id, 'CANCELLED')}>
-                                        Cancel
-                                    </Button>
-                                )}
-                            </ListItemSecondaryAction>
-                        </ListItem>
+                        </Grid>
                     ))}
-                </List>
+                </Grid>
             )}
         </Paper>
     );
@@ -350,16 +343,18 @@ const BusinessOwnerDashboard = ({ view }) => {
             ) : data.services.length === 0 ? (
                 <Typography color="text.secondary" align="center" sx={{ py: 4 }}>No services found for this business.</Typography>
             ) : (
-                <List>
+                <Grid container spacing={2}>
                     {data.services.map((svc) => (
-                        <ListItem key={svc.id} divider>
-                            <ListItemText
-                                primary={svc.name}
-                                secondary={`${svc.description || ''} — $${svc.price} (${svc.duration} min)`}
+                        <Grid item xs={12} sm={6} md={4} key={svc.id} sx={{ display: 'flex' }}>
+                            <MediaCard
+                                title={svc.name}
+                                subtitle={`$${svc.price} • ${svc.duration} min`}
+                                description={svc.description}
+                                descriptionLines={3}
                             />
-                        </ListItem>
+                        </Grid>
                     ))}
-                </List>
+                </Grid>
             )}
         </Paper>
     );
@@ -391,6 +386,7 @@ const BusinessOwnerDashboard = ({ view }) => {
             <Drawer
                 variant="permanent"
                 sx={{
+                    display: { xs: 'none', md: 'block' },
                     width: drawerWidth,
                     flexShrink: 0,
                     [`& .MuiDrawer-paper`]: {
@@ -433,11 +429,11 @@ const BusinessOwnerDashboard = ({ view }) => {
                 </List>
             </Drawer>
 
-            <Box component="main" sx={{ flexGrow: 1, p: 6, width: `calc(100% - ${drawerWidth}px)` }}>
+            <Box component="main" sx={{ flexGrow: 1, p: { xs: 2, md: 6 }, width: { xs: '100%', md: `calc(100% - ${drawerWidth}px)` }, minWidth: 0 }}>
                 <Container maxWidth="lg">
-                    <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Box>
-                            <Typography variant="h4" sx={{ fontWeight: 'bold' }}>
+                    <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, flexDirection: { xs: 'column', sm: 'row' }, gap: 2, minWidth: 0 }}>
+                        <Box sx={{ minWidth: 0 }}>
+                            <Typography variant="h4" sx={{ fontWeight: 'bold', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: { xs: 'normal', md: 'nowrap' } }}>
                                 {view.charAt(0).toUpperCase() + view.slice(1)}
                             </Typography>
                             <Typography variant="body1" color="text.secondary">
