@@ -1,70 +1,137 @@
-# Getting Started with Create React App
+# BookingReserva Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the React frontend for BookingReserva, a local service booking and reservation platform built to help customers discover and book services from nearby businesses while giving business owners a cleaner way to manage appointments, staff, profiles, and availability.
 
-## Available Scripts
+The app is designed for service-based businesses such as barbershops, clinics, hospitals, salons, hotels, and wellness centers. It creates a central digital space where customers can find local services, compare businesses, and schedule appointments easily.
 
-In the project directory, you can run:
+## Purpose of the App
 
-### `npm start`
+BookingReserva exists to simplify how local businesses connect with the people who need them. Instead of relying on manual calls, scattered messages, or informal scheduling, the platform offers a single, modern experience where:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- customers can discover local service providers
+- businesses can present their services and staff
+- appointments can be booked online
+- users can create profiles and upload images
+- business owners can manage availability and customer appointments
+- admin users can monitor and manage the platform
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Main Frontend Features
 
-### `npm test`
+- modern landing page with premium visual styling and motion effects
+- business listing and discovery screens
+- detailed business pages and service presentation
+- registration, login, and role-based access flows
+- OTP email verification for new users
+- forgot password and password reset screens
+- dashboard views for customer, business owner, and admin users
+- image upload support for profile pictures and business/staff photos
+- appointment scheduling and management flows
+- responsive layout for desktop and mobile use
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## User Roles
 
-### `npm run build`
+The frontend adapts based on the signed-in user:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Customer: browse businesses, book appointments, and manage their profile
+- Business Owner: create or manage business details, staff, and booking availability
+- Admin: manage platform operations and support the system
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Frontend Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- React
+- React Router
+- Material UI
+- Axios
+- React Toastify
+- custom reusable components and styling utilities
 
-### `npm run eject`
+## Project Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```text
+frontend/
+├── src/
+│   ├── App.js                 # routes and app-level layout
+│   ├── components/            # pages and reusable UI blocks
+│   ├── services/              # API functions for backend communication
+│   ├── features/              # redux slices and state logic
+│   ├── store.js               # global app store
+│   ├── assets/                # images, fonts, and icons
+│   ├── styles/                # styling and design helpers
+│   └── utils/                 # utility functions
+├── public/                    # static assets and HTML entrypoint
+├── package.json               # dependencies and scripts
+├── README.md                  # frontend documentation
+├── build/                     # production output
+└── src/index.js               # app entry point
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Important Screens
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+The frontend includes pages for:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Landing Page
+- Login and Register
+- OTP Verification
+- Forgot Password and Reset Password
+- Business List
+- Business Details
+- Client Dashboard
+- Business Owner Dashboard
+- Admin Dashboard
+- About and Contact pages
+- Profile management
 
-## Learn More
+## Running the Frontend
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+From the `frontend` directory:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm install
+npm start
+```
 
-### Code Splitting
+Then open:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```text
+http://localhost:3000
+```
 
-### Analyzing the Bundle Size
+## Production Build
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+To build the app for production:
 
-### Making a Progressive Web App
+```bash
+npm run build
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Backend Connection
 
-### Advanced Configuration
+This frontend communicates with the Spring Boot backend running on:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```text
+http://localhost:8090
+```
 
-### Deployment
+The backend provides data for authentication, businesses, bookings, users, profiles, and uploaded media.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Development Notes
 
-### `npm run build` fails to minify
+- make sure the backend is running before testing authenticated features
+- verify the CORS configuration if the frontend cannot reach the API
+- uploaded images require backend storage to be configured correctly
+- role-based pages depend on JWT tokens returned after login
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Design Goals
+
+The UI is designed to feel:
+
+- premium and modern
+- responsive across screen sizes
+- trustworthy for local businesses
+- easy for users to understand and navigate
+
+This matters because the platform is meant to help local service providers present themselves professionally and make booking easier for customers.
+
+## Summary
+
+The frontend is the customer-facing part of BookingReserva. It transforms the backend services into a modern, visually rich booking experience that helps local businesses grow and helps customers book services quickly and confidently.
