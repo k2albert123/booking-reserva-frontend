@@ -85,8 +85,8 @@ const Register = () => {
             };
 
             await register(registerRequest);
-            toast.success('Registration successful!');
-            navigate('/dashboard');
+            toast.success('Registration successful! Please verify your email.');
+            navigate('/verify-otp', { state: { email: formData.email.trim() } });
         } catch (error) {
             console.error('Registration error:', error);
             const errorMessage = error.response?.data?.message || 'Registration failed';

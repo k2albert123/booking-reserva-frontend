@@ -32,7 +32,6 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Create DTO matching backend structure
             const loginRequest = {
                 email: formData.email,
                 password: formData.password
@@ -42,7 +41,13 @@ const Login = () => {
             toast.success('Login successful!');
             navigate('/dashboard');
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Login failed');
+            const message = error.response?.data?.message || 'Login failed';
+            if (message.toLowerCase().includes('not verified') || error.response?.status === 403) {
+                toast.info('Please verify your email first');
+                navigate('/verify-otp', { state: { email: formData.email } });
+            } else {
+                toast.error(message);
+            }
         }
     };
 

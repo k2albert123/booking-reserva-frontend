@@ -13,12 +13,7 @@ const ForgotPassword = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            // Create DTO matching backend structure
-            const resetRequest = {
-                email: email
-            };
-
-            await forgotPassword(resetRequest);
+            await forgotPassword(email.trim());
             toast.success('Password reset instructions sent to your email');
             navigate('/login');
         } catch (error) {
@@ -37,7 +32,6 @@ const ForgotPassword = () => {
                 <Typography variant="body2" align="center" sx={{ mb: 3 }}>
                     Enter your email address and we'll send you instructions to reset your password.
                 </Typography>
-                
                 <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                     <TextField
                         margin="normal"
@@ -52,21 +46,11 @@ const ForgotPassword = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         disabled={loading}
                     />
-                    
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                        disabled={loading}
-                    >
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={loading}>
                         {loading ? 'Sending...' : 'Send Reset Instructions'}
                     </Button>
-                    
                     <Box sx={{ textAlign: 'center' }}>
-                        <Link href="/login" variant="body2">
-                            Back to Login
-                        </Link>
+                        <Link href="/login" variant="body2">Back to Login</Link>
                     </Box>
                 </Box>
             </Paper>
