@@ -16,6 +16,20 @@ export const createAppointment = async (appointmentData) => {
 };
 
 export const updateAppointmentStatus = async (id, status) => {
-    const response = await api.patch(`/appointments/${id}/status`, { status });
+    const response = await api.put(`/appointments/${id}/status`, null, {
+        params: { status }
+    });
+    return response.data;
+};
+
+export const cancelAppointment = async (id) => {
+    const response = await api.delete(`/appointments/${id}`);
+    return response.data;
+};
+
+export const getAvailableSlots = async (businessId, serviceId, date, staffId = null) => {
+    const params = { businessId, serviceId, date };
+    if (staffId) params.staffId = staffId;
+    const response = await api.get('/appointments/available-slots', { params });
     return response.data;
 };

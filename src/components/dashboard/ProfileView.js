@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { 
-    Box, 
-    Typography, 
-    TextField, 
-    Button, 
-    Avatar, 
-    Paper, 
-    Grid, 
+import {
+    Box,
+    Typography,
+    TextField,
+    Button,
+    Avatar,
+    Paper,
+    Grid,
     Divider,
     CircularProgress,
-    Stack,
-    IconButton
+    Stack
 } from '@mui/material';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { getMyProfile, updateMyProfile } from '../../services/userService';
 import { toast } from 'react-toastify';
+import ImageUpload from '../common/ImageUpload';
 
 const ProfileView = () => {
     const [user, setUser] = useState(null);
@@ -26,7 +25,8 @@ const ProfileView = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        phoneNumber: ''
+        phoneNumber: '',
+        imageUrl: ''
     });
 
     const fetchProfile = async () => {
@@ -37,7 +37,8 @@ const ProfileView = () => {
             setFormData({
                 name: data.name,
                 email: data.email,
-                phoneNumber: data.phoneNumber || ''
+                phoneNumber: data.phoneNumber || '',
+                imageUrl: data.imageUrl || ''
             });
         } catch (error) {
             toast.error("Failed to load profile");
@@ -59,6 +60,7 @@ const ProfileView = () => {
         try {
             const updated = await updateMyProfile(formData);
             setUser(updated);
+            setFormData({ ...formData, imageUrl: updated.imageUrl || formData.imageUrl });
             setEditing(false);
             toast.success("Profile updated successfully");
         } catch (error) {
@@ -73,27 +75,22 @@ const ProfileView = () => {
             <Paper elevation={0} sx={{ p: 4, borderRadius: '24px', border: '1px solid rgba(255,255,255,0.05)', bgcolor: 'background.paper' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 4, position: 'relative' }}>
                     <Box sx={{ position: 'relative' }}>
-                        <Avatar 
-                            src={user?.imageUrl} 
+                        <Avatar
+                            src={user?.imageUrl || formData.imageUrl || ''}
                             sx={{ width: 100, height: 100, border: '4px solid rgba(255,255,255,0.1)', boxShadow: '0 4px 14px rgba(0,0,0,0.3)' }}
                         >
                             {user?.name?.charAt(0)}
                         </Avatar>
-                        <IconButton 
-                            sx={{ 
-                                position: 'absolute', 
-                                bottom: 0, 
-                                right: 0, 
-                                bgcolor: 'primary.main', 
-                                color: 'white',
-                                '&:hover': { bgcolor: 'primary.dark' },
-                                width: 32,
-                                height: 32
-                            }}
-                            size="small"
-                        >
-                            <PhotoCameraIcon sx={{ fontSize: 18 }} />
-                        </IconButton>
+                        {editing && (
+                            <Box sx={{ position: 'absolute', bottom: -8, right: -8 }}>
+                                <ImageUpload
+                                    value={formData.imageUrl || user?.imageUrl || ''}
+                                    onChange={(url) => setFormData((prev) => ({ ...prev, imageUrl: url }))}
+                                    label="Profile photo"
+                                    folder="profiles"
+                                />
+                            </Box>
+                        )}
                     </Box>
                     <Box sx={{ ml: 3 }}>
                         <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'text.primary' }}>
@@ -167,7 +164,8 @@ const ProfileView = () => {
                                     setFormData({
                                         name: user.name,
                                         email: user.email,
-                                        phoneNumber: user.phoneNumber || ''
+                                        phoneNumber: user.phoneNumber || '',
+                                        imageUrl: user.imageUrl || ''
                                     });
                                 }}
                                 color="inherit"

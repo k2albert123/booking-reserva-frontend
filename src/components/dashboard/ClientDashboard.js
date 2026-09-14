@@ -55,26 +55,26 @@ const ClientDashboard = ({ view }) => {
         ];
 
         const cards = [
-            { 
-                title: 'My Appointments', 
-                desc: 'View and manage your upcoming and past bookings.', 
-                icon: <CalendarMonthIcon sx={{ fontSize: 28 }} />, 
+            {
+                title: 'My Appointments',
+                desc: 'View and manage your upcoming and past bookings.',
+                icon: <CalendarMonthIcon sx={{ fontSize: 28 }} />,
                 path: '/dashboard?view=appointments',
-                color: '#2b6cb0'
+                color: '#60a5fa'
             },
-            { 
-                title: 'Book a Service', 
-                desc: 'Explore local businesses and reserve your spot.', 
-                icon: <SearchIcon sx={{ fontSize: 28 }} />, 
+            {
+                title: 'Book a Service',
+                desc: 'Explore local businesses and reserve your spot.',
+                icon: <SearchIcon sx={{ fontSize: 28 }} />,
                 path: '/dashboard?view=businesses',
-                color: '#2f855a'
+                color: '#34d399'
             },
-            { 
-                title: 'Profile Settings', 
-                desc: 'Manage your contact info and account settings.', 
-                icon: <PersonIcon sx={{ fontSize: 28 }} />, 
+            {
+                title: 'Profile Settings',
+                desc: 'Manage your contact info and account settings.',
+                icon: <PersonIcon sx={{ fontSize: 28 }} />,
                 path: '/dashboard?view=profile',
-                color: '#805ad5'
+                color: '#c084fc'
             }
         ];
 
@@ -92,7 +92,7 @@ const ClientDashboard = ({ view }) => {
                 <Grid container spacing={3} sx={{ mb: 6 }}>
                     {stats.map((stat, i) => (
                         <Grid item xs={12} sm={4} key={i}>
-                            <Paper elevation={0} sx={{ p: 3, borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)', bgcolor: 'background.paper' }}>
+                            <Paper elevation={0} sx={{ p: 3, borderRadius: '22px', border: '1px solid rgba(148,163,184,0.14)', bgcolor: 'rgba(15, 23, 42, 0.72)', boxShadow: '0 12px 30px rgba(15,23,42,0.18)' }}>
                                 <Typography variant="body2" color="text.secondary" sx={{ fontWeight: '600', mb: 1 }}>{stat.label}</Typography>
                                 <Typography variant="h4" sx={{ fontWeight: '800', color: stat.color }}>{stat.value}</Typography>
                             </Paper>
@@ -103,31 +103,33 @@ const ClientDashboard = ({ view }) => {
                 <Grid container spacing={3}>
                     {cards.map((card, index) => (
                         <Grid item xs={12} md={4} key={index}>
-                            <Paper 
-                                elevation={0} 
-                                sx={{ 
-                                    p: 4, 
-                                    borderRadius: '24px', 
-                                    border: '1px solid rgba(255,255,255,0.05)',
-                                    bgcolor: 'background.paper',
+                            <Paper
+                                elevation={0}
+                                sx={{
+                                    p: 4,
+                                    borderRadius: '24px',
+                                    border: '1px solid rgba(148,163,184,0.14)',
+                                    bgcolor: 'rgba(15, 23, 42, 0.72)',
                                     height: '100%',
+                                    minHeight: 260,
                                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                                     cursor: 'pointer',
                                     display: 'flex',
                                     flexDirection: 'column',
-                                    '&:hover': { 
-                                        borderColor: card.color, 
-                                        transform: 'translateY(-8px)', 
-                                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2)' 
+                                    boxShadow: '0 12px 30px rgba(15,23,42,0.18)',
+                                    '&:hover': {
+                                        borderColor: `${card.color}99`,
+                                        transform: 'translateY(-8px)',
+                                        boxShadow: `0 20px 35px ${card.color}22`
                                     }
                                 }}
                                 onClick={() => navigate(card.path)}
                             >
-                                <Box sx={{ 
-                                    width: 56, 
-                                    height: 56, 
-                                    borderRadius: '16px', 
-                                    bgcolor: `${card.color}10`, 
+                                <Box sx={{
+                                    width: 56,
+                                    height: 56,
+                                    borderRadius: '16px',
+                                    bgcolor: `${card.color}18`,
                                     color: card.color,
                                     display: 'flex',
                                     alignItems: 'center',
