@@ -5,74 +5,106 @@ import Footer from './common/Footer';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+
+const values = [
+    {
+        title: 'Innovation',
+        text: 'We design booking experiences that feel effortless for both customers and business owners.',
+        icon: <LightbulbIcon />,
+        color: '#60a5fa',
+        bg: '#dbeafe'
+    },
+    {
+        title: 'Community',
+        text: 'We build tools that help local businesses connect with customers in a more human way.',
+        icon: <GroupsIcon />,
+        color: '#34d399',
+        bg: '#d1fae5'
+    },
+    {
+        title: 'Growth',
+        text: 'Every workflow is optimized to improve conversion, retention, and operational efficiency.',
+        icon: <RocketLaunchIcon />,
+        color: '#fbbf24',
+        bg: '#fef3c7'
+    }
+];
 
 const AboutUs = () => {
     return (
-        <Box sx={{ bgcolor: '#f5f7fa', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <Box sx={{ bgcolor: '#0b1220', minHeight: '100vh', display: 'flex', flexDirection: 'column', color: 'white' }}>
             <Navbar />
-            
-            <Box sx={{ 
-                background: 'linear-gradient(135deg, #1976d2 0%, #4dabf5 100%)', 
-                color: 'white', 
-                py: 12, 
-                textAlign: 'center' 
+
+            <Box sx={{
+                position: 'relative',
+                overflow: 'hidden',
+                background: 'linear-gradient(135deg, rgba(37,99,235,0.18), rgba(15,23,42,0.96) 55%, rgba(11,15,25,1))',
+                py: { xs: 10, md: 12 },
+                borderBottom: '1px solid rgba(148,163,184,0.15)'
             }}>
-                <Container maxWidth="md">
-                    <Typography variant="h2" sx={{ fontWeight: 800, mb: 2 }}>
-                        Our Story
-                    </Typography>
-                    <Typography variant="h5" sx={{ opacity: 0.9, fontWeight: 300 }}>
-                        We are on a mission to simplify scheduling for everyone, from local boutiques to global enterprises.
-                    </Typography>
+                <Container maxWidth="lg">
+                    <Stack spacing={2} alignItems="center" textAlign="center">
+                        <Typography variant="overline" sx={{ color: '#93c5fd', letterSpacing: 4, fontWeight: 700 }}>
+                            ABOUT US
+                        </Typography>
+                        <Typography variant="h2" sx={{ fontWeight: 800, lineHeight: 1.1 }}>
+                            We help local businesses grow with smarter booking.
+                        </Typography>
+                        <Typography variant="h6" sx={{ maxWidth: 760, color: 'rgba(255,255,255,0.76)', fontWeight: 400, lineHeight: 1.7 }}>
+                            BookingReserva brings customers and service providers together through a seamless, efficient, and beautifully simple scheduling experience.
+                        </Typography>
+                    </Stack>
                 </Container>
             </Box>
 
-            <Container maxWidth="lg" sx={{ py: 10, flex: 1 }}>
-                <Grid container spacing={6} alignItems="center">
+            <Container maxWidth="lg" sx={{ py: { xs: 8, md: 10 }, flex: 1 }}>
+                <Grid container spacing={5} alignItems="center">
                     <Grid item xs={12} md={6}>
-                        <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, color: '#333' }}>
-                            Who We Are
+                        <Typography variant="h3" sx={{ fontWeight: 800, mb: 3 }}>
+                            Built for real businesses and real people.
                         </Typography>
-                        <Typography variant="body1" paragraph sx={{ color: '#555', fontSize: '1.1rem', lineHeight: 1.8 }}>
-                            BookingReserva started with a simple observation: managing appointments shouldn't be a full-time job. 
-                            Our team of passionate designers and engineers came together to build a platform that is 
-                            not only powerful but also incredibly intuitive.
+                        <Typography sx={{ color: 'rgba(255,255,255,0.72)', fontSize: '1.08rem', lineHeight: 1.9, mb: 2 }}>
+                            BookingReserva started with a simple idea: scheduling should be easy, clear, and stress-free for everyone. We created a platform that allows customers to discover services quickly and lets business owners manage everything from one place.
                         </Typography>
-                        <Typography variant="body1" paragraph sx={{ color: '#555', fontSize: '1.1rem', lineHeight: 1.8 }}>
-                            Today, we help thousands of businesses automate their booking process, reducing no-shows 
-                            and increasing customer satisfaction through seamless digital experiences.
+                        <Typography sx={{ color: 'rgba(255,255,255,0.72)', fontSize: '1.08rem', lineHeight: 1.9 }}>
+                            From salons and barbershops to hospitals and wellness businesses, we support service providers who need better systems and customers who expect a premium booking journey.
                         </Typography>
+
+                        <Stack spacing={1.5} sx={{ mt: 4 }}>
+                            {[
+                                'Simple appointment management',
+                                'Streamlined staff and service listings',
+                                'Better customer trust through secure profiles and verification',
+                            ].map((item) => (
+                                <Box key={item} sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+                                    <CheckCircleOutlineIcon sx={{ color: '#60a5fa' }} />
+                                    <Typography sx={{ color: 'rgba(255,255,255,0.8)' }}>{item}</Typography>
+                                </Box>
+                            ))}
+                        </Stack>
                     </Grid>
+
                     <Grid item xs={12} md={6}>
-                        <Paper elevation={0} sx={{ p: 4, borderRadius: '24px', bgcolor: 'white', boxShadow: '0 20px 40px rgba(0,0,0,0.05)' }}>
-                            <Stack spacing={4}>
-                                <Box sx={{ display: 'flex', gap: 3 }}>
-                                    <Avatar sx={{ bgcolor: '#e3f2fd', color: '#1976d2', width: 56, height: 56 }}>
-                                        <LightbulbIcon />
-                                    </Avatar>
-                                    <Box>
-                                        <Typography variant="h6" sx={{ fontWeight: 700 }}>Innovation</Typography>
-                                        <Typography variant="body2" sx={{ color: '#666' }}>Always pushing boundaries to create better tools.</Typography>
+                        <Paper elevation={0} sx={{
+                            p: 4,
+                            borderRadius: '28px',
+                            background: 'linear-gradient(180deg, rgba(15,23,42,0.9), rgba(15,23,42,0.7))',
+                            border: '1px solid rgba(148,163,184,0.15)',
+                            boxShadow: '0 24px 50px rgba(15, 23, 42, 0.5)',
+                        }}>
+                            <Stack spacing={3}>
+                                {values.map((value) => (
+                                    <Box key={value.title} sx={{ display: 'flex', gap: 2.5, alignItems: 'flex-start' }}>
+                                        <Avatar sx={{ bgcolor: value.bg, color: value.color, width: 56, height: 56 }}>
+                                            {value.icon}
+                                        </Avatar>
+                                        <Box>
+                                            <Typography variant="h6" sx={{ fontWeight: 700, mb: 0.5 }}>{value.title}</Typography>
+                                            <Typography sx={{ color: 'rgba(255,255,255,0.7)', lineHeight: 1.7 }}>{value.text}</Typography>
+                                        </Box>
                                     </Box>
-                                </Box>
-                                <Box sx={{ display: 'flex', gap: 3 }}>
-                                    <Avatar sx={{ bgcolor: '#f1f8e9', color: '#4caf50', width: 56, height: 56 }}>
-                                        <GroupsIcon />
-                                    </Avatar>
-                                    <Box>
-                                        <Typography variant="h6" sx={{ fontWeight: 700 }}>Community</Typography>
-                                        <Typography variant="body2" sx={{ color: '#666' }}>Built for businesses, by people who care.</Typography>
-                                    </Box>
-                                </Box>
-                                <Box sx={{ display: 'flex', gap: 3 }}>
-                                    <Avatar sx={{ bgcolor: '#fff3e0', color: '#ff9800', width: 56, height: 56 }}>
-                                        <RocketLaunchIcon />
-                                    </Avatar>
-                                    <Box>
-                                        <Typography variant="h6" sx={{ fontWeight: 700 }}>Growth</Typography>
-                                        <Typography variant="body2" sx={{ color: '#666' }}>We scale as you scale, every step of the way.</Typography>
-                                    </Box>
-                                </Box>
+                                ))}
                             </Stack>
                         </Paper>
                     </Grid>
@@ -85,3 +117,4 @@ const AboutUs = () => {
 };
 
 export default AboutUs;
+
