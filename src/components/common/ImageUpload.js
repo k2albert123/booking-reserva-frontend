@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
-import { 
-    Box, 
-    Button, 
-    CircularProgress, 
-    Typography, 
+import React, { useId, useState } from 'react';
+import {
+    Box,
+    CircularProgress,
+    Typography,
     Avatar,
     IconButton
 } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
-import axios from 'axios';
+import api from '../../utils/api';
 
 const ImageUpload = ({ value, onChange, label = "Upload Image", folder = "general" }) => {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(null);
+    const inputId = useId();
 
     const handleFileChange = async (event) => {
-        const file = event.target.files[0];
+        const file = event.target.files?.[0];
         if (!file) return;
 
-        // Basic validation
         if (!file.type.startsWith('image/')) {
             setError('Please upload an image file.');
             return;
@@ -26,16 +25,19 @@ const ImageUpload = ({ value, onChange, label = "Upload Image", folder = "genera
 
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('folder', folder);
 
         setUploading(true);
         setError(null);
         try {
-            const response = await axios.post('/api/v1/files/upload', formData, {
+            const response = await api.post('/files/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            onChange(response.data.url);
+            if (onChange) {
+                onChange(response.data.url);
+            }
         } catch (err) {
             console.error('Upload error:', err);
             setError('Failed to upload image. Please try again.');
@@ -56,19 +58,19 @@ const ImageUpload = ({ value, onChange, label = "Upload Image", folder = "genera
                 <input
                     accept="image/*"
                     style={{ display: 'none' }}
-                    id="icon-button-file"
+                    id={inputId}
                     type="file"
                     onChange={handleFileChange}
                 />
-                <label htmlFor="icon-button-file">
+                <label htmlFor={inputId}>
                     <IconButton
                         color="primary"
                         aria-label="upload picture"
                         component="span"
-                        sx={{ 
-                            position: 'absolute', 
-                            bottom: 10, 
-                            right: 0, 
+                        sx={{
+                            position: 'absolute',
+                            bottom: 10,
+                            right: 0,
                             backgroundColor: 'white',
                             '&:hover': { backgroundColor: '#f0f0f0' }
                         }}
