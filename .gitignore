@@ -26,3 +26,7 @@ build_error.txt
 frontend_log_2.txt
 frontend_log.txt
 build_output.txt
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
