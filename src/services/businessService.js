@@ -29,3 +29,9 @@ export const setWorkingHours = async (businessId, hours) => {
     const response = await api.put(`/businesses/${businessId}/working-hours`, { hours });
     return response.data;
 };
+
+export const updateBusiness = async (id, businessData) => {
+    const response = await api.put(`/businesses/${id}`, businessData);
+    return response.data;
+};
+

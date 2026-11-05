@@ -45,6 +45,15 @@ export const logout = () => {
     localStorage.removeItem('user');
 };
 
+export const uploadProofFile = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await api.post('/files/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    });
+    return response.data?.url;
+};
+
 export const getCurrentUser = () => {
     const userStr = localStorage.getItem('user');
     if (!userStr) return null;
@@ -54,4 +63,16 @@ export const getCurrentUser = () => {
 export const getUserRole = () => {
     const user = getCurrentUser();
     return user?.role || null;
+};
+
+export const getUserVerificationStatus = () => {
+    const user = getCurrentUser();
+    if (!user) return null;
+    if (user.role === 'ADMIN') return 'APPROVED';
+    return user.verificationStatus || 'PENDING';
+};
+
+export const isUserApproved = () => {
+    const status = getUserVerificationStatus();
+    return status === 'APPROVED';
 };
