@@ -1,10 +1,15 @@
 import React from 'react';
-import { Box, Container, Typography, Button, Grid, Stack, Avatar } from '@mui/material';
+import { Box, Container, Typography, Button, Stack, Avatar, Chip } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './common/Navbar';
 import Footer from './common/Footer';
 import bookingImg from '../assets/images/hero_booking_app.jpg';
+
+// Animated Components
+import AuroraBackground from './animated/AuroraBackground';
+import AnimatedGradientText from './animated/AnimatedGradientText';
+import AnimatedGridBackground from './animated/AnimatedGridBackground';
 
 // Icons
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -15,378 +20,802 @@ import SearchIcon from '@mui/icons-material/Search';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import StarIcon from '@mui/icons-material/Star';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ReusableCard, { EllipsisText, MediaCard } from './common/ReusableCard';
+import ContentCutIcon from '@mui/icons-material/ContentCut';
+import SpaIcon from '@mui/icons-material/Spa';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import HotelIcon from '@mui/icons-material/Hotel';
+import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import VerifiedIcon from '@mui/icons-material/Verified';
+import ReusableCard, { EllipsisText, MediaCard, TruncatedDescription } from './common/ReusableCard';
 
-// Animations
-const float = keyframes`
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0px); }
-`;
-
+// Keyframe Animations
 const pulseGlow = keyframes`
   0% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.3); }
-  50% { box-shadow: 0 0 50px rgba(37, 99, 235, 0.6); }
+  50% { box-shadow: 0 0 45px rgba(37, 99, 235, 0.55); }
   100% { box-shadow: 0 0 20px rgba(37, 99, 235, 0.3); }
 `;
 
 // Styled Components
 const PageBackground = styled(Box)({
-    backgroundColor: '#070A11',
-    color: '#ffffff',
+    backgroundColor: 'var(--bg-default)',
+    color: 'var(--text-primary)',
     minHeight: '100vh',
-    overflowX: 'hidden',
-    position: 'relative'
+    overflowX: 'clip',
+    position: 'relative',
+    transition: 'background-color 0.3s ease, color 0.3s ease'
 });
-
-const BackgroundGlow = styled(Box)({
-    position: 'absolute',
-    width: '800px',
-    height: '800px',
-    background: 'radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, rgba(7, 10, 17, 0) 70%)',
-    top: '-300px',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    zIndex: 0,
-    pointerEvents: 'none'
-});
-
-const GradientText = styled(Typography)(({ theme, gradient }) => ({
-    background: gradient || 'linear-gradient(to right, #ffffff 0%, #94a3b8 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    display: 'inline-block'
-}));
 
 const PremiumCard = styled(ReusableCard)(({ theme }) => ({
-    background: 'rgba(15, 23, 42, 0.4)',
+    background: 'var(--bg-card)',
     backdropFilter: 'blur(12px)',
     borderRadius: '24px',
-    border: '1px solid rgba(255, 255, 255, 0.05)',
-    padding: theme.spacing(4),
-    transition: 'all 0.3s ease',
+    border: '1px solid var(--border-subtle)',
+    padding: theme.spacing(3.5),
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
     position: 'relative',
     overflow: 'hidden',
+    boxShadow: 'var(--card-shadow)',
+    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
     '&:hover': {
-        background: 'rgba(15, 23, 42, 0.7)',
-        border: '1px solid rgba(37, 99, 235, 0.3)',
-        transform: 'translateY(-5px)',
+        borderColor: 'var(--border-hover)',
+        transform: 'translateY(-6px)',
+        boxShadow: 'var(--card-shadow-hover)'
     }
 }));
 
-const GlowButton = styled(Button)(({ theme, variant }) => ({
+const GlowButton = styled(Button)(({ variant }) => ({
     borderRadius: '12px',
     textTransform: 'none',
     fontWeight: 700,
-    fontSize: '1.1rem',
-    padding: '12px 36px',
-    transition: 'all 0.3s ease',
+    fontSize: '1rem',
+    padding: '12px 28px',
+    transition: 'all 0.25s ease',
     ...(variant === 'contained' ? {
         background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
         color: 'white',
         border: '1px solid transparent',
-        animation: `${pulseGlow} 3s infinite`,
+        animation: `${pulseGlow} 3.5s infinite`,
         '&:hover': {
             background: 'linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%)',
             transform: 'translateY(-2px)',
-            boxShadow: '0 10px 25px rgba(37, 99, 235, 0.5)'
+            boxShadow: '0 10px 25px rgba(37, 99, 235, 0.45)'
         }
     } : {
-        background: 'rgba(255, 255, 255, 0.03)',
-        color: 'white',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
+        background: 'var(--bg-card)',
+        color: 'var(--text-primary)',
+        border: '1px solid var(--border-subtle)',
         backdropFilter: 'blur(10px)',
+        boxShadow: 'var(--card-shadow)',
         '&:hover': {
-            background: 'rgba(255, 255, 255, 0.1)',
-            borderColor: 'rgba(255, 255, 255, 0.3)',
+            background: 'var(--bg-card-hover)',
+            borderColor: 'primary.main',
             transform: 'translateY(-2px)'
         }
     })
 }));
 
 const IconWrapper = styled(Box)(({ color }) => ({
-    width: 64,
-    height: 64,
+    width: 58,
+    height: 58,
     borderRadius: '16px',
-    background: `linear-gradient(135deg, ${color}22 0%, ${color}11 100%)`,
-    border: `1px solid ${color}44`,
+    background: `${color}18`,
+    color: color,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: color,
-    marginBottom: 24,
-    boxShadow: `0 8px 20px ${color}15`
+    marginBottom: '20px',
+    border: `1px solid ${color}33`,
+    boxShadow: `0 8px 20px ${color}15`,
+    flexShrink: 0
 }));
 
-// Data
+// Industries defined in README: Barbershop, Salon, Clinic, Spa, Hotel, Beauty/Fitness
+const SUPPORTED_INDUSTRIES = [
+    {
+        name: 'Barbershops & Grooming',
+        category: 'Barbershop',
+        desc: 'Precision haircuts, beard trims, and styling. Book top master barbers with open slot pickers.',
+        icon: <ContentCutIcon sx={{ fontSize: 28 }} />,
+        color: '#60a5fa'
+    },
+    {
+        name: 'Salons & Hairdressers',
+        category: 'Salon %26 Beauty',
+        desc: 'Hair coloring, balayage, keratin treatments, and manicures from certified hair specialists.',
+        icon: <FaceRetouchingNaturalIcon sx={{ fontSize: 28 }} />,
+        color: '#f472b6'
+    },
+    {
+        name: 'Clinics & Healthcare',
+        category: 'Clinic %26 Healthcare',
+        desc: 'General medicine, dental consults, physical therapy, and diagnostics with trusted medical staff.',
+        icon: <LocalHospitalIcon sx={{ fontSize: 28 }} />,
+        color: '#34d399'
+    },
+    {
+        name: 'Wellness & Spa Centers',
+        category: 'Wellness %26 Spa',
+        desc: 'Deep tissue massage, aromatherapy, sauna sessions, and skin rejuvenation treatments.',
+        icon: <SpaIcon sx={{ fontSize: 28 }} />,
+        color: '#a78bfa'
+    },
+    {
+        name: 'Hotels & Hospitality',
+        category: 'Hotel %26 Hospitality',
+        desc: 'Boutique stay reservations, luxury suite bookings, and concierge dining slot management.',
+        icon: <HotelIcon sx={{ fontSize: 28 }} />,
+        color: '#fbbf24'
+    },
+    {
+        name: 'Fitness & Body Studios',
+        category: 'Fitness %26 Health',
+        desc: 'Personal trainer sessions, yoga classes, Pilates, and nutrition consultation appointments.',
+        icon: <FitnessCenterIcon sx={{ fontSize: 28 }} />,
+        color: '#fb7185'
+    }
+];
+
 const FEATURED_BUSINESSES = [
-    { name: 'Elite Hair Salon', type: 'Beauty & Styling', img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=900', desc: 'Experience premium hair care and modern styling in a luxury environment.' },
-    { name: 'Zen Wellness Spa', type: 'Health & Spa', img: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&q=80&w=900', desc: 'Rejuvenate your body and mind with our professional massage and skin treatments.' },
-    { name: 'Modern Dental Care', type: 'Health & Medical', img: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=900', desc: 'State-of-the-art dental services for a brighter, healthier smile.' }
+    {
+        id: 1,
+        name: 'The Royal Blade Barbershop',
+        type: 'Barbershop',
+        img: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=900',
+        desc: 'Master craft grooming, hot towel beard sculpting, executive scissor cuts, and classic straight razor shaves.',
+        rating: 4.9,
+        reviews: 148
+    },
+    {
+        id: 2,
+        name: 'Luxe Botanica Day Spa & Salon',
+        type: 'Salon & Spa',
+        img: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=900',
+        desc: 'Organic scalp revitalizing rituals, hydra-facials, deep tissue massage therapy, and restorative nail care.',
+        rating: 4.85,
+        reviews: 95
+    },
+    {
+        id: 3,
+        name: 'Apex Family Dental & Orthodontics',
+        type: 'Clinic & Healthcare',
+        img: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=900',
+        desc: 'Comprehensive oral examinations, painless cosmetic treatments, and specialist dental hygiene.',
+        rating: 4.95,
+        reviews: 220
+    }
 ];
 
 const LandingPage = () => {
     const navigate = useNavigate();
+
     return (
         <PageBackground>
-            <BackgroundGlow />
             <Navbar />
-            
-            {/* Centered Hero Section */}
-            <Box sx={{ position: 'relative', zIndex: 1, pt: { xs: 12, sm: 16, md: 22 }, pb: { xs: 6, md: 10 }, textAlign: 'center' }}>
-                <Container maxWidth="md">
-                    <Box sx={{ display: 'inline-flex', alignItems: 'center', px: 2, py: 1, borderRadius: '999px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.03)', mb: { xs: 3, md: 4 } }}>
-                        <Typography variant="body2" sx={{ color: '#94a3b8', fontWeight: 600, letterSpacing: { xs: 0.5, md: 1 }, fontSize: { xs: '0.7rem', sm: '0.8rem' } }}>
-                            <Box component="span" sx={{ color: '#60a5fa', mr: 1 }}>✨</Box>
-                            THE NEXT GENERATION OF BOOKING
+
+            {/* HERO SECTION — Side by Side with ReactBits Aurora Animated Background */}
+            <AuroraBackground
+                minHeight="82vh"
+                sx={{
+                    pt: { xs: 8, sm: 10, md: 12 },
+                    pb: { xs: 8, md: 12 },
+                    borderBottom: '1px solid var(--border-subtle)'
+                }}
+            >
+                <Container maxWidth="lg">
+                    {/* TOP ROW: Words on Left, Image Graphic on Right */}
+                    <Box
+                        sx={{
+                            display: 'grid',
+                            gridTemplateColumns: { xs: '1fr', md: '1.05fr 0.95fr' },
+                            gap: { xs: 5, md: 6 },
+                            alignItems: 'center'
+                        }}
+                    >
+                        {/* LEFT: Words (Badge, Heading, Description) */}
+                        <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+                            <Box sx={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                px: 2,
+                                py: 0.8,
+                                borderRadius: '999px',
+                                border: '1px solid',
+                                borderColor: 'primary.light',
+                                bgcolor: 'rgba(37,99,235,0.1)',
+                                mb: 3,
+                                gap: 1
+                            }}>
+                                <Box
+                                    component="img"
+                                    src="/app-logo.png"
+                                    alt="BookingReserva Logo"
+                                    sx={{ width: 20, height: 20, borderRadius: '5px', objectFit: 'cover' }}
+                                />
+                                <Typography variant="caption" sx={{ color: 'primary.light', fontWeight: 700, letterSpacing: 1.2, textTransform: 'uppercase' }}>
+                                    Local Service Booking & Appointments
+                                </Typography>
+                            </Box>
+
+                            <Typography
+                                variant="h1"
+                                sx={{
+                                    fontWeight: 800,
+                                    lineHeight: 1.12,
+                                    mb: 2.5,
+                                    fontSize: { xs: '2.5rem', sm: '3.4rem', md: '3.6rem', lg: '4rem' },
+                                    letterSpacing: '-0.03em',
+                                    color: 'text.primary'
+                                }}
+                            >
+                                Schedule Any Service, <br />
+                                <AnimatedGradientText variant="inherit" component="span">
+                                    Beautifully.
+                                </AnimatedGradientText>
+                            </Typography>
+
+                            <Typography
+                                sx={{
+                                    color: 'text.secondary',
+                                    fontWeight: 400,
+                                    lineHeight: 1.7,
+                                    fontSize: { xs: '1rem', md: '1.12rem' },
+                                    maxWidth: '560px',
+                                    mx: { xs: 'auto', md: '0' }
+                                }}
+                            >
+                                Discover and book trusted local barbershops, clinics, salons, wellness spas, and hotels. View available slots, select your preferred staff specialist, and manage appointments seamlessly.
+                            </Typography>
+                        </Box>
+
+                        {/* RIGHT: Featured Media Hero Graphic with Floating Micro-Cards */}
+                        <Box sx={{
+                            position: 'relative',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100%'
+                        }}>
+                            {/* Ambient Glow behind image */}
+                            <Box sx={{
+                                position: 'absolute',
+                                width: '85%',
+                                height: '85%',
+                                borderRadius: '30px',
+                                background: 'radial-gradient(circle, rgba(37,99,235,0.35) 0%, rgba(6,182,212,0.18) 50%, transparent 75%)',
+                                filter: 'blur(45px)',
+                                zIndex: 0
+                            }} />
+
+                            {/* Main Hero Image */}
+                            <Box
+                                component="img"
+                                src={bookingImg}
+                                alt="BookingReserva Platform Experience"
+                                sx={{
+                                    width: '100%',
+                                    maxWidth: '540px',
+                                    borderRadius: '24px',
+                                    border: '1px solid var(--border-subtle)',
+                                    boxShadow: 'var(--card-shadow-hover)',
+                                    position: 'relative',
+                                    zIndex: 1,
+                                    display: 'block'
+                                }}
+                            />
+
+                            {/* Floating Micro-badge 1: Top Right */}
+                            <Box sx={{
+                                position: 'absolute',
+                                top: 20,
+                                right: { xs: 0, sm: -12 },
+                                zIndex: 2,
+                                p: 1.5,
+                                borderRadius: '16px',
+                                bgcolor: 'var(--bg-card)',
+                                backdropFilter: 'blur(12px)',
+                                border: '1px solid var(--border-subtle)',
+                                boxShadow: 'var(--card-shadow)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1.5
+                            }}>
+                                <Avatar sx={{ bgcolor: '#10b981', width: 34, height: 34 }}>
+                                    <CheckCircleOutlineIcon sx={{ fontSize: 20 }} />
+                                </Avatar>
+                                <Box sx={{ textAlign: 'left' }}>
+                                    <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontWeight: 600 }}>
+                                        Real-Time Status
+                                    </Typography>
+                                    <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 700 }}>
+                                        Slot Confirmed
+                                    </Typography>
+                                </Box>
+                            </Box>
+
+                            {/* Floating Micro-badge 2: Bottom Left */}
+                            <Box sx={{
+                                position: 'absolute',
+                                bottom: 25,
+                                left: { xs: 0, sm: -12 },
+                                zIndex: 2,
+                                p: 1.5,
+                                borderRadius: '16px',
+                                bgcolor: 'var(--bg-card)',
+                                backdropFilter: 'blur(12px)',
+                                border: '1px solid var(--border-subtle)',
+                                boxShadow: 'var(--card-shadow)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1.5
+                            }}>
+                                <Avatar sx={{ bgcolor: '#2563eb', color: '#fff', width: 34, height: 34 }}>
+                                    <StarIcon sx={{ fontSize: 20 }} />
+                                </Avatar>
+                                <Box sx={{ textAlign: 'left' }}>
+                                    <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', fontWeight: 600 }}>
+                                        Top Specialists
+                                    </Typography>
+                                    <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 700 }}>
+                                        5★ Verified Team
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Box>
+                    </Box>
+
+                    {/* BOTTOM: Action Buttons & Trust Badges centered under them */}
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        textAlign: 'center',
+                        mt: { xs: 5, md: 7 },
+                        gap: 3
+                    }}>
+                        <Stack
+                            direction={{ xs: 'column', sm: 'row' }}
+                            spacing={2.5}
+                            justifyContent="center"
+                            alignItems="center"
+                            sx={{ width: { xs: '100%', sm: 'auto' } }}
+                        >
+                            <GlowButton
+                                variant="contained"
+                                onClick={() => navigate('/businesses')}
+                                endIcon={<ArrowForwardIcon />}
+                                sx={{ minWidth: { xs: '100%', sm: '220px' } }}
+                            >
+                                Browse Businesses
+                            </GlowButton>
+                            <GlowButton
+                                variant="outlined"
+                                onClick={() => navigate('/services')}
+                                sx={{ minWidth: { xs: '100%', sm: '200px' } }}
+                            >
+                                Explore Services
+                            </GlowButton>
+                        </Stack>
+
+                        {/* Centered Trust Badges */}
+                        <Box sx={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: { xs: 2.5, sm: 4 },
+                            pt: 2.5,
+                            borderTop: '1px solid var(--border-subtle)',
+                            width: '100%',
+                            maxWidth: '680px'
+                        }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <VerifiedIcon sx={{ color: '#10b981', fontSize: 20 }} />
+                                <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 600 }}>
+                                    Verified Businesses
+                                </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <StarIcon sx={{ color: '#2563eb', fontSize: 20 }} />
+                                <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 600 }}>
+                                    4.9 / 5 Client Rating
+                                </Typography>
+                            </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <CheckCircleOutlineIcon sx={{ color: '#2563eb', fontSize: 20 }} />
+                                <Typography variant="body2" sx={{ color: 'text.primary', fontWeight: 600 }}>
+                                    Instant Confirmation
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </Box>
+                </Container>
+            </AuroraBackground>
+
+            {/* SECTION 2: Supported Industries Showcase — 6 Equal Grid Cards */}
+            <AnimatedGridBackground pattern="dots" sx={{ py: { xs: 8, sm: 10, md: 14 } }}>
+                <Container maxWidth="lg">
+                    <Box sx={{ textAlign: 'center', mb: { xs: 5, md: 8 } }}>
+                        <AnimatedGradientText variant="h3" sx={{ fontWeight: 800, mb: 1.5, fontSize: { xs: '1.9rem', sm: '2.5rem', md: '3rem' } }}>
+                            Built For Local Service Industries
+                        </AnimatedGradientText>
+                        <Typography sx={{ color: 'text.secondary', maxWidth: '640px', mx: 'auto', fontSize: { xs: '0.95rem', md: '1.05rem' } }}>
+                            Tailored booking experiences for barbershops, salons, healthcare clinics, wellness centers, and hotels.
                         </Typography>
                     </Box>
-                    <Typography 
-                        sx={{ 
-                            fontWeight: 800, 
-                            lineHeight: 1.1,
-                            mb: 3,
-                            letterSpacing: '-0.02em',
-                            fontSize: { xs: '2.4rem', sm: '3.5rem', md: '4.5rem', lg: '5rem' }
-                        }}
-                    >
-                        Schedule Your World, <br />
-                        <GradientText gradient="linear-gradient(to right, #60a5fa 0%, #c084fc 100%)" sx={{ fontSize: 'inherit', fontWeight: 'inherit', letterSpacing: 'inherit', lineHeight: 'inherit' }}>
-                            Beautifully.
-                        </GradientText>
-                    </Typography>
-                    <Typography 
-                        sx={{ 
-                            color: '#94a3b8', 
-                            mb: { xs: 4, md: 6 }, 
-                            fontWeight: 400,
-                            lineHeight: 1.6,
-                            maxWidth: '600px',
-                            mx: 'auto',
-                            fontSize: { xs: '0.95rem', sm: '1.05rem', md: '1.15rem' }
-                        }}
-                    >
-                        Experience the most seamless way to discover local services, book appointments, and manage your business. All perfectly organized in one premium platform.
-                    </Typography>
-                    
-                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center" alignItems="center">
-                        <GlowButton variant="contained" onClick={() => navigate('/register')} endIcon={<ArrowForwardIcon />} sx={{ width: { xs: '100%', sm: 'auto' } }}>
-                            Start for Free
-                        </GlowButton>
-                        <GlowButton variant="outlined" onClick={() => navigate('/login')} sx={{ width: { xs: '100%', sm: 'auto' } }}>
-                            Explore Demo
-                        </GlowButton>
-                    </Stack>
+
+                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3, alignItems: 'stretch' }}>
+                        {SUPPORTED_INDUSTRIES.map((ind, idx) => (
+                            <PremiumCard
+                                key={idx}
+                                onClick={() => navigate(`/businesses?category=${ind.category}`)}
+                                sx={{
+                                    cursor: 'pointer',
+                                    width: '100%',
+                                    display: 'flex',
+                                    flexDirection: 'column'
+                                }}
+                            >
+                                <IconWrapper color={ind.color}>{ind.icon}</IconWrapper>
+                                <Box sx={{ minHeight: '1.6em', maxHeight: '1.6em', overflow: 'hidden', mb: 1 }}>
+                                    <EllipsisText lines={1} component="h3" sx={{ fontWeight: 800, fontSize: '1.25rem', color: 'text.primary' }}>
+                                        {ind.name}
+                                    </EllipsisText>
+                                </Box>
+                                <TruncatedDescription
+                                    text={ind.desc}
+                                    title={ind.name}
+                                    fixedHeight="4.8em"
+                                    lines={3}
+                                    maxChars={85}
+                                />
+                                <Box sx={{ mt: 'auto', pt: 2, display: 'flex', alignItems: 'center', gap: 0.5, color: ind.color, fontWeight: 700, fontSize: '0.88rem' }}>
+                                    Explore {ind.name} <ArrowForwardIcon sx={{ fontSize: 16 }} />
+                                </Box>
+                            </PremiumCard>
+                        ))}
+                    </Box>
                 </Container>
-                
-                {/* Hero Image Centerpiece */}
-                <Container maxWidth="lg" sx={{ mt: { xs: 6, md: 12 } }}>
-                    <Box sx={{ 
-                        position: 'relative',
-                        animation: `${float} 8s ease-in-out infinite`,
-                        px: { xs: 1, sm: 3, md: 6 }
-                    }}>
-                        <Box sx={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            width: '100%',
-                            height: '100%',
-                            background: 'radial-gradient(circle, rgba(96, 165, 250, 0.15) 0%, rgba(0,0,0,0) 60%)',
-                            zIndex: -1,
-                            filter: 'blur(40px)'
-                        }} />
-                        <Box 
-                            component="img"
-                            src={bookingImg}
-                            alt="Premium Booking Interface"
-                            sx={{ 
-                                width: '100%',
-                                maxWidth: '1000px',
-                                borderRadius: { xs: '16px', sm: '24px', md: '32px' },
-                                border: '1px solid rgba(255,255,255,0.08)',
-                                boxShadow: { xs: '0 20px 40px rgba(0,0,0,0.7)', md: '0 40px 80px rgba(0,0,0,0.8)' },
-                                display: 'block',
-                                mx: 'auto'
-                            }}
-                        />
+            </AnimatedGridBackground>
+
+            {/* SECTION 3: Features Section — Uniform 2x2 Grid */}
+            <Box sx={{ py: { xs: 8, sm: 10, md: 14 }, borderTop: '1px solid var(--border-subtle)', borderBottom: '1px solid var(--border-subtle)' }}>
+                <Container maxWidth="lg">
+                    <Box sx={{ mb: { xs: 5, md: 8 }, textAlign: { xs: 'left', sm: 'center' } }}>
+                        <AnimatedGradientText variant="h3" sx={{ fontWeight: 800, mb: 1.5, fontSize: { xs: '1.9rem', sm: '2.5rem', md: '3rem' } }}>
+                            Everything You Need In One Platform
+                        </AnimatedGradientText>
+                        <Typography sx={{ color: 'text.secondary', maxWidth: '600px', mx: { xs: '0', sm: 'auto' }, fontSize: { xs: '0.95rem', md: '1.05rem' } }}>
+                            Engineered to give customers a trustworthy booking experience while giving business owners automated operational control.
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' }, gap: 3, alignItems: 'stretch' }}>
+                        {[
+                            {
+                                color: '#2563eb',
+                                icon: <CalendarMonthIcon sx={{ fontSize: 32 }} />,
+                                title: 'Real-Time Slot Scheduling',
+                                desc: 'Interactive slot pickers that dynamically check business working hours, specialist availability, and eliminate double-booking.'
+                            },
+                            {
+                                color: '#2563eb',
+                                icon: <SecurityIcon sx={{ fontSize: 32 }} />,
+                                title: 'Verified Proof & Role Security',
+                                desc: 'Mandatory business verification and client ID approval before feature unlocking, backed by secure email OTP and reset delivery.'
+                            },
+                            {
+                                color: '#2563eb',
+                                icon: <BusinessCenterIcon sx={{ fontSize: 32 }} />,
+                                title: 'Business & Staff Management',
+                                desc: 'Business owners can showcase services, add team members (doctors, barbers, specialists), set working hours, and manage bookings.'
+                            },
+                            {
+                                color: '#2563eb',
+                                icon: <TrendingUpIcon sx={{ fontSize: 32 }} />,
+                                title: 'Live Notifications & Analytics',
+                                desc: 'Instant email confirmations and automated reminder triggers keep appointments organized and reduce no-shows.'
+                            }
+                        ].map((feature, i) => (
+                            <PremiumCard key={i} sx={{ width: '100%' }}>
+                                <IconWrapper color={feature.color}>{feature.icon}</IconWrapper>
+                                <Box sx={{ minHeight: '1.6em', maxHeight: '1.6em', overflow: 'hidden', mb: 1.5 }}>
+                                    <EllipsisText lines={1} component="h3" sx={{ fontWeight: 800, fontSize: '1.3rem', color: 'text.primary' }}>
+                                        {feature.title}
+                                    </EllipsisText>
+                                </Box>
+                                <TruncatedDescription
+                                    text={feature.desc}
+                                    title={feature.title}
+                                    fixedHeight="5.4em"
+                                    lines={4}
+                                    maxChars={110}
+                                />
+                            </PremiumCard>
+                        ))}
                     </Box>
                 </Container>
             </Box>
 
-            {/* Features Section — uniform 2x2 grid */}
-            <Container maxWidth="lg" sx={{ py: { xs: 8, sm: 12, md: 18 } }}>
-                <Box sx={{ mb: { xs: 5, md: 8 } }}>
-                    <GradientText variant="h3" sx={{ fontWeight: 800, mb: 2, fontSize: { xs: '1.8rem', sm: '2.4rem', md: '3rem' } }}>
-                        Built for Efficiency
-                    </GradientText>
-                    <Typography sx={{ color: '#94a3b8', fontWeight: 400, maxWidth: '500px', fontSize: { xs: '0.95rem', md: '1.1rem' } }}>
-                        Everything you need to scale your operations, engineered into a single seamless interface.
-                    </Typography>
-                </Box>
-
-                <Grid container spacing={3} alignItems="stretch">
-                    {[
-                        { color: '#60a5fa', icon: <CalendarMonthIcon sx={{ fontSize: 32 }} />, title: 'Smart Scheduling', desc: 'Intelligent booking that handles timezones, prevents double-bookings, and works around your custom availability rules.' },
-                        { color: '#34d399', icon: <TrendingUpIcon sx={{ fontSize: 32 }} />, title: 'Growth Analytics', desc: 'Track appointments, monitor revenue, and understand client retention with beautiful real-time dashboards.' },
-                        { color: '#fbbf24', icon: <BusinessCenterIcon sx={{ fontSize: 32 }} />, title: 'Owner Portals', desc: 'Dedicated admin tools to manage your staff, approve requests, and control your entire business listing.' },
-                        { color: '#f87171', icon: <SecurityIcon sx={{ fontSize: 32 }} />, title: 'Bank-Grade Security', desc: 'Data encrypted at rest and in transit. Role-based access ensures only authorized personnel see sensitive info.' }
-                    ].map((feature, i) => (
-                        <Grid item xs={12} sm={6} key={i} sx={{ display: 'flex' }}>
-                            <PremiumCard sx={{ width: '100%' }}>
-                                <IconWrapper color={feature.color}>{feature.icon}</IconWrapper>
-                                <EllipsisText lines={1} component="h3" sx={{ fontWeight: 800, mb: 1.5, fontSize: { xs: '1.15rem', md: '1.35rem' } }}>{feature.title}</EllipsisText>
-                                <EllipsisText lines={4} sx={{ color: '#94a3b8', lineHeight: 1.7, flexGrow: 1, fontSize: { xs: '0.9rem', md: '0.97rem' } }}>{feature.desc}</EllipsisText>
-                            </PremiumCard>
-                        </Grid>
-                    ))}
-                </Grid>
-            </Container>
-
-            {/* How It Works — always 3 equal columns */}
-            <Box sx={{ borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', bgcolor: 'rgba(11, 15, 25, 0.5)', py: { xs: 8, sm: 12, md: 15 } }}>
-                <Container maxWidth="md">
-                    <Box sx={{ textAlign: 'center', mb: { xs: 6, md: 10 } }}>
-                        <GradientText variant="h3" sx={{ fontWeight: 800, mb: 2, fontSize: { xs: '1.8rem', sm: '2.4rem', md: '3rem' } }}>
-                            A Seamless Journey
-                        </GradientText>
-                        <Typography sx={{ color: '#94a3b8', fontWeight: 400, fontSize: { xs: '0.95rem', md: '1.1rem' } }}>
-                            From discovery to completion in three simple steps.
+            {/* SECTION 4: How It Works — 3 Equal Columns with Matrix Background */}
+            <AnimatedGridBackground pattern="grid" sx={{ py: { xs: 8, sm: 10, md: 14 } }}>
+                <Container maxWidth="lg">
+                    <Box sx={{ textAlign: 'center', mb: { xs: 5, md: 8 } }}>
+                        <AnimatedGradientText variant="h3" sx={{ fontWeight: 800, mb: 1.5, fontSize: { xs: '1.9rem', sm: '2.5rem', md: '3rem' } }}>
+                            How BookingReserva Works
+                        </AnimatedGradientText>
+                        <Typography sx={{ color: 'text.secondary', maxWidth: '540px', mx: 'auto', fontSize: { xs: '0.95rem', md: '1.05rem' } }}>
+                            From discovery to confirmation in three effortless steps.
                         </Typography>
                     </Box>
 
-                    <Grid container spacing={3} justifyContent="center">
+                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' }, gap: 3, alignItems: 'stretch' }}>
                         {[
-                            { step: '01', title: 'Discover', desc: 'Browse curated lists of top-rated local professionals.', icon: <SearchIcon sx={{ fontSize: 28 }} /> },
-                            { step: '02', title: 'Book', desc: 'Select a time slot and confirm your reservation instantly.', icon: <EventAvailableIcon sx={{ fontSize: 28 }} /> },
-                            { step: '03', title: 'Manage', desc: 'Track your schedule or oversee operations from your dashboard.', icon: <BusinessCenterIcon sx={{ fontSize: 28 }} /> }
+                            {
+                                step: '01',
+                                title: 'Find Businesses & Services',
+                                desc: 'Browse verified barbershops, clinics, salons, wellness spas, and hotels filtered by industry or location.',
+                                icon: <SearchIcon sx={{ fontSize: 28 }} />
+                            },
+                            {
+                                step: '02',
+                                title: 'Select Time & Specialist',
+                                desc: 'View real-time open slots, pick your preferred specialist (doctor, barber, stylist), and enter any custom notes.',
+                                icon: <EventAvailableIcon sx={{ fontSize: 28 }} />
+                            },
+                            {
+                                step: '03',
+                                title: 'Get Instant Confirmation',
+                                desc: 'Receive immediate email booking confirmations and manage or reschedule your appointments directly in your dashboard.',
+                                icon: <CheckCircleOutlineIcon sx={{ fontSize: 28 }} />
+                            }
                         ].map((item, index) => (
-                            <Grid item xs={12} sm={4} key={index} sx={{ textAlign: 'center' }}>
-                                <Box sx={{ 
-                                    width: 72, height: 72, borderRadius: '20px', bgcolor: '#0b0f19',
-                                    border: '1px solid rgba(96, 165, 250, 0.3)',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center', mx: 'auto', mb: 3,
-                                    boxShadow: '0 10px 30px rgba(37, 99, 235, 0.2)', color: '#60a5fa', position: 'relative'
+                            <PremiumCard key={index} sx={{ textAlign: 'center', alignItems: 'center', width: '100%' }}>
+                                <Box sx={{
+                                    width: 72,
+                                    height: 72,
+                                    borderRadius: '20px',
+                                    bgcolor: 'var(--bg-paper)',
+                                    border: '1px solid var(--border-subtle)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    mx: 'auto',
+                                    mb: 3,
+                                    boxShadow: 'var(--card-shadow)',
+                                    color: 'primary.main',
+                                    position: 'relative'
                                 }}>
                                     {item.icon}
-                                    <Box sx={{ position: 'absolute', top: -10, right: -10, width: 26, height: 26, borderRadius: '50%', bgcolor: '#2563eb', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', fontWeight: 'bold', border: '3px solid #0b0f19' }}>
+                                    <Box sx={{
+                                        position: 'absolute',
+                                        top: -10,
+                                        right: -10,
+                                        width: 28,
+                                        height: 28,
+                                        borderRadius: '50%',
+                                        bgcolor: '#2563eb',
+                                        color: 'white',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        fontSize: '0.75rem',
+                                        fontWeight: 800,
+                                        border: '3px solid var(--bg-default)'
+                                    }}>
                                         {item.step}
                                     </Box>
                                 </Box>
-                                <EllipsisText lines={1} component="h3" sx={{ fontWeight: 800, mb: 1, fontSize: { xs: '1.05rem', md: '1.2rem' } }}>{item.title}</EllipsisText>
-                                <EllipsisText lines={3} sx={{ color: '#94a3b8', fontSize: { xs: '0.88rem', md: '0.95rem' }, lineHeight: 1.6 }}>{item.desc}</EllipsisText>
-                            </Grid>
+                                <Box sx={{ minHeight: '1.6em', maxHeight: '1.6em', overflow: 'hidden', mb: 1.5, width: '100%' }}>
+                                    <EllipsisText lines={1} component="h3" sx={{ fontWeight: 800, fontSize: '1.25rem', color: 'text.primary' }}>
+                                        {item.title}
+                                    </EllipsisText>
+                                </Box>
+                                <TruncatedDescription
+                                    text={item.desc}
+                                    title={item.title}
+                                    fixedHeight="5.2em"
+                                    lines={4}
+                                    maxChars={105}
+                                    sx={{ textAlign: 'center' }}
+                                />
+                            </PremiumCard>
                         ))}
-                    </Grid>
+                    </Box>
                 </Container>
-            </Box>
+            </AnimatedGridBackground>
 
-            {/* Featured Businesses — 3 equal columns */}
-            <Container maxWidth="lg" sx={{ py: { xs: 8, sm: 12, md: 18 } }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: { xs: 'flex-start', md: 'flex-end' }, mb: { xs: 5, md: 8 }, flexDirection: { xs: 'column', md: 'row' }, gap: 2 }}>
+            {/* SECTION 5: Featured Businesses — 3 Equal Columns */}
+            <Container maxWidth="lg" sx={{ py: { xs: 8, sm: 10, md: 14 } }}>
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: { xs: 'flex-start', md: 'flex-end' },
+                    mb: { xs: 4, md: 7 },
+                    flexDirection: { xs: 'column', md: 'row' },
+                    gap: 2
+                }}>
                     <Box>
-                        <GradientText variant="h3" sx={{ fontWeight: 800, mb: 1, fontSize: { xs: '1.8rem', sm: '2.4rem', md: '3rem' } }}>
-                            Featured Services
-                        </GradientText>
-                        <Typography sx={{ color: '#94a3b8', fontWeight: 400, fontSize: { xs: '0.95rem', md: '1.1rem' } }}>
-                            Explore some of the best businesses on our platform.
+                        <AnimatedGradientText variant="h3" sx={{ fontWeight: 800, mb: 1, fontSize: { xs: '1.9rem', sm: '2.5rem', md: '3rem' } }}>
+                            Featured Local Businesses
+                        </AnimatedGradientText>
+                        <Typography sx={{ color: 'text.secondary', fontSize: { xs: '0.95rem', md: '1.05rem' } }}>
+                            Explore highly rated service providers ready for online booking today.
                         </Typography>
                     </Box>
-                    <Button variant="text" sx={{ color: '#60a5fa', fontWeight: 'bold', whiteSpace: 'nowrap', flexShrink: 0 }} onClick={() => navigate('/businesses')} endIcon={<ArrowForwardIcon />}>
-                        View All
+                    <Button
+                        variant="text"
+                        onClick={() => navigate('/businesses')}
+                        endIcon={<ArrowForwardIcon />}
+                        sx={{ color: 'primary.main', fontWeight: 700, fontSize: '0.95rem', whiteSpace: 'nowrap' }}
+                    >
+                        View All Businesses
                     </Button>
                 </Box>
 
-                <Grid container spacing={3} alignItems="stretch">
+                <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3, alignItems: 'stretch' }}>
                     {FEATURED_BUSINESSES.map((business, index) => (
-                        <Grid item xs={12} sm={4} key={index} sx={{ display: 'flex' }}>
-                            <MediaCard
-                                image={business.img}
-                                imageAlt={business.name}
-                                imageHeight={200}
-                                title={business.name}
-                                description={business.desc}
-                                descriptionLines={3}
-                                badge={
-                                    <Box sx={{ px: 1.5, py: 0.5, borderRadius: '6px', background: 'rgba(15,23,42,0.88)', color: '#93c5fd', fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', border: '1px solid rgba(255,255,255,0.1)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>
+                        <MediaCard
+                            key={index}
+                            image={business.img}
+                            imageAlt={business.name}
+                            imageHeight={210}
+                            badge={
+                                <Box sx={{
+                                    px: 1.5,
+                                    py: 0.5,
+                                    borderRadius: '8px',
+                                    bgcolor: 'var(--bg-card)',
+                                    backdropFilter: 'blur(10px)',
+                                    border: '1px solid var(--border-subtle)',
+                                    boxShadow: 'var(--card-shadow)'
+                                }}>
+                                    <Typography variant="caption" sx={{ color: 'primary.light', fontWeight: 700, fontSize: '0.72rem', textTransform: 'uppercase' }}>
                                         {business.type}
+                                    </Typography>
+                                </Box>
+                            }
+                            title={business.name}
+                            titleLines={1}
+                            description={business.desc}
+                            descriptionLines={3}
+                            sx={{
+                                width: '100%',
+                                borderRadius: '24px',
+                            }}
+                            actions={
+                                <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#f59e0b', fontWeight: 700, fontSize: '0.85rem' }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                            <StarIcon sx={{ fontSize: 18 }} />
+                                            <span>{business.rating}</span>
+                                            <span style={{ color: 'text.secondary', fontWeight: 400 }}>({business.reviews} reviews)</span>
+                                        </Box>
+                                        <Chip label="Open Now" size="small" sx={{ bgcolor: 'rgba(16,185,129,0.15)', color: '#10b981', fontWeight: 700, fontSize: '0.7rem' }} />
                                     </Box>
-                                }
-                                sx={{ width: '100%' }}
-                                actions={
-                                    <Button variant="outlined" fullWidth sx={{ borderRadius: '10px', py: 1.1, color: 'white', borderColor: 'rgba(255,255,255,0.18)', fontSize: '0.9rem', textTransform: 'none', '&:hover': { borderColor: '#60a5fa', bgcolor: 'rgba(96, 165, 250, 0.1)' } }} onClick={() => navigate('/businesses')}>
-                                        Book Now
+                                    <Button
+                                        variant="contained"
+                                        fullWidth
+                                        onClick={() => navigate(`/businesses/${business.id}`)}
+                                        endIcon={<ArrowForwardIcon />}
+                                        sx={{
+                                            borderRadius: '12px',
+                                            py: 1.2,
+                                            background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+                                            fontWeight: 700,
+                                            textTransform: 'none',
+                                            '&:hover': { background: 'linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%)' }
+                                        }}
+                                    >
+                                        View Details & Book
                                     </Button>
-                                }
-                            />
-                        </Grid>
+                                </Box>
+                            }
+                        />
                     ))}
-                </Grid>
+                </Box>
             </Container>
 
-            {/* Testimonials — 3 equal columns */}
-            <Box sx={{ py: { xs: 8, sm: 12, md: 15 }, position: 'relative' }}>
+            {/* SECTION 6: Testimonials — 3 Equal Columns */}
+            <Box sx={{ py: { xs: 8, sm: 10, md: 14 }, borderTop: '1px solid var(--border-subtle)', bgcolor: 'var(--bg-default)' }}>
                 <Container maxWidth="lg">
-                    <Typography align="center" sx={{ fontWeight: 800, mb: { xs: 6, md: 10 }, fontSize: { xs: '1.8rem', sm: '2.4rem', md: '3rem' } }}>
-                        Trusted by <GradientText gradient="linear-gradient(to right, #34d399 0%, #3b82f6 100%)" sx={{ fontSize: 'inherit', fontWeight: 'inherit' }}>Thousands</GradientText>
+                    <Typography align="center" sx={{ fontWeight: 800, mb: { xs: 5, md: 8 }, fontSize: { xs: '1.9rem', sm: '2.5rem', md: '3rem' }, color: 'text.primary' }}>
+                        Trusted By Customers & <AnimatedGradientText variant="inherit" component="span">Business Owners</AnimatedGradientText>
                     </Typography>
-                    <Grid container spacing={3} alignItems="stretch">
+
+                    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3, alignItems: 'stretch' }}>
                         {[
-                            { name: "Sarah L.", role: "Customer", quote: "BookingReserva made it incredibly easy to find a new salon and book an appointment instantly. Highly recommend!" },
-                            { name: "James K.", role: "Business Owner", quote: "Since joining the platform, my barbershop's bookings have increased by 40%. The management dashboard is a lifesaver." },
-                            { name: "Emily R.", role: "Customer", quote: "I love the sleek interface. Everything is so intuitive, from discovering new spas to managing my upcoming visits." }
+                            {
+                                name: "Marcus Bennett",
+                                role: "Barbershop Owner",
+                                quote: "BookingReserva eliminated double bookings and phone tag entirely. My clients love picking their slot and receiving confirmation emails automatically."
+                            },
+                            {
+                                name: "Elena Rostova",
+                                role: "Client & Salon Regular",
+                                quote: "The interface is gorgeous and lightning fast. Finding my favorite stylist, picking an open Saturday morning slot, and receiving reminders is effortless."
+                            },
+                            {
+                                name: "Dr. David Chen",
+                                role: "Clinical Director",
+                                quote: "Managing our multi-doctor outpatient schedule has never been smoother. Patients appreciate the professional profile cards and instant booking flow."
+                            }
                         ].map((testimonial, i) => (
-                            <Grid item xs={12} sm={4} key={i} sx={{ display: 'flex' }}>
-                                <PremiumCard sx={{ width: '100%', background: 'rgba(15, 23, 42, 0.25)', border: '1px solid rgba(255,255,255,0.07)' }}>
-                                    <Box sx={{ display: 'flex', color: '#fbbf24', mb: 3 }}>
-                                        {[1,2,3,4,5].map(star => <StarIcon key={star} fontSize="small" />)}
+                            <PremiumCard key={i} sx={{ width: '100%' }}>
+                                <Box sx={{ display: 'flex', color: '#f59e0b', mb: 2 }}>
+                                    {[1, 2, 3, 4, 5].map((star) => (
+                                        <StarIcon key={star} fontSize="small" />
+                                    ))}
+                                </Box>
+                                <TruncatedDescription
+                                    text={`"${testimonial.quote}"`}
+                                    title={`${testimonial.name} — Review`}
+                                    fixedHeight="5.5em"
+                                    lines={4}
+                                    maxChars={115}
+                                    sx={{ fontStyle: 'italic', color: 'text.secondary', fontSize: '0.96rem', mb: 3 }}
+                                />
+                                <Box sx={{ mt: 'auto', display: 'flex', alignItems: 'center', gap: 2 }}>
+                                    <Avatar sx={{ bgcolor: '#2563eb', fontWeight: 800, width: 42, height: 42 }}>
+                                        {testimonial.name.charAt(0)}
+                                    </Avatar>
+                                    <Box>
+                                        <Typography sx={{ fontWeight: 800, color: 'text.primary', fontSize: '0.98rem' }}>
+                                            {testimonial.name}
+                                        </Typography>
+                                        <Typography sx={{ color: 'primary.main', fontSize: '0.82rem', fontWeight: 600 }}>
+                                            {testimonial.role}
+                                        </Typography>
                                     </Box>
-                                    <EllipsisText lines={4} sx={{ color: '#e2e8f0', fontSize: { xs: '0.92rem', md: '0.98rem' }, fontStyle: 'italic', mb: 4, flexGrow: 1, lineHeight: 1.7 }}>
-                                        "{testimonial.quote}"
-                                    </EllipsisText>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, minWidth: 0 }}>
-                                        <Avatar sx={{ bgcolor: '#2563eb', fontWeight: 'bold', width: 38, height: 38, fontSize: '0.9rem', flexShrink: 0 }}>{testimonial.name.charAt(0)}</Avatar>
-                                        <Box sx={{ minWidth: 0 }}>
-                                            <EllipsisText lines={1} sx={{ fontWeight: 700, color: 'white', fontSize: '0.95rem' }}>{testimonial.name}</EllipsisText>
-                                            <EllipsisText lines={1} sx={{ color: '#60a5fa', fontSize: '0.8rem' }}>{testimonial.role}</EllipsisText>
-                                        </Box>
-                                    </Box>
-                                </PremiumCard>
-                            </Grid>
+                                </Box>
+                            </PremiumCard>
                         ))}
-                    </Grid>
+                    </Box>
                 </Container>
             </Box>
 
-            {/* Call to Action */}
-            <Box sx={{ py: { xs: 8, sm: 12, md: 15 }, px: { xs: 2, md: 3 } }}>
+            {/* SECTION 7: Call to Action with Aurora Accent */}
+            <Box sx={{ py: { xs: 8, sm: 10, md: 14 }, px: { xs: 2, md: 3 } }}>
                 <Container maxWidth="md">
-                    <Box sx={{ 
-                        background: 'linear-gradient(135deg, rgba(37,99,235,0.1) 0%, rgba(139,92,246,0.1) 100%)',
-                        border: '1px solid rgba(255,255,255,0.05)',
-                        borderRadius: { xs: '24px', md: '32px' },
-                        p: { xs: 4, sm: 6, md: 8 },
-                        textAlign: 'center',
-                        position: 'relative',
-                        overflow: 'hidden'
-                    }}>
-                        <Box sx={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '60%', height: '100%', background: 'radial-gradient(ellipse at top, rgba(37,99,235,0.2) 0%, rgba(0,0,0,0) 70%)', zIndex: 0 }} />
-                        <Box sx={{ position: 'relative', zIndex: 1 }}>
-                            <Typography sx={{ fontWeight: 800, mb: 3, fontSize: { xs: '1.6rem', sm: '2rem', md: '2.5rem' } }}>
-                                Ready to elevate your experience?
-                            </Typography>
-                            <Typography sx={{ color: '#94a3b8', fontSize: { xs: '0.95rem', md: '1.1rem' }, mb: { xs: 4, md: 5 }, maxWidth: '600px', mx: 'auto' }}>
-                                Join our growing community of professionals and clients. Experience the modern standard of appointment scheduling today.
-                            </Typography>
-                            <GlowButton variant="contained" size="large" onClick={() => navigate('/register')} sx={{ width: { xs: '100%', sm: 'auto' } }}>
-                                Create Your Free Account
+                    <AuroraBackground
+                        showGrid={false}
+                        sx={{
+                            borderRadius: { xs: '24px', md: '32px' },
+                            p: { xs: 4, sm: 6, md: 8 },
+                            textAlign: 'center',
+                            border: '1px solid var(--border-hover)',
+                            boxShadow: 'var(--card-shadow-hover)',
+                            overflow: 'hidden'
+                        }}
+                    >
+                        <Typography sx={{ fontWeight: 800, mb: 2, fontSize: { xs: '1.8rem', sm: '2.4rem', md: '2.8rem' }, color: 'text.primary' }}>
+                            Ready to Transform Your Booking Experience?
+                        </Typography>
+                        <Typography sx={{ color: 'text.secondary', fontSize: { xs: '1rem', md: '1.15rem' }, mb: 4, maxWidth: '600px', mx: 'auto', lineHeight: 1.7 }}>
+                            Join thousands of happy clients and local businesses today. Create your free account in under 60 seconds.
+                        </Typography>
+                        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} justifyContent="center">
+                            <GlowButton
+                                variant="contained"
+                                size="large"
+                                onClick={() => navigate('/register')}
+                                sx={{ py: 1.6, px: 4 }}
+                            >
+                                Get Started Free
                             </GlowButton>
-                        </Box>
-                    </Box>
+                            <GlowButton
+                                variant="outlined"
+                                size="large"
+                                onClick={() => navigate('/login')}
+                                sx={{ py: 1.6, px: 4 }}
+                            >
+                                Sign In to Portal
+                            </GlowButton>
+                        </Stack>
+                    </AuroraBackground>
                 </Container>
             </Box>
 
