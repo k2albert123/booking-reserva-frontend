@@ -12,6 +12,8 @@ import {
 } from '@mui/material';
 import Navbar from './common/Navbar';
 import Footer from './common/Footer';
+import AuroraBackground from './animated/AuroraBackground';
+import AnimatedGradientText from './animated/AnimatedGradientText';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -22,69 +24,68 @@ const contactItems = [
         title: 'Call us',
         detail: '+1 (800) 555-0199',
         icon: <PhoneIcon />,
-        color: '#60a5fa',
-        bg: '#dbeafe'
+        color: '#2563eb',
+        bg: 'rgba(37,99,235,0.1)'
     },
     {
         title: 'Email us',
         detail: 'hello@bookingreserva.com',
         icon: <EmailIcon />,
-        color: '#34d399',
-        bg: '#d1fae5'
+        color: '#2563eb',
+        bg: 'rgba(37,99,235,0.1)'
     },
     {
         title: 'Visit us',
         detail: '45 Market Street, Downtown Plaza',
         icon: <LocationOnIcon />,
-        color: '#fbbf24',
-        bg: '#fef3c7'
+        color: '#2563eb',
+        bg: 'rgba(37,99,235,0.1)'
     },
     {
         title: 'Hours',
         detail: 'Mon - Sat · 8:00 AM - 6:00 PM',
         icon: <AccessTimeIcon />,
-        color: '#f472b6',
-        bg: '#fce7f3'
+        color: '#2563eb',
+        bg: 'rgba(37,99,235,0.1)'
     }
 ];
 
 const ContactUs = () => {
     return (
-        <Box sx={{ bgcolor: '#0b1220', minHeight: '100vh', color: 'white' }}>
+        <Box sx={{ bgcolor: 'var(--bg-default)', minHeight: '100vh', display: 'flex', flexDirection: 'column', color: 'text.primary' }}>
             <Navbar />
 
-            <Box sx={{
-                background: 'linear-gradient(135deg, rgba(37,99,235,0.18), rgba(15,23,42,0.96) 55%, rgba(11,15,25,1))',
-                py: { xs: 10, md: 12 },
-                borderBottom: '1px solid rgba(148,163,184,0.15)'
-            }}>
-                <Container maxWidth="lg">
-                    <Stack spacing={2} alignItems="center" textAlign="center">
-                        <Typography variant="overline" sx={{ color: '#93c5fd', letterSpacing: 4, fontWeight: 700 }}>
-                            CONTACT US
-                        </Typography>
-                        <Typography variant="h2" sx={{ fontWeight: 800, lineHeight: 1.1 }}>
-                            Let’s build your next booking experience.
-                        </Typography>
-                        <Typography variant="h6" sx={{ maxWidth: 760, color: 'rgba(255,255,255,0.76)', fontWeight: 400, lineHeight: 1.7 }}>
-                            Whether you’re a business owner, service provider, or customer, we’d love to hear from you.
-                        </Typography>
-                    </Stack>
-                </Container>
+            <Box sx={{ position: 'relative', overflow: 'hidden', borderBottom: '1px solid var(--border-subtle)' }}>
+                <AuroraBackground sx={{ py: { xs: 10, md: 13 } }}>
+                    <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+                        <Stack spacing={2.5} alignItems="center" textAlign="center">
+                            <Typography variant="overline" sx={{ color: 'primary.main', letterSpacing: 4, fontWeight: 800 }}>
+                                CONTACT US
+                            </Typography>
+                            <Typography variant="h2" sx={{ fontWeight: 800, lineHeight: 1.15, fontSize: { xs: '2.2rem', md: '3.4rem' } }}>
+                                Let’s build your next{' '}
+                                <AnimatedGradientText>booking experience</AnimatedGradientText>
+                            </Typography>
+                            <Typography variant="h6" sx={{ maxWidth: 760, color: 'text.secondary', fontWeight: 400, lineHeight: 1.7 }}>
+                                Whether you’re a business owner, service provider, or customer, we’d love to hear from you.
+                            </Typography>
+                        </Stack>
+                    </Container>
+                </AuroraBackground>
             </Box>
 
-            <Container maxWidth="lg" sx={{ py: { xs: 8, md: 10 } }}>
+            <Container maxWidth="lg" sx={{ py: { xs: 8, md: 10 }, flex: 1 }}>
                 <Grid container spacing={4}>
                     <Grid item xs={12} md={5}>
                         <Paper sx={{
                             p: 4,
                             height: '100%',
                             borderRadius: '28px',
-                            background: 'linear-gradient(180deg, rgba(15,23,42,0.9), rgba(15,23,42,0.7))',
-                            border: '1px solid rgba(148,163,184,0.15)',
-                            boxShadow: '0 24px 50px rgba(15, 23, 42, 0.5)',
+                            bgcolor: 'var(--bg-card)',
+                            border: '1px solid var(--border-subtle)',
+                            boxShadow: 'var(--card-shadow)',
                         }}>
-                            <Typography variant="h4" sx={{ fontWeight: 800, mb: 3 }}>
+                            <Typography variant="h4" sx={{ fontWeight: 800, mb: 3, color: 'text.primary' }}>
                                 Get in touch
                             </Typography>
                             <Stack spacing={2.5}>
@@ -94,10 +95,10 @@ const ContactUs = () => {
                                             {item.icon}
                                         </Avatar>
                                         <Box>
-                                            <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: 1.2 }}>
+                                            <Typography variant="caption" sx={{ color: 'text.secondary', textTransform: 'uppercase', letterSpacing: 1.2, fontWeight: 700, display: 'block' }}>
                                                 {item.title}
                                             </Typography>
-                                            <Typography sx={{ color: 'rgba(255,255,255,0.82)', fontWeight: 500 }}>
+                                            <Typography sx={{ color: 'text.primary', fontWeight: 600 }}>
                                                 {item.detail}
                                             </Typography>
                                         </Box>
@@ -111,14 +112,14 @@ const ContactUs = () => {
                         <Paper sx={{
                             p: { xs: 3, md: 4 },
                             borderRadius: '28px',
-                            background: 'linear-gradient(180deg, rgba(15,23,42,0.9), rgba(15,23,42,0.7))',
-                            border: '1px solid rgba(148,163,184,0.15)',
-                            boxShadow: '0 24px 50px rgba(15, 23, 42, 0.5)',
+                            bgcolor: 'var(--bg-card)',
+                            border: '1px solid var(--border-subtle)',
+                            boxShadow: 'var(--card-shadow)',
                         }}>
-                            <Typography variant="h4" sx={{ fontWeight: 800, mb: 2 }}>
+                            <Typography variant="h4" sx={{ fontWeight: 800, mb: 1, color: 'text.primary' }}>
                                 Send a message
                             </Typography>
-                            <Typography sx={{ color: 'rgba(255,255,255,0.7)', mb: 3 }}>
+                            <Typography sx={{ color: 'text.secondary', mb: 3.5 }}>
                                 Fill in your details and our team will get back to you as soon as possible.
                             </Typography>
 
@@ -155,6 +156,7 @@ const ContactUs = () => {
                                         borderRadius: '12px',
                                         background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
                                         fontWeight: 700,
+                                        textTransform: 'none',
                                         '&:hover': { background: '#1d4ed8' }
                                     }}>
                                         Send Message
@@ -173,27 +175,21 @@ const ContactUs = () => {
 
 const fieldStyle = {
     '& .MuiOutlinedInput-root': {
-        background: 'rgba(15, 23, 42, 0.8)',
+        background: 'var(--bg-paper)',
         borderRadius: '14px',
-        color: 'white',
+        color: 'text.primary',
         '& fieldset': {
-            borderColor: 'rgba(148,163,184,0.2)',
+            borderColor: 'var(--border-subtle)',
         },
         '&:hover fieldset': {
-            borderColor: 'rgba(96,165,250,0.45)',
+            borderColor: 'primary.main',
         },
         '&.Mui-focused fieldset': {
-            borderColor: '#60a5fa',
+            borderColor: 'primary.main',
         },
     },
     '& .MuiInputLabel-root': {
-        color: 'rgba(255,255,255,0.6)',
-    },
-    '& .MuiInputBase-input': {
-        color: 'white',
-    },
-    '& .MuiInputBase-inputMultiline': {
-        color: 'white',
+        color: 'text.secondary',
     },
 };
 
