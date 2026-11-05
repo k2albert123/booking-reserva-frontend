@@ -1,28 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root, [data-theme="dark"] {
+  --bg-default: #090d16;
+  --bg-paper: #0f172a;
+  --bg-card: rgba(15, 23, 42, 0.75);
+  --bg-card-hover: rgba(15, 23, 42, 0.92);
+  --border-subtle: rgba(148, 163, 184, 0.12);
+  --border-hover: rgba(59, 130, 246, 0.35);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --primary-glow: rgba(37, 99, 235, 0.25);
+  --accent-cyan: #3b82f6;
+  --accent-emerald: #10b981;
+  --accent-purple: #3b82f6;
+  --card-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+  --card-shadow-hover: 0 20px 45px rgba(0, 0, 0, 0.55), 0 0 20px rgba(37, 99, 235, 0.15);
+  --spotlight-glow: rgba(37, 99, 235, 0.12);
+  --nav-bg: rgba(9, 13, 22, 0.88);
+  --hero-glow-1: rgba(37, 99, 235, 0.2);
+  --hero-glow-2: rgba(59, 130, 246, 0.14);
+  --hero-glow-3: rgba(37, 99, 235, 0.1);
+  --grid-line-color: rgba(255, 255, 255, 0.035);
+  --scrollbar-track: #090d16;
+  --scrollbar-thumb: #1e293b;
+}
+
+[data-theme="light"] {
+  --bg-default: #f8fafc;
+  --bg-paper: #ffffff;
+  --bg-card: #ffffff;
+  --bg-card-hover: #ffffff;
+  --border-subtle: rgba(226, 232, 240, 0.95);
+  --border-hover: rgba(37, 99, 235, 0.35);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --primary-glow: rgba(37, 99, 235, 0.12);
+  --accent-cyan: #2563eb;
+  --accent-emerald: #059669;
+  --accent-purple: #2563eb;
+  --card-shadow: 0 8px 24px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03);
+  --card-shadow-hover: 0 16px 32px rgba(15, 23, 42, 0.09), 0 0 15px rgba(37, 99, 235, 0.08);
+  --spotlight-glow: rgba(37, 99, 235, 0.06);
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --hero-glow-1: rgba(37, 99, 235, 0.12);
+  --hero-glow-2: rgba(59, 130, 246, 0.08);
+  --hero-glow-3: rgba(37, 99, 235, 0.06);
+  --grid-line-color: rgba(15, 23, 42, 0.035);
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #0b0f19; /* Global deep dark background */
-  color: #ffffff;
-  overflow-x: hidden;
+  background-color: var(--bg-default);
+  color: var(--text-primary);
+  overflow-x: clip;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+/* Glassmorphism helpers */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.3s ease;
+}
+
+.glass-card-interactive {
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-interactive:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
+  height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #0b0f19;
+  background: var(--scrollbar-track);
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 5px;
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: var(--primary);
+}
+
+/* Keyframe Animations from ReactBits / modern landing design */
+@keyframes aurora-wave-1 {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate(110px, -50px) scale(1.22) rotate(120deg);
+  }
+  66% {
+    transform: translate(50px, 70px) scale(0.92) rotate(240deg);
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(360deg);
+  }
+}
+
+@keyframes aurora-wave-2 {
+  0% {
+    transform: translate(0, 0) scale(1.1) rotate(0deg);
+  }
+  33% {
+    transform: translate(-90px, 60px) scale(1.2) rotate(-120deg);
+  }
+  66% {
+    transform: translate(70px, -35px) scale(0.88) rotate(-240deg);
+  }
+  100% {
+    transform: translate(0, 0) scale(1.1) rotate(-360deg);
+  }
+}
+
+@keyframes aurora-wave-3 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(70px, 80px) scale(1.28);
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes lightBeamSweep {
+  0% {
+    transform: translateX(-120%) skewX(-25deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  45% {
+    transform: translateX(220%) skewX(-25deg);
+    opacity: 0.85;
+  }
+  46%, 100% {
+    transform: translateX(220%) skewX(-25deg);
+    opacity: 0;
+  }
+}
+
+@keyframes gridBreathe {
+  0%, 100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes gridDrift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
+.animate-float {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
 }

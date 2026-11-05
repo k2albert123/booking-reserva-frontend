@@ -1,9 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeModeProvider } from './context/ThemeContext';
 import LandingPage from './components/LandingPage';
 import Dashboard from './components/Dashboard';
 import Login from './components/auth/Login';
@@ -18,68 +17,16 @@ import AboutUs from './components/AboutUs';
 import ContactUs from './components/ContactUs';
 import BusinessList from './components/business/BusinessList';
 import BusinessDetails from './components/business/BusinessDetails';
-import { Box, Typography } from '@mui/material';
-
-const theme = createTheme({
-    palette: {
-        mode: 'dark',
-        primary: {
-            main: '#2563eb',
-        },
-        secondary: {
-            main: '#ec4899',
-        },
-        background: {
-            default: '#0b0f19',
-            paper: '#1e293b',
-        },
-    },
-    typography: {
-        fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-        button: {
-            textTransform: 'none',
-            fontWeight: 600,
-        },
-        h1: { fontWeight: 800 },
-        h2: { fontWeight: 800 },
-        h3: { fontWeight: 700 },
-        h4: { fontWeight: 700 },
-        h5: { fontWeight: 600 },
-        h6: { fontWeight: 600 },
-    },
-    shape: {
-        borderRadius: 12,
-    },
-    components: {
-        MuiButton: {
-            styleOverrides: {
-                root: {
-                    borderRadius: '8px',
-                },
-            },
-        },
-        MuiCard: {
-            styleOverrides: {
-                root: {
-                    borderRadius: '16px',
-                    backgroundImage: 'none',
-                }
-            }
-        },
-        MuiPaper: {
-            styleOverrides: {
-                root: {
-                    backgroundImage: 'none',
-                }
-            }
-        }
-    }
-});
+import ServiceList from './components/services/ServiceList';
+import PrivacyPolicy from './components/legal/PrivacyPolicy';
+import TermsOfService from './components/legal/TermsOfService';
+import SecurityPolicy from './components/legal/SecurityPolicy';
+import CookiePolicy from './components/legal/CookiePolicy';
+import CookieConsentBanner from './components/common/CookieConsentBanner';
 
 function App() {
     return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
+        <ThemeModeProvider>
             <Router>
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
@@ -92,7 +39,13 @@ function App() {
                     <Route path="/contact" element={<ContactUs />} />
                     <Route path="/businesses" element={<Layout><BusinessList /></Layout>} />
                     <Route path="/businesses/:id" element={<Layout><BusinessDetails /></Layout>} />
-                    <Route path="/services" element={<Layout><Box sx={{ py: 8, textAlign: 'center' }}><Typography variant="h4">Find Services</Typography><Typography color="text.secondary">Browse businesses to see their individual services.</Typography></Box></Layout>} />
+                    <Route path="/services" element={<Layout><ServiceList /></Layout>} />
+
+                    {/* Legal, Privacy & Compliance Routes */}
+                    <Route path="/privacy" element={<Layout><PrivacyPolicy /></Layout>} />
+                    <Route path="/terms" element={<Layout><TermsOfService /></Layout>} />
+                    <Route path="/security" element={<Layout><SecurityPolicy /></Layout>} />
+                    <Route path="/cookies" element={<Layout><CookiePolicy /></Layout>} />
 
                     <Route path="/dashboard" element={
                         <RoleGuard allowedRoles={['CLIENT', 'BUSINESS_OWNER', 'ADMIN']}>
@@ -108,9 +61,10 @@ function App() {
                         </RoleGuard>
                     } />
                 </Routes>
+                <CookieConsentBanner />
             </Router>
             <ToastContainer />
-        </ThemeProvider>
+        </ThemeModeProvider>
     );
 }
 
