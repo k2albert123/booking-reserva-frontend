@@ -1,137 +1,132 @@
 # BookingReserva Frontend
 
-This is the React frontend for BookingReserva, a local service booking and reservation platform built to help customers discover and book services from nearby businesses while giving business owners a cleaner way to manage appointments, staff, profiles, and availability.
+React frontend for BookingReserva — a verified local service booking platform for barbershops, salons, clinics, spas, hotels, and more.
 
-The app is designed for service-based businesses such as barbershops, clinics, hospitals, salons, hotels, and wellness centers. It creates a central digital space where customers can find local services, compare businesses, and schedule appointments easily.
+---
 
-## Purpose of the App
+## Features
 
-BookingReserva exists to simplify how local businesses connect with the people who need them. Instead of relying on manual calls, scattered messages, or informal scheduling, the platform offers a single, modern experience where:
+- Landing page with sticky navbar, animated background, two-column hero (text left, image right, CTAs centred below)
+- Light / dark theme toggle and a simplified colour palette (blue `#2563eb`, emerald `#10b981`, amber `#f59e0b`)
+- Custom app logo (`public/app-logo.png`) in navbar, footer, hero, login, and register
+- Registration with role cards and required proof upload (ID for clients, business registration for owners)
+- OTP email verification, forgot password, and reset password
+- Verification lock screens for pending / rejected accounts
+- Business list, business details, and service list
+- Business details tabs: Services · Staff · Opening Hours · **Location & Proof Map** · **Customer Reviews**
+- Slot-based booking form
+- Reviews: "Rate & Review Service" for completed bookings, star breakdown, verified badges
+- Google Maps embed with **Get Directions** and **Copy Address**
+- Role-based dashboards for client, business owner, and admin
 
-- customers can discover local service providers
-- businesses can present their services and staff
-- appointments can be booked online
-- users can create profiles and upload images
-- business owners can manage availability and customer appointments
-- admin users can monitor and manage the platform
+---
 
-## Main Frontend Features
+## Routes
 
-- modern landing page with premium visual styling and motion effects
-- business listing and discovery screens
-- detailed business pages and service presentation
-- registration, login, and role-based access flows
-- OTP email verification for new users
-- forgot password and password reset screens
-- dashboard views for customer, business owner, and admin users
-- image upload support for profile pictures and business/staff photos
-- appointment scheduling and management flows
-- responsive layout for desktop and mobile use
+| Path | Page |
+| :--- | :--- |
+| `/` | Landing page |
+| `/login`, `/register` | Auth |
+| `/verify-otp` | OTP verification |
+| `/forgot-password`, `/reset-password` | Password recovery |
+| `/about`, `/contact` | Info pages |
+| `/businesses`, `/businesses/:id` | Business list / details |
+| `/services` | Service list |
+| `/book/:businessId/:serviceId` | Booking form (protected) |
+| `/dashboard?view=...` | Role-based dashboard (protected) |
 
-## User Roles
+### Dashboard views
 
-The frontend adapts based on the signed-in user:
+| Role | `view=` values |
+| :--- | :--- |
+| Client | `overview`, `appointments`, `businesses`, `profile` |
+| Business Owner | `overview`, `businesses`, `location`, `appointments`, `reviews`, `services`, `staff`, `profile` |
+| Admin | tabs: Overview, User Management, Business Registry, Bookings & Schedule, System Controls |
 
-- Customer: browse businesses, book appointments, and manage their profile
-- Business Owner: create or manage business details, staff, and booking availability
-- Admin: manage platform operations and support the system
+---
 
-## Frontend Stack
+## Dashboards
 
-- React
-- React Router
-- Material UI
-- Axios
-- React Toastify
-- custom reusable components and styling utilities
+### Client
+- Upcoming and past bookings with status filters
+- **Rate & Review Service** button on `COMPLETED` bookings → `WriteReviewModal`; shows "Review Submitted ★" afterwards
+- Booking is locked until ID is approved
+
+### Business Owner
+- Business cards with **Edit & Location** and full create/edit dialog (general info, address, GPS, proof photos)
+- **Location & Photos** page: storefront, interior, cover, and proof-document uploads; address and lat/lng fields; **Detect My GPS Coordinates**; live Google Map preview; Save
+- Bookings: confirm, mark completed, decline
+- Customer Reviews view, Services, Staff, Profile
+- Locked until business proof is approved
+
+### Admin
+- KPIs and platform overview
+- User management: create, edit, delete, change role, approve / reject proofs (with zoom view and rejection reason)
+- Business registry: create, edit (incl. city/state/postal code/lat/lng/photo URLs), suspend, delete
+  - **Map icon** → location inspector: storefront & interior photos (zoom lightbox), proof document, address, GPS, embedded map, suspend/activate
+  - **Star icon** → reviews inspector: average rating, all reviews, delete (moderate) with confirmation
+  - "Photos Verified" and "GPS Pinned" badges in the table
+- Bookings management and system controls (broadcast banner, maintenance mode)
+
+---
 
 ## Project Structure
 
 ```text
 frontend/
+├── public/
+│   ├── index.html
+│   └── app-logo.png
 ├── src/
-│   ├── App.js                 # routes and app-level layout
-│   ├── components/            # pages and reusable UI blocks
-│   ├── services/              # API functions for backend communication
-│   ├── features/              # redux slices and state logic
-│   ├── store.js               # global app store
-│   ├── assets/                # images, fonts, and icons
-│   ├── styles/                # styling and design helpers
-│   └── utils/                 # utility functions
-├── public/                    # static assets and HTML entrypoint
-├── package.json               # dependencies and scripts
-├── README.md                  # frontend documentation
-├── build/                     # production output
-└── src/index.js               # app entry point
+│   ├── App.js
+│   ├── components/
+│   │   ├── LandingPage.js
+│   │   ├── animated/      # AuroraBackground, AnimatedGridBackground, AnimatedGradientText, SpotlightCard, ThemeToggle
+│   │   ├── appointments/  # BookingForm
+│   │   ├── auth/          # Login, Register, VerifyOtp, ForgotPassword, ResetPassword
+│   │   ├── business/      # BusinessList, BusinessCard, BusinessDetails, LocationProofGallery
+│   │   ├── common/        # Navbar, Footer, Layout, RoleGuard, ImageUpload, ReusableCard, GoogleMapLocation
+│   │   ├── dashboard/     # ClientDashboard, BusinessOwnerDashboard, AdminDashboard, ProfileView
+│   │   ├── reviews/       # WriteReviewModal, ReviewsList
+│   │   └── services/      # ServiceList
+│   ├── context/           # ThemeContext
+│   ├── services/          # adminService, appointmentService, authService, businessService,
+│   │                      # reviewService, serviceService, staffService, userService
+│   └── utils/api.js       # Axios instance with JWT
+├── .env
+└── package.json
 ```
 
-## Important Screens
+---
 
-The frontend includes pages for:
-
-- Landing Page
-- Login and Register
-- OTP Verification
-- Forgot Password and Reset Password
-- Business List
-- Business Details
-- Client Dashboard
-- Business Owner Dashboard
-- Admin Dashboard
-- About and Contact pages
-- Profile management
-
-## Running the Frontend
-
-From the `frontend` directory:
+## Setup
 
 ```bash
 npm install
-npm start
+npm start          # http://localhost:3000
+npm run build      # production build
 ```
 
-Then open:
+The backend must be running on `http://localhost:8090`.
 
-```text
-http://localhost:3000
+### Environment (`.env`)
+
+```env
+HOST=localhost
+DANGEROUSLY_DISABLE_HOST_CHECK=true
+WDS_SOCKET_PORT=0
+
+# Google Maps — enable "Maps Embed API" and "Maps JavaScript API"
+REACT_APP_GOOGLE_MAPS_API_KEY=
 ```
 
-## Production Build
+Restart `npm start` after editing `.env`. Without a key, maps use a keyless fallback embed.
 
-To build the app for production:
-
-```bash
-npm run build
-```
-
-## Backend Connection
-
-This frontend communicates with the Spring Boot backend running on:
-
-```text
-http://localhost:8090
-```
-
-The backend provides data for authentication, businesses, bookings, users, profiles, and uploaded media.
+---
 
 ## Development Notes
 
-- make sure the backend is running before testing authenticated features
-- verify the CORS configuration if the frontend cannot reach the API
-- uploaded images require backend storage to be configured correctly
-- role-based pages depend on JWT tokens returned after login
-
-## Design Goals
-
-The UI is designed to feel:
-
-- premium and modern
-- responsive across screen sizes
-- trustworthy for local businesses
-- easy for users to understand and navigate
-
-This matters because the platform is meant to help local service providers present themselves professionally and make booking easier for customers.
-
-## Summary
-
-The frontend is the customer-facing part of BookingReserva. It transforms the backend services into a modern, visually rich booking experience that helps local businesses grow and helps customers book services quickly and confidently.
+- Role-based pages rely on the JWT and the `user` object (incl. `verificationStatus`) stored in `localStorage` after login.
+- Dashboards fall back to sample data when the backend returns nothing, so the UI is demoable offline.
+- Uploaded images are served by the backend `/api/v1/files/download/...` endpoint.
+- If API calls fail with CORS errors, check the backend `spring.web.cors.allowed-origins`.
